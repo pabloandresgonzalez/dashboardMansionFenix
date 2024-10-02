@@ -108,7 +108,9 @@
                                             <i class="fas fa-user-edit text-secondary"></i>
                                         </a>
                                         <span>
-                                            <i class="cursor-pointer fas fa-search text-secondary"></i>
+                                            <a class="mx-1" href="{{ url('/user-management/'.$user->id.'/detail') }}">
+                                                <i class="cursor-pointer fas fa-search text-secondary"></i>
+                                            </a>                                            
                                         </span>
                                     </td>
                                 </tr>

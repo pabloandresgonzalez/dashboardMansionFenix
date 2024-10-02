@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NewsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +76,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/user-management', [UserController::class, 'store'])->name('users-store');
 	Route::put('/user-management/{user}/update', [UserController::class, 'update'])->name('users-update');
 	Route::get('/user-management/avatar/{filename?}', [UserController::class, 'getImage'])->name('user.avatar');
-	//Route::get('/user/avatar/{filename?}', [App\Http\Controllers\admin\UserController::class, 'getImage'])->name('user.avatar');
+	Route::get('/user-management/{user}/detail', [UserController::class, 'detail']);
+	
+
+	//News
+	Route::get('/news', [NewsController::class, 'index'])->name('index.news');
 	
 });
 

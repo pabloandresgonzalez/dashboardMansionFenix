@@ -12,6 +12,7 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -159,6 +160,27 @@ class UserController extends Controller
         // Redirigir al index de users con un mensaje de éxito
         session()->flash('success', 'La cuenta ha sido actualizada correctamente.');
         return to_route('users-store');
+    }
+
+    public function detail($id)
+    {
+        //dd($id);
+        $user = User::find($id); 
+
+        $diaActual = Carbon::now()->locale('es')->translatedFormat('l d \d\e F \d\e\l Y');
+        //$diaActual = Carbon::now()->locale('es')->translatedFormat('j \d\e F Y');
+        
+        $startOfMonth = Carbon::now()->startOfMonth()->format('d'); // Primer día del mes
+        $endOfMonth = Carbon::now()->endOfMonth()->format('d'); // Último día del mes
+        $monthAndYear = Carbon::now()->format('F Y'); // Mes en inglés y año
+
+        Carbon::setLocale('es');
+        $monthAndYear = Carbon::now()->locale('es')->translatedFormat('F Y');
+
+        $rangoDias = $startOfMonth . ' - ' . $endOfMonth . ' ' . $monthAndYear;
+        
+
+        return view('Users/user-managementdetail', compact('user', 'diaActual', 'rangoDias'));
     }
 
     public function getImage($filename)
