@@ -14907,7 +14907,6 @@ fieldset:disabled .btn {
         padding-bottom: 0 !important;
         padding-top: 0 !important
     }
-
     .py-lg-1 {
         padding-bottom: .25rem !important;
         padding-top: .25rem !important
@@ -14926,6 +14925,7 @@ fieldset:disabled .btn {
     .py-lg-4 {
         padding-bottom: 1.5rem !important;
         padding-top: 1.5rem !important
+
     }
 
     .py-lg-5 {
@@ -23170,6 +23170,12 @@ p {
     z-index: 1
 }
 
+.text-gradient-gold {
+    background: linear-gradient(45deg, #d4af37, #b8860b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .text-gradient.text-primary {
     background-image: linear-gradient(310deg, #7928ca, #e9ecef)
 }
@@ -24655,4 +24661,16 @@ screen and (-ms-high-contrast:active) {
     .ps {
         overflow: auto !important
     }
+}
+
+.video-container {
+    width: 100%; /* Para que ocupe todo el ancho disponible */
+    max-width: 900px; /* Máximo ancho del video */
+    height: auto; /* Mantiene la relación de aspecto */
+}
+
+.video-frame {
+    width: 100%; /* Se ajusta al ancho completo del contenedor */
+    height: 400px; /* Ajusta la altura del video */
+    max-height: 600px; /* Limita la altura máxima */
 }

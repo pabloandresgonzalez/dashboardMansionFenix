@@ -16,9 +16,10 @@ return new class extends Migration
 
             $table->string('title');
             $table->string('intro');
-            $table->string('detail');
+            $table->text('detail');
             $table->string('isActive');
             $table->string('image')->nullable();
+            $table->string('url_video')->nullable();
             
             $table->timestamps();
         });

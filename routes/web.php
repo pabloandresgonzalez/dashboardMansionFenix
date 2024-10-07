@@ -81,6 +81,13 @@ Route::group(['middleware' => 'auth'], function () {
 
 	//News
 	Route::get('/news', [NewsController::class, 'index'])->name('index.news');
+	Route::post('/news', [NewsController::class, 'store'])->name('news.store');
+	Route::put('/news/{user}/update', [NewsController::class, 'update'])->name('news.update');
+	Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
+	//Route::get('/news/avatar/{filename?}', [NewsController::class, 'getImage'])->name('news.avatar');
+	//Route::get('/news/avatar/{filename?}', [NewsController::class, 'getImage'])->name('new.avatar');
+	//Route::get('/news/avatar/{filename?}', [ewsController::class, 'getImagevideo'])->name('new.avatar');
+	//Route::get('/news/avatar/{filename?}', [App\Http\Controllers\NewsController::class, 'getImagevideo'])->name('new.avatar');
 	
 });
 

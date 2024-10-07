@@ -76,7 +76,7 @@ class UserController extends Controller
             // Poner nombre único
             $image_photo_name = time() . $image_photo->getClientOriginalName();
 
-            // Guardarla en la carpeta storage (storage/app/users)
+            // Guardarla en la carpeta storage (storage/app/photousers)
             Storage::disk('photousers')->put($image_photo_name, File::get($image_photo));
 
             // Setear el nombre de la imagen en el campo photo del usuario
@@ -89,7 +89,7 @@ class UserController extends Controller
             // Poner nombre único
             $image_photoDoc_name = time() . $image_photoDoc->getClientOriginalName();
 
-            // Guardarla en la carpeta storage (storage/app/users)
+            // Guardarla en la carpeta storage (storage/app/photoDocusers)
             Storage::disk('photoDocusers')->put($image_photoDoc_name, File::get($image_photoDoc));
 
             // Setear el nombre de la imagen en el campo photoDoc del usuario

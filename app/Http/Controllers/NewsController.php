@@ -6,6 +6,10 @@ use App\Models\News;
 use Illuminate\Http\Request;
 use App\Models\User;
 use DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\StoreNewsRequest;
+use App\Http\Requests\UpdateNewsRequest;
 
 
 class NewsController extends Controller
@@ -18,7 +22,7 @@ class NewsController extends Controller
         // Total usuarios
         $totalusers = $totalusers = $this->countUsers();
 
-        $news = News::orderBy('created_at', 'Desc')->paginate(30);
+        $news = News::orderBy('created_at', 'Desc')->paginate(3);
         $data = ['news' => $news];
 
         return view('News.index', compact('news', 'totalusers'));
@@ -32,12 +36,29 @@ class NewsController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreNewsRequest $request)
     {
-        //
+        // Crear el objeto News usando la validación previa del FormRequest
+        $news = new News();
+        $news->title = $request->input('title');
+        $news->intro = $request->input('intro');
+        $news->detail = $request->input('detail');
+        $news->image = $request->input('image');
+        $news->isActive = $request->input('isActive');
+        $news->url_video = $request->input('url_video');
+
+        // Subir la imagen solo si está presente
+        if ($request->hasFile('image')) {
+            // Poner nombre único a la imagen y guardarla en la carpeta de 'news_images'
+            $imagePath = $request->file('image')->store('news_images', 'public');
+            // Guardar el nombre del archivo en el objeto News
+            $news->image = $imagePath;
+        }
+
+        // Guardar la noticia en la base de datos
+        $news->save();
+
+        return redirect()->route('index.news')->with('success', 'Noticia creada correctamente.');
     }
 
     /**
@@ -59,9 +80,29 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, News $news)
+    public function update(UpdateNewsRequest $request, $id)
     {
-        //
+        // Actualizar los campos del objeto News usando la validación previa del FormRequest
+        $news = News::findOrFail($id);
+        $news->title = $request->input('title');
+        $news->intro = $request->input('intro');
+        $news->detail = $request->input('detail');
+        $news->isActive = $request->input('isActive');
+        $news->url_video = $request->input('url_video');
+
+        // Subir la nueva imagen solo si está presente
+        if ($request->hasFile('image')) {
+
+            // Poner nombre único a la nueva imagen y guardarla en la carpeta de 'news_images'
+            $imagePath = $request->file('image')->store('news_images', 'public');
+            // Guardar el nuevo nombre del archivo en el objeto News
+            $news->image = $imagePath;
+        }
+
+        // Guardar los cambios en la base de datos
+        $news->save();
+
+        return redirect()->route('index.news')->with('success', 'Noticia actualizada correctamente.');
     }
 
     /**
@@ -84,5 +125,7 @@ class NewsController extends Controller
 
       return $totalusers;
     }
+
+
 
 }
