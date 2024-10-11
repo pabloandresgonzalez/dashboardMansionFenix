@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewsCreatedMessage;
 
 
 class NewsController extends Controller
@@ -22,7 +24,7 @@ class NewsController extends Controller
         // Total usuarios
         $totalusers = $totalusers = $this->countUsers();
 
-        $news = News::orderBy('created_at', 'Desc')->paginate(3);
+        $news = News::orderBy('updated_at', 'Desc')->paginate(3);
         $data = ['news' => $news];
 
         return view('News.index', compact('news', 'totalusers'));
@@ -57,6 +59,11 @@ class NewsController extends Controller
 
         // Guardar la noticia en la base de datos
         $news->save();
+
+        //Enviar email
+        $users = DB::table('users')->pluck('email');
+
+        Mail::to($users)->send(new NewsCreatedMessage($news));
 
         return redirect()->route('index.news')->with('success', 'Noticia creada correctamente.');
     }
@@ -101,6 +108,11 @@ class NewsController extends Controller
 
         // Guardar los cambios en la base de datos
         $news->save();
+
+        //Enviar email
+        $users = DB::table('users')->pluck('email');
+
+        Mail::to($users)->send(new NewsCreatedMessage($news));
 
         return redirect()->route('index.news')->with('success', 'Noticia actualizada correctamente.');
     }
