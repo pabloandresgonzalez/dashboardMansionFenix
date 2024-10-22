@@ -93,7 +93,7 @@
           </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link {{ (Request::is('index.news') ? 'active' : '') }}" href="{{ url('index.news') }}">
+          <a class="nav-link {{ (Request::is('news/Admin') ? 'active' : '') }}" href="{{ url('news/Admin') }}">
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
                   <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                       <title>new-icon</title>
@@ -115,7 +115,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Tienda</h6>
       </li>
       <li class="nav-item">
-            <a class="nav-link {{ (Request::is('tables') ? 'active' : '') }}" href="{{ url('tables') }}">
+            <a class="nav-link {{ (Request::is('membresias') ? 'active' : '') }}" href="{{ url('membresias') }}">
                 <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
                     <svg width="12px" height="12px" viewBox="0 0 576 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <title>new-icon</title>
@@ -134,7 +134,7 @@
             </a>
         </li>
       <li class="nav-item">
-          <a class="nav-link {{ (Request::is('tables') ? 'active' : '') }}" href="{{ url('tables') }}">
+          <a class="nav-link {{ (Request::is('membresias/Admin') ? 'active' : '') }}" href="{{ url('membresias/Admin') }}">
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
                   <svg width="12px" height="12px" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg">
                       <title>new-gestion-vitrina-icon</title>
@@ -187,7 +187,7 @@
           </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{ (Request::is('tables') ? 'active' : '') }}" href="{{ url('tables') }}">
+        <a class="nav-link {{ (Request::is('/membership') ? 'active' : '') }}" href="{{ url('/membership') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <title>office</title>

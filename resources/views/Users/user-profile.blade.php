@@ -163,7 +163,7 @@
                             <div class="form-group">
                                 <label for="role" class="form-control-label">{{ __('Tipo de rol') }}</label>
                                   <select class="form-control" id="role" name="role" >
-                                    <option value="" >{{ auth()->user()->role }}</option>
+                                    <option value="{{ auth()->user()->role }}" >{{ auth()->user()->role }}</option>
                                     <option value="user" >User</option>
                                     <option value="admin" >Administrador</option>
                                   </select>

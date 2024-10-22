@@ -13,9 +13,19 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Services\UserService;
+
 
 class UserController extends Controller
 {
+    protected $userService;
+
+    // Inyectar el servicio a través del constructor
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index(Request $request)
     {
         //dd($request);
@@ -29,7 +39,17 @@ class UserController extends Controller
         ->orderBy('created_at', 'desc')
         ->paginate(5);
 
-        return view('Users/user-management', compact('users'));
+        // Obtener el total de usuarios y la lista
+        $data = $this->userService->getAllEnrolledUsers();
+        //$users = $data['users'];
+        $total = $data['total'];
+
+        // Retornar la vista con un array asociativo
+        return view('Users/user-management', [
+            'users' => $users,
+            'total' => $total
+        ]);
+
     }
 
     public function store(Request $request)
@@ -159,12 +179,11 @@ class UserController extends Controller
 
         // Redirigir al index de users con un mensaje de éxito
         session()->flash('success', 'La cuenta ha sido actualizada correctamente.');
-        return to_route('users-store');
+        return to_route('users-update');
     }
 
     public function detail($id)
     {
-        //dd($id);
         $user = User::find($id); 
 
         $diaActual = Carbon::now()->locale('es')->translatedFormat('l d \d\e F \d\e\l Y');

@@ -11,23 +11,55 @@ use Illuminate\Support\Facades\File;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use Illuminate\Support\Facades\Mail;
+use App\Services\UserService;
 use App\Mail\NewsCreatedMessage;
 
 
 class NewsController extends Controller
 {
+    // Inyectar el servicio a través del constructor
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Total usuarios
-        $totalusers = $totalusers = $this->countUsers();
 
         $news = News::orderBy('updated_at', 'Desc')->paginate(3);
         $data = ['news' => $news];
 
-        return view('News.index', compact('news', 'totalusers'));
+        // Obtener el total de usuarios y la lista
+        $data = $this->userService->getAllEnrolledUsers();
+        //$users = $data['users'];
+        $total = $data['total'];
+
+        // Retornar la vista con un array asociativo
+        return view('News.index', [
+            'news' => $news,
+            'total' => $total
+        ]);
+    }
+
+    public function indexAdmin()
+    {
+
+        $news = News::orderBy('updated_at', 'Desc')->paginate(3);
+        $data = ['news' => $news];
+
+        // Obtener el total de usuarios y la lista
+        $data = $this->userService->getAllEnrolledUsers();
+        //$users = $data['users'];
+        $total = $data['total'];
+
+        // Retornar la vista con un array asociativo
+        return view('News.indexAdmin', [
+            'news' => $news,
+            'total' => $total
+        ]);
     }
 
     /**
@@ -125,6 +157,7 @@ class NewsController extends Controller
         //
     }
 
+    /*
     private function countUsers()
     {
       // Conseguir usuario identificado
@@ -136,7 +169,7 @@ class NewsController extends Controller
             ->where('ownerId', $id)->count();
 
       return $totalusers;
-    }
+    }*/
 
 
 

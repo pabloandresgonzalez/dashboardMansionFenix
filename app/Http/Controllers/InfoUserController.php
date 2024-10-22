@@ -18,6 +18,7 @@ class InfoUserController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request);
         // Inicializar variables
         $urlphoto = null;
         $urlphotoDoc = null;

@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsController;
-
+use App\Http\Controllers\MembresiaController;
+use App\Http\Controllers\UserMembershipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +28,13 @@ use App\Http\Controllers\NewsController;
 
 Route::group(['middleware' => 'auth'], function () {
 
+
     Route::get('/', [HomeController::class, 'home']);
 	Route::get('dashboard', function () {
 		return view('dashboard');
 	})->name('dashboard');
 
+	
 	Route::get('billing', function () {
 		return view('billing');
 	})->name('billing');
@@ -46,8 +49,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 	/*Route::get('user-management', function () {
 		return view('laravel-examples/user-management');
-	})->name('user-management');*/
-
+	})->name('user-management');
+	*/
 	Route::get('tables', function () {
 		return view('tables');
 	})->name('tables');
@@ -55,6 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('virtual-reality', function () {
 		return view('virtual-reality');
 	})->name('virtual-reality');
+	
 
     Route::get('static-sign-in', function () {
 		return view('static-sign-in');
@@ -76,18 +80,28 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/user-management', [UserController::class, 'store'])->name('users-store');
 	Route::put('/user-management/{user}/update', [UserController::class, 'update'])->name('users-update');
 	Route::get('/user-management/avatar/{filename?}', [UserController::class, 'getImage'])->name('user.avatar');
-	Route::get('/user-management/{user}/detail', [UserController::class, 'detail']);
-	
+	Route::get('/user-management/{user}/detail', [UserController::class, 'detail']);	
 
 	//News
 	Route::get('/news', [NewsController::class, 'index'])->name('index.news');
+	Route::get('/news/Admin', [NewsController::class, 'indexAdmin'])->name('indexAdmin.news');
 	Route::post('/news', [NewsController::class, 'store'])->name('news.store');
-	Route::put('/news/{user}/update', [NewsController::class, 'update'])->name('news.update');
+	Route::put('/news/{news}/update', [NewsController::class, 'update'])->name('news.update');
 	Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
-	//Route::get('/news/avatar/{filename?}', [NewsController::class, 'getImage'])->name('news.avatar');
-	//Route::get('/news/avatar/{filename?}', [NewsController::class, 'getImage'])->name('new.avatar');
-	//Route::get('/news/avatar/{filename?}', [ewsController::class, 'getImagevideo'])->name('new.avatar');
-	//Route::get('/news/avatar/{filename?}', [App\Http\Controllers\NewsController::class, 'getImagevideo'])->name('new.avatar');
+
+	//Membresias
+	Route::get('/membresias', [MembresiaController::class, 'index'])->name('membresias.index');
+	Route::get('/membresias/Admin', [MembresiaController::class, 'indexAdmin'])->name('membresias.indexAdmin');
+	Route::post('/membresias', [MembresiaController::class, 'store'])->name('Membresias.store');
+	Route::put('/membresias/{membresias}/update', [MembresiaController::class, 'update'])->name('Membresias.update');
+
+	//Memberships
+  	Route::get('/membership', [UserMembershipController::class, 'index'])->name('membership.index');
+  	Route::post('/membership/store', [UserMembershipController::class, 'store']);
+  	Route::put('/membership/{userMembership}/update', [UserMembershipController::class, 'update'])->name('membership.update'); 
+
+
+	
 	
 });
 

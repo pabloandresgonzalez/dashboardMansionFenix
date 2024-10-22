@@ -12,13 +12,14 @@
   </div>
 @endif
 
+
 <div> 
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0">
                     <div class="d-flex flex-row justify-content-between">
-                        <div>
+                        <div>                            
                             <h5 class="mb-0">Todas las Cuentas</h5>
                         </div>
                         <a href="#" class="btn bg-gradient-primary btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#modal-form">+&nbsp; Nuevo usuario</a>
