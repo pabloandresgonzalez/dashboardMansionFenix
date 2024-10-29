@@ -67,7 +67,6 @@ class UserMembershipController extends Controller
         // reglas de validacion  
         $rules = ([
             
-            //'membership' => 'required|string|min:4', 
             'id_membresia' => 'required|string',  //|unique:user_memberships|min:4 
             'name' => 'required|string',
             'hashUSDT' => 'required|max:255|unique:user_memberships', //|unique:user_memberships
@@ -89,7 +88,6 @@ class UserMembershipController extends Controller
 
             return redirect()->route('membresias.index')->with('alert', '¡' . $name . ' ' .'¡Ya cuentas con una membresia de este valor activa!');      
         }
-
 
         $fecha_actual = date("Y-m-d H:i:s");
 
@@ -153,158 +151,98 @@ class UserMembershipController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    /*public function update(Request $request, UserMembership $userMembership)
-    {
-        dd($request);
-        //Validacion del formulario
-        $validate = $this->validate($request, [
-            //'membership' => 'required|string|min:4',        
-            //'hashUSDT' => 'required|max:255|unique:user_memberships',
-            //'hashPSIV' => 'required|max:255|unique:user_memberships',
-            'activedAt'=>'required|date_format:Y-m-d H:i:s',
-            'activedAt' => 'required|max:255',
-            //'closedAt' => 'required|max:255', 
-            //'detail' => 'required|max:255',     
-            //'image' => 'file',
-        ]);
-
-        //$membership = UserMembership::findOrFail($id);
-
-        //$membership->membership = $request->input('membership');
-        //$membership->hashUSDT = $request->input('hashUSDT');
-        //$membership->hashPSIV = $request->input('hashPSIV');
-        $fecha_recibida = $request->input('activedAt');
-
-        // Convertirla al formato adecuado para MySQL
-        $fecha_formateada = Carbon::createFromFormat('Y-m-d\TH:i', $fecha_recibida)->format('Y-m-d H:i:s');
-
-
-
-        $membership->detail = $request->input('status');
-        $fecha_formateada = date("Y-m-d H:i:s");
-        $membership->activedAt = $fecha_formateada;
-
-        // Se crea una fecha sin sabados ni domingos  
-        $fechaInicial = date("Y-m-d H:i:s"); //obtenemos la fecha actual, solo para usar como referencia al usuario  
-    
-        $MaxDias = 30; //Cantidad de dias maximo, este sera util para crear el for  
-        
-        $Segundos = 0;
-          
-          //Creamos un for desde 0 hasta 3  
-          for ($i=0; $i<$MaxDias; $i++)  
-          {  
-            //Acumulamos la cantidad de segundos que tiene un dia en cada vuelta del for  
-            $Segundos = $Segundos + 86400;  
-              
-            //Obtenemos el dia de la fecha, aumentando el tiempo en N cantidad de dias, segun la vuelta en la que estemos  
-            $caduca = date("D",time()+$Segundos);  
-              
-            //Comparamos si estamos en sabado o domingo, si es asi restamos una vuelta al for, para brincarnos el o los dias...  
-            if ($caduca == "Sat")  
-            {  
-               $i--;  
-            }  
-            else if ($caduca == "Sun")  
-            {  
-               $i--;  
-            }  
-            else  
-            {  
-               //Si no es sabado o domingo, y el for termina y nos muestra la nueva fecha  
-              $FechaFinal = date("Y-m-d H:i:s",time()+$Segundos);  
-            }  
-          } 
-
-        //dd($FechaFinal);
-
-        $date= Carbon::now();
-        $date->addDay(30);
-
-        $now = $date->format('Y-m-d H:i:s');
-        $membership->closedAt = $FechaFinal;//$request->input('closedAt');
-
-        //$membership->closedAt = $request->input('closedAt');
-        $membership->status = $request->input('status');
-
-
-        $membership->save(); //INSERT BD
-
-        /*return redirect()->route('membership.index')->with([
-            'success' => '¡Membresía activada con éxito!',
-            'inactivarInput' => false // o false dependiendo de la lógica
-        ]);
-        
-
-        return redirect()->route('membership.index')->with('success', '¡Membresía activada con éxito!');
-    }*/
-
     public function update(Request $request, UserMembership $userMembership)
-{
-    // Verificar que los datos lleguen correctamente
-    //dd($request->all());
+    {
+        // Verificar que los datos lleguen correctamente
+        //dd($request->all());
 
-    // Validación del formulario
-    $validatedData = $request->validate([
-        'activedAt' => 'required|date_format:Y-m-d\TH:i',
-        'status' => 'required|string|max:255',
-    ]);
-
-    try {
-        // Inicia la transacción
-        DB::beginTransaction();
-
-        // Formatear la fecha 'activedAt'
-        $fechaFormateada = Carbon::createFromFormat('Y-m-d\TH:i', $validatedData['activedAt'])
-            ->format('Y-m-d H:i:s');
-
-        // Verificar que la fecha se haya formateado correctamente
-        //dd($fechaFormateada);
-
-        // Actualizar el modelo usando asignación masiva
-        $userMembership->fill([
-            'activedAt' => $fechaFormateada,
-            'status' => $validatedData['status'],
-            'closedAt' => $this->calculateClosedAt(), // Método para calcular la fecha final
-            'detail' => $validatedData['status'],
+        // Validación del formulario
+        $validatedData = $request->validate([
+            'activedAt' => 'required|date_format:Y-m-d\TH:i',
+            'status' => 'required|string|max:255',
         ]);
 
-        // Verificar los datos antes de guardar
-        //dd($userMembership->toArray());
+        try {
+            // Inicia la transacción
+            DB::beginTransaction();
 
-        // Guardar el modelo
-        $userMembership->save();
+            // Formatear la fecha 'activedAt'
+            $fechaFormateada = Carbon::createFromFormat('Y-m-d\TH:i', $validatedData['activedAt'])
+                ->format('Y-m-d H:i:s');
 
-        // Confirmar la transacción
-        DB::commit();
+            // Verificar que la fecha se haya formateado correctamente
+            //dd($fechaFormateada);
 
-        // Redirigir con éxito
-        return redirect()->route('membership.index')->with('success', '¡Membresía actualizada con éxito!');
+            // Actualizar el modelo usando asignación masiva
+            $userMembership->fill([
+                'activedAt' => $fechaFormateada,
+                'status' => $validatedData['status'],
+                'closedAt' => $this->calculateClosedAt(), // Método para calcular la fecha final
+                'detail' => $validatedData['status'],
+            ]);
 
-    } catch (\Exception $e) {
-        // Revertir la transacción en caso de error
-        DB::rollBack();
-        return redirect()->route('membership.index')->withErrors('Hubo un problema al actualizar la membresía: ' . $e->getMessage());
-    }
-}
+            // Verificar los datos antes de guardar
+            //dd($userMembership->toArray());
 
-/**
- * Calcula la fecha de cierre evitando fines de semana.
- *
- * @return string
- */
-private function calculateClosedAt()
-{
-    $date = Carbon::now();
-    $daysAdded = 0;
+            // Guardar el modelo
+            $userMembership->save();
 
-    while ($daysAdded < 30) {
-        $date->addDay();
-        if (!$date->isWeekend()) {
-            $daysAdded++;
+            // Confirmar la transacción
+            DB::commit();
+
+            // Redirigir con éxito
+            return redirect()->route('membership.index')->with('success', '¡Membresía actualizada con éxito!');
+
+        } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollBack();
+            return redirect()->route('membership.index')->withErrors('Hubo un problema al actualizar la membresía: ' . $e->getMessage());
         }
     }
 
-    return $date->format('Y-m-d H:i:s');
-}
+    public function misMemberships()
+    {
+        //Conseguir usuario identificado
+        $user = \Auth::user();
+        $username = $user->name;
+
+        $memberships = UserMembership::where('user', $user->id)
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+        // Obtener el total de usuarios y la lista
+        $data1 = $this->userService->getAllEnrolledUsers();
+        //$users = $data['users'];
+        $total = $data1['total'];
+
+        $fecha_actual = date("Y-m-d H:i:s");
+
+        // Retornar la vista con un array asociativo
+        return view('Memberships.mismemberships', [
+            'memberships' => $memberships,
+            'total' => $total,
+            'inactivarInput' => true,
+            'fecha_actual' => $fecha_actual
+        ]);
+    }
+
+    /**
+     * Calcula la fecha de cierre evitando fines de semana.
+     *
+     * @return string
+     */
+    private function calculateClosedAt()
+    {
+        $date = Carbon::now();
+        $daysAdded = 0;
+
+        while ($daysAdded < 30) {
+            $date->addDay();
+            if (!$date->isWeekend()) {
+                $daysAdded++;
+            }
+        }
+
+        return $date->format('Y-m-d H:i:s');
+    }
 }

@@ -47,7 +47,7 @@ class RegisterController extends Controller
         $attributes['password'] = bcrypt($attributes['password']);
         $attributes['ownerId'] = $ownerId;
         $attributes['level'] = 1;
-        $attributes['isActive'] = true;
+        $attributes['isActive'] = false;
         $attributes['role'] = 'user';
 
         // Crear el usuario y autenticar

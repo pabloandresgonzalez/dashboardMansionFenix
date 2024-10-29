@@ -58,6 +58,12 @@
                                         Email
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Rol
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Estado
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Nivel
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -88,6 +94,19 @@
                                     </td>
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $user->email }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $user->role }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        
+                                        <p class="text-xs font-weight-bold mb-0">
+                                        @if($user->isActive == 1)
+                                            Activo
+                                        @elseif($user->isActive == 0)
+                                            Inactivo
+                                        @endif
+                                        </p>
                                     </td>
                                     <td class="text-center">
                                         <span class="text-secondary text-xs font-weight-bold">

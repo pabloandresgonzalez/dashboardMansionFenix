@@ -146,28 +146,9 @@
       </li>
       <li class="nav-item mt-2">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Fondos</h6>
-      </li>      
-      <li class="nav-item">
-          <a class="nav-link {{ (Request::is('tables') ? 'active' : '') }}" href="{{ url('tables') }}">
-              <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-                  <svg width="12px" height="12px" viewBox="0 0 576 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                      <title>new-icon</title>
-                      <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                          <g id="Rounded-Icons" transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                              <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
-                                  <g id="new-icon" transform="translate(153.000000, 2.000000)">
-                                      <path class="color-background opacity-6" d="M248 0L208 0c-26.5 0-48 21.5-48 48l0 112c0 35.3 28.7 64 64 64l128 0c35.3 0 64-28.7 64-64l0-112c0-26.5-21.5-48-48-48L328 0l0 80c0 8.8-7.2 16-16 16l-48 0c-8.8 0-16-7.2-16-16l0-80zM64 256c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l160 0c35.3 0 64-28.7 64-64l0-128c0-35.3-28.7-64-64-64l-40 0 0 80c0 8.8-7.2 16-16 16l-48 0c-8.8 0-16-7.2-16-16l0-80-40 0zM352 512l160 0c35.3 0 64-28.7 64-64l0-128c0-35.3-28.7-64-64-64l-40 0 0 80c0 8.8-7.2 16-16 16l-48 0c-8.8 0-16-7.2-16-16l0-80-40 0c-15 0-28.8 5.1-39.7 13.8c4.9 10.4 7.7 22 7.7 34.2l0 160c0 12.2-2.8 23.8-7.7 34.2C323.2 506.9 337 512 352 512z"></path>
-                                  </g>
-                              </g>
-                          </g>
-                      </g>
-                  </svg>
-              </div>
-              <span class="nav-link-text ms-1">Cupos</span>
-          </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link {{ (Request::is('tables') ? 'active' : '') }}" href="{{ url('tables') }}">
+          <a class="nav-link {{ (Request::is('/mismembership') ? 'active' : '') }}" href="{{ url('/mismembership') }}">
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
                   <svg width="12px" height="12px" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg">
                       <title>icono</title>
@@ -175,7 +156,6 @@
                           <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
                               <g transform="translate(1716.000000, 291.000000)">
                                   <g transform="translate(153.000000, 2.000000)">
-                                      <!-- Reemplazo del ícono original por el nuevo -->
                                       <path class="color-background opacity-6" d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM64 80c0-8.8 7.2-16 16-16l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16L80 96c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0c-8.8 0-16-7.2-16-16zm128 72c8.8 0 16 7.2 16 16l0 17.3c8.5 1.2 16.7 3.1 24.1 5.1c8.5 2.3 13.6 11 11.3 19.6s-11 13.6-19.6 11.3c-11.1-3-22-5.2-32.1-5.3c-8.4-.1-17.4 1.8-23.6 5.5c-5.7 3.4-8.1 7.3-8.1 12.8c0 3.7 1.3 6.5 7.3 10.1c6.9 4.1 16.6 7.1 29.2 10.9l.5 .1s0 0 0 0c11.3 3.4 25.3 7.6 36.3 14.6c12.1 7.6 22.4 19.7 22.7 38.2c.3 19.3-9.6 33.3-22.9 41.6c-7.7 4.8-16.4 7.6-25.1 9.1l0 17.1c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-17.8c-11.2-2.1-21.7-5.7-30.9-8.9c0 0 0 0 0 0c-2.1-.7-4.2-1.4-6.2-2.1c-8.4-2.8-12.9-11.9-10.1-20.2s11.9-12.9 20.2-10.1c2.5 .8 4.8 1.6 7.1 2.4c13.6 4.6 24.6 8.4 36.3 8.7c9.1 .3 17.9-1.7 23.7-5.3c5.1-3.2 7.9-7.3 7.8-14c-.1-4.6-1.8-7.8-7.7-11.6c-6.8-4.3-16.5-7.4-29-11.2l-1.6-.5c-11-3.3-24.3-7.3-34.8-13.7c-12-7.2-22.6-18.9-22.7-37.3c-.1-19.4 10.8-32.8 23.8-40.5c7.5-4.4 15.8-7.2 24.1-8.7l0-17.3c0-8.8 7.2-16 16-16z"></path>
                                   </g>
                               </g>
@@ -183,7 +163,7 @@
                       </g>
                   </svg>
               </div>
-              <span class="nav-link-text ms-1">Mis membresías</span>
+              <span class="nav-link-text ms-1">Mis Fondos</span>
           </a>
       </li>
       <li class="nav-item">
@@ -202,7 +182,7 @@
               </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Gestión membresías</span>
+          <span class="nav-link-text ms-1">Gestión Fondos</span>
         </a>
       </li>
       <li class="nav-item mt-2">

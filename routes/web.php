@@ -79,8 +79,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/user-management', [UserController::class, 'index'])->name('users-management');
 	Route::post('/user-management', [UserController::class, 'store'])->name('users-store');
 	Route::put('/user-management/{user}/update', [UserController::class, 'update'])->name('users-update');
+	Route::put('/user-management/{user}/updateUser', [UserController::class, 'updateUser'])->name('users-updateUser');
 	Route::get('/user-management/avatar/{filename?}', [UserController::class, 'getImage'])->name('user.avatar');
-	Route::get('/user-management/{user}/detail', [UserController::class, 'detail']);	
+	Route::get('/user-management/{user}/detail', [UserController::class, 'detail']);
 
 	//News
 	Route::get('/news', [NewsController::class, 'index'])->name('index.news');
@@ -99,6 +100,8 @@ Route::group(['middleware' => 'auth'], function () {
   	Route::get('/membership', [UserMembershipController::class, 'index'])->name('membership.index');
   	Route::post('/membership/store', [UserMembershipController::class, 'store']);
   	Route::put('/membership/{userMembership}/update', [UserMembershipController::class, 'update'])->name('membership.update'); 
+  	Route::get('/mismembership', [UserMembershipController::class, 'misMemberships'])->name('mismemberships.index');
+
 
 
 	

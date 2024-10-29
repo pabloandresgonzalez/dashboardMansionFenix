@@ -179,7 +179,7 @@ class UserController extends Controller
 
         // Redirigir al index de users con un mensaje de éxito
         session()->flash('success', 'La cuenta ha sido actualizada correctamente.');
-        return to_route('users-update');
+        return to_route('users-management');
     }
 
     public function detail($id)

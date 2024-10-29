@@ -21,7 +21,12 @@
             <div class="row gx-4">
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
-                        <img src="../assets/img/bruce-mars1.jpg" alt="..." class="w-100 border-radius-lg shadow-sm">
+                        @if($user->photo)
+                            <img src="{{ route('user.avatar', ['filename' => $user->photo]) }}" class="w-100 border-radius-lg shadow-sm">
+                        @elseif(!$user->photo)
+                            <img src="../assets/img/bruce-mars1.jpg" alt="..." class="w-100 border-radius-lg shadow-sm">
+                        @endif
+                        
                         <a href="javascript:;" class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2">
                             <i class="fa fa-pen top-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Image"></i>
                         </a>
@@ -109,7 +114,7 @@
                 <h6 class="mb-0">{{ __('Información de perfil') }}</h6>
             </div>
             <div class="card-body pt-4 p-3">
-                <form action="/user-profile" method="POST" role="form text-left">
+                <form action="/user-profile" enctype="multipart/form-data" method="POST" role="form text-left">
                     @csrf
                     
                     <div class="row">
@@ -135,72 +140,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="typeDoc" class="form-control-label">{{ __('Tipo de documento') }}</label>
-                                  <select class="form-control" id="typeDoc" name="typeDoc" >
-                                    <option value="{{ auth()->user()->typeDoc }}">{{ auth()->user()->typeDoc }}</option>
-                                    <option value="Cedula" >Cédula</option>
-                                    <option value="Pasaporte" >Pasaporte</option>
-                                    <option value="Visa" >Visa</option>
-                                    <option value="Andorra" >Andorra</option>
-                                    <option value="otro" >Otro</option>
-                                  </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="numberDoc" class="form-control-label">{{ __('Numero identificación') }}</label>
-                                <div class="@error('numberDoc')border border-danger rounded-3 @enderror">
-                                    <input class="form-control" type="tel" placeholder="No identificación" id="number" name="numberDoc" value="{{ auth()->user()->numberDoc }}">
-                                        @error('numberDoc')
-                                            <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                                        @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="role" class="form-control-label">{{ __('Tipo de rol') }}</label>
-                                  <select class="form-control" id="role" name="role" >
-                                    <option value="{{ auth()->user()->role }}" >{{ auth()->user()->role }}</option>
-                                    <option value="user" >User</option>
-                                    <option value="admin" >Administrador</option>
-                                  </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="level" class="form-control-label">{{ __('Nivel') }}</label>
-                                  <select class="form-control" id="level" name="level" >
-                                    <option value="{{ auth()->user()->level }}">
-                                      @if(auth()->user()->level == 1)
-                                        Nivel actual - USUARIO
-                                      @elseif(auth()->user()->level == 2)
-                                        Nivel actual - DIRECTOR
-                                      @elseif(auth()->user()->level == 3)
-                                        Nivel actual - DIRECTOR JUNIOR
-                                      @elseif(auth()->user()->level == 4)
-                                        Nivel actual - DIRECTOR SENIOR
-                                      @elseif(auth()->user()->level == 5)
-                                        Nivel actual - VICE PRESIDENTE
-                                    </option>
-                                      @endif
-                                      <option value="1"  >USUARIO</option>
-                                      <option value="2"  >DIRECTOR</option>
-                                      <option value="3"  >DIRECTOR JUNIOR</option>
-                                      <option value="4"  >DIRECTOR SENIOR</option>
-                                      <option value="5"  >VICE PRESIDENTE</option>
-                                  </select>
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="phone" class="form-control-label">{{ __('Telefono') }}</label>
                                 <div class="@error('phone')border border-danger rounded-3 @enderror">
-                                    <input class="form-control" type="tel" placeholder="40770888444" id="number" name="phone" value="{{ auth()->user()->phone }}">
+                                    <input class="form-control" type="tel" placeholder="40770888444" id="phone" name="phone" value="{{ auth()->user()->phone }}">
                                         @error('phone')
                                             <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                         @enderror
@@ -211,14 +157,14 @@
                             <div class="form-group">
                                 <label for="cellphone" class="form-control-label">{{ __('Celular') }}</label>
                                 <div class="@error('cellphone')border border-danger rounded-3 @enderror">
-                                    <input class="form-control" type="tel" placeholder="40770888444" id="number" name="cellphone" value="{{ auth()->user()->cellphone }}">
+                                    <input class="form-control" type="tel" placeholder="40770888444" id="cellphone" name="cellphone" value="{{ auth()->user()->cellphone }}">
                                         @error('cellphone')
                                             <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                         @enderror
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="country" class="form-control-label">{{ __('Pais') }}</label>
                                 <select type="text" class="form-control" id="country" name="country" class="form-control" required >
@@ -474,23 +420,25 @@
                                     <option value="251"  >Canary Islands</option>
                                 </select>
                             </div>
-                        </div>                         
+                        </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="isActive" class="form-control-label">{{ __('Estado en el sistema') }}</label>
-                                  <select class="form-control" id="isActive" name="isActive" required >
-                                    <option value="{{ auth()->user()->isActive }}">Estado actual -
-                                      @if(auth()->user()->isActive == 1)
-                                        Activo
-                                      @elseif(auth()->user()->isActive == 0)
-                                        Inactivo
-                                    </option>
-                                    @endif
-                                    <option value="1"  >Activo</option>
-                                    <option value="0"  >Inactivo</option>
-                                  </select>
+                            <label for="photo" class="form-control-label mb-1">{{ __('Avatar') }}</label>
+                            <div class="@error('photo')border border-danger rounded-3 @enderror">
+                                <input class="form-control" type="file" name="photo" id="photo" autocomplete="photo" >
+                                @error('photo')
+                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <label for="photoDoc" class="form-control-label mb-1">{{ __('Documento') }}</label>
+                            <div class="@error('photoDoc')border border-danger rounded-3 @enderror">
+                                <input class="form-control" type="file" name="photoDoc" id="photoDoc" autocomplete="photoDoc" >
+                                @error('photoDoc')
+                                    <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                                @enderror
+                            </div> 
+                        </div> 
                     </div>      
                     <div class="form-group">
                         <label for="user-email" class="form-control-label">{{ __('Email') }}</label>
