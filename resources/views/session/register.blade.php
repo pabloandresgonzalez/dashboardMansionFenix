@@ -27,7 +27,7 @@
                 @csrf
                 <div class="row">
                 <div class="col-md-12 mb-3">
-                  <input type="text" class="form-control" placeholder="El hash o código de transacción" name="ownerId" id="ownerId" aria-label="ownerId" aria-describedby="ownerId" value="{{ old('ownerId') }}" >
+                  <input type="text" class="form-control" placeholder="Id de quien lo refiere" name="ownerId" id="ownerId" aria-label="ownerId" aria-describedby="ownerId" value="{{ old('ownerId') }}" >
                   @error('ownerId')
                     <p class="text-danger text-xs mt-2">{{ $message }}</p>
                   @enderror

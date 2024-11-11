@@ -13,6 +13,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\MembresiaController;
 use App\Http\Controllers\UserMembershipController;
+use App\Http\Controllers\NetworkTransactionController;
+use App\Http\Controllers\WalletTransactionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +103,24 @@ Route::group(['middleware' => 'auth'], function () {
   	Route::post('/membership/store', [UserMembershipController::class, 'store']);
   	Route::put('/membership/{userMembership}/update', [UserMembershipController::class, 'update'])->name('membership.update'); 
   	Route::get('/mismembership', [UserMembershipController::class, 'misMemberships'])->name('mismemberships.index');
+  	Route::post('/mismembership/{id}', [UserMembershipController::class, 'renovar'])->name('mismembership.renovar');
+
+
+  	//NetworkTransaction
+  	Route::get('/networktransaction', [NetworkTransactionController::class, 'index'])->name('networktransaction');
+  	Route::get('/networktransactionactivacion', [NetworkTransactionController::class, 'indexactivacion'])->name('networktransactionactivacion');	
+
+	//Wallets
+    Route::get('/walletadmin', [WalletTransactionsController::class, 'indexAdmin'])->name('walletadmin');     
+    Route::get('/wallet/{wallet}/edit', [WalletTransactionsController::class, 'edit']);
+    Route::put('/wallet/{wallet}', [WalletTransactionsController::class, 'update'])->name('wallet.update');
+    Route::get('/wallets/export-excel', [WalletTransactionsController::class, 'exportExcel']);
+    Route::get('/walletsaldos', [WalletTransactionsController::class, 'editsaldos'])->name('walletsaldos'); 
+    Route::put('/wallets/asaldo', [WalletTransactionsController::class, 'storeAdmin']);
+    Route::get('/miwallet', [WalletTransactionsController::class, 'miwallet'])->name('miwallet'); 
+    Route::get('/asigsaldo', [WalletTransactionsController::class, 'asigSaldo'])->name('asigsaldo');
+    Route::post('wallet/asigsaldo', [WalletTransactionsController::class, 'storeAdmin']);
+	Route::post('/wallet/storeuser', [WalletTransactionsController::class, 'storeUser']);
 
 
 

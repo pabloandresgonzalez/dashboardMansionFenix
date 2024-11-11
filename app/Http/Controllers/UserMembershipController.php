@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\UserMembership;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use App\Services\UserBalanceService;
 use App\Models\membresia;
 use Illuminate\Support\Facades\File;
 use App\Mail\MembershipCreatedMessage;
@@ -12,20 +13,35 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\wallet_transactions;
 
 class UserMembershipController extends Controller
 {
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, UserBalanceService $userBalanceService)
     {
         $this->userService = $userService;
+
+        $this->middleware('auth');
+
+        $this->userBalanceService = $userBalanceService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $memberships = UserMembership::orderBy('updated_at', 'Desc')->paginate(8);
+        //dd($request);
+        $nombre = $request->get('buscarpor'); 
+
+        // Buscador
+        $memberships = UserMembership::where('id', 'LIKE', "%$nombre%")
+        ->orwhere('membership', 'LIKE', "%$nombre%")
+        ->orwhere('user_email', 'LIKE', "%$nombre%")
+        ->orwhere('user_name', 'LIKE', "%$nombre%")
+        ->orwhere('status', 'LIKE', "%$nombre%")
+        ->orwhere('detail', 'LIKE', "%$nombre%")
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+        //$memberships = UserMembership::orderBy('updated_at', 'Desc')->paginate(8);
         //$data = ['memberships' => $memberships];
 
         // Obtener el total de usuarios y la lista
@@ -44,17 +60,6 @@ class UserMembershipController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //dd($request);
@@ -70,7 +75,7 @@ class UserMembershipController extends Controller
             'id_membresia' => 'required|string',  //|unique:user_memberships|min:4 
             'name' => 'required|string',
             'hashUSDT' => 'required|max:255|unique:user_memberships', //|unique:user_memberships
-            'hashPSIV' => 'max:255|unique:user_memberships', //|unique:user_memberships
+            //'hashPSIV' => 'max:255|unique:user_memberships', //|unique:user_memberships
             'image' => 'file',             
             
         ]);
@@ -80,13 +85,14 @@ class UserMembershipController extends Controller
        $namemembresia = $request->input('name');
 
        $membershipsuser = UserMembership::where('user', $user->id)
-        ->Where('membership', $namemembresia)
-        ->where('status', 'Activo')
-        ->get()->toArray();
+        ->where('membership', $namemembresia)
+        ->whereIn('status', ['Activo', 'Pendiente'])
+        ->get()
+        ->toArray();
 
         if ($membershipsuser) {
 
-            return redirect()->route('membresias.index')->with('alert', '¡' . $name . ' ' .'¡Ya cuentas con una membresia de este valor activa!');      
+            return redirect()->route('mismemberships.index')->with('alert', '¡' . $name . ' ' .'¡Ya cuentas con un fondo de este valor pendiente o activo!');      
         }
 
         $fecha_actual = date("Y-m-d H:i:s");
@@ -128,34 +134,12 @@ class UserMembershipController extends Controller
         Mail::to($user_email_admin)->send(new MembershipCreatedMessage($membership));
         Mail::to($user_email_admin2)->send(new MembershipCreatedMessage($membership));
 
-        return redirect()->route('membership.index')->with('success', '¡Membresía comprada con éxito!');        
+        return redirect()->route('mismemberships.index')->with('success', 'Fondo comprado con éxito!');        
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserMembership $userMembership)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserMembership $userMembership)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, UserMembership $userMembership)
     {
-        // Verificar que los datos lleguen correctamente
-        //dd($request->all());
-
         // Validación del formulario
         $validatedData = $request->validate([
             'activedAt' => 'required|date_format:Y-m-d\TH:i',
@@ -191,12 +175,12 @@ class UserMembershipController extends Controller
             DB::commit();
 
             // Redirigir con éxito
-            return redirect()->route('membership.index')->with('success', '¡Membresía actualizada con éxito!');
+            return redirect()->route('membership.index')->with('success', 'Fondo actualizado con éxito!');
 
         } catch (\Exception $e) {
             // Revertir la transacción en caso de error
             DB::rollBack();
-            return redirect()->route('membership.index')->withErrors('Hubo un problema al actualizar la membresía: ' . $e->getMessage());
+            return redirect()->route('membership.index')->withErrors('Hubo un problema al actualizar el fondo: ' . $e->getMessage());
         }
     }
 
@@ -208,7 +192,7 @@ class UserMembershipController extends Controller
 
         $memberships = UserMembership::where('user', $user->id)
         ->orderBy('created_at', 'desc')
-        ->paginate(10);
+        ->paginate(50);
 
         // Obtener el total de usuarios y la lista
         $data1 = $this->userService->getAllEnrolledUsers();
@@ -244,5 +228,135 @@ class UserMembershipController extends Controller
         }
 
         return $date->format('Y-m-d H:i:s');
+
+    }
+
+    private function totalCommission()
+    {
+      // Conseguir usuario identificado
+      $user = \Auth::user();
+      $id = $user->id;
+
+      // Total, de comisión por activación de membresías de usuarios referidos 
+      $totalCommission = DB::table("network_transactions")
+      ->where('user', $id)
+      ->where('type', 'Activation')      
+      ->get()->sum("value");
+
+      /*$totalCommission1 = DB::select("SELECT * FROM network_transactions 
+        WHERE YEAR(created_at) = YEAR(CURRENT_DATE()) 
+        AND MONTH(created_at)  = MONTH(CURRENT_DATE())
+        AND type = 'Activation'
+        AND status = 'Activa'
+        AND user = ?", [$id]);*/
+
+      //$valores = array_column($totalCommission1, 'value');
+      //$totalCommission = array_sum($valores);
+
+      return $totalCommission;
+    }
+
+    public function renovar(Request $request, $id)
+    {
+        try {
+            // Conseguir usuario autenticado y sus datos principales
+            $user = \Auth::user();
+            $iduser = $user->id;
+            $email = $user->email;
+
+            // Obtener la membresía principal (padre) que se va a renovar
+            $membershippadre = UserMembership::findOrFail($id);
+            $id_membresia = $membershippadre->id_membresia;
+
+            // Definir la variable $namemembresia, que es la que viene del formulario
+            $namemembresia = $request->input('membership'); // Asumimos que 'membership' es el campo en el formulario
+
+            // Contar el número de renovaciones de esta membresía
+            $renovacionesCount = UserMembership::where('user', $iduser)
+                ->where('membership', $namemembresia) // Ahora utilizamos la variable correctamente definida
+                ->where('activedAt', '>=', now()->subDays(30)) // Filtra por las últimas renovaciones
+                ->count();
+
+            // Verificar si ya se alcanzaron las 20 renovaciones
+            if ($renovacionesCount >= 20) {
+                return redirect()->route('mismemberships.index')->with('alert', '¡Límite de renovaciones alcanzado! No es posible renovar más de 20 veces.');
+            }
+
+            // Obtener detalles de la membresía (tipo y costo)
+            $membresia = Membresia::findOrFail($id_membresia);
+            $valor_membresia = $membresia->valor;
+
+            // Llamar al servicio externo para obtener el balance del usuario autenticado
+            $balanceString = $this->userBalanceService->getBalanceByUser($iduser);
+            $totalUSDT = $balanceString['USDT']['total'] ?? 0;
+            $totalPSIV = $balanceString['PSIV']['total'] ?? 0;
+            $total = $totalUSDT + $totalPSIV;
+
+            // Verificar que el usuario tenga saldo suficiente para la renovación
+            if ($valor_membresia > $total) {
+                return redirect()->route('mismemberships.index')->with('alert', '¡Ups! Saldo insuficiente para renovar!');
+            }
+
+            // Validación de entrada del formulario para el campo 'membership'
+            $request->validate([
+                'membership' => 'required|string|min:4',
+            ]);
+
+            // Crear nueva instancia de membresía renovada
+            $membership = new UserMembership();
+            $membership->id_membresia = $id_membresia;
+            $membership->membresiaPadre = $id; // referencia a la membresía padre
+            $membership->membership = $namemembresia; // Usamos la variable correcta
+            $membership->user_email = $email;
+            $membership->user = $iduser;
+            $membership->user_name = $user->name;
+            $membership->hashUSDT = 'Descuento de saldo ' . bin2hex(random_bytes(20));
+            $membership->detail = 'Activo';
+            $membership->status = 'Activo';
+
+            $membership->closedAt = $this->calculateClosedAt(); // Método para calcular la fecha final
+            $membership->activedAt = now(); // Fecha de activación actual
+
+            // Procesar y almacenar la imagen proporcionada por el usuario (si existe)
+            if ($image_photo = $request->file('image')) {
+                $image_photo_name = time() . $image_photo->getClientOriginalName();
+                Storage::disk('imagehash')->put($image_photo_name, File::get($image_photo));
+                $membership->image = $image_photo_name; // Guardar nombre de la imagen en el objeto
+            }
+
+            // Cambiar estado de la membresía inicial a 'Terminada'
+            $membershippadre->status = 'Terminada';
+            $membershippadre->detail = 'Terminada';
+
+            // Guardar los cambios en la nueva membresía y actualizar la membresía padre
+            $membership->save();
+            $membershippadre->save();
+
+            // Crear una transacción de descuento en la billetera del usuario
+            $percentage = 5; // Porcentaje de descuento
+            $Wallet = new wallet_transactions();
+            $Wallet->user = $iduser;
+            $Wallet->email = $email;
+            $Wallet->value = $valor_membresia;
+            $Wallet->fee = ($percentage / 100) * $valor_membresia; // Calcular el monto de descuento
+            $Wallet->type = "Renovar";
+            $Wallet->hash = 'Descuento para renovar ' . bin2hex(random_bytes(20));
+            $Wallet->currency = 'PSIV';
+            $Wallet->approvedBy = $email;
+            $Wallet->wallet = 'Descuento para renovar ' . bin2hex(random_bytes(20));
+            $Wallet->inOut = 0; // Salida de fondos (0 indica una salida de dinero)
+            $Wallet->status = 'Aprobada';
+            $Wallet->detail = 'Descuento para renovar membresía';
+
+            // Guardar la transacción en la base de datos
+            $Wallet->save();
+
+            // Redirigir al usuario con un mensaje de éxito
+            return redirect()->route('mismemberships.index')->with('success', 'Hash de renovación enviado correctamente!');
+        } catch (\Exception $e) {
+            // En caso de error, redirigir con un mensaje de alerta
+            return redirect()->route('mismemberships.index')->with('alert', 'Error al renovar membresía: ' . $e->getMessage());
+        }
     }
 }
+

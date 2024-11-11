@@ -82,20 +82,20 @@
 </head>
 <body>
     <header>
-        <h1>¡Fue adquirida la membresía {{ $membership->membership }}!</h1>
+        <h1>¡Fue adquirido el fondo {{ $membership->membership }}!</h1>
     </header>
     <div class="container">        
         <h1>{{ $membership->name }}</h1>
         <p>{{ $membership->name }}</p>
         <ul style="list-style-type: none; text-align: left; padding-left: 0; font-size: 14px; line-height: 1.6;">
-    <li>Usuario: {{ $membership->user_email }}</li>
-    <li>Id de usuario: {{ $membership->user }}</li>
-    <li>Membresía: {{ $membership->membership }}</li>
-    <li>Estado: {{ $membership->status }}</li>
-    <li>Hash USDT: {{ $membership->hashUSDT }}</li>
-    <li>Hash PSIV: {{ $membership->hashPSIV }}</li>
-    <li>Adquirida: {{ $membership->created_at }}</li>
-</ul>
+            <li>Usuario: {{ $membership->user_email }}</li>
+            <li>Id de usuario: {{ $membership->user }}</li>
+            <li>Fondo: {{ $membership->membership }}</li>
+            <li>Estado: {{ $membership->status }}</li>
+            <li>Hash USDT: {{ $membership->hashUSDT }}</li>
+            <li>Hash PSIV: {{ $membership->hashPSIV }}</li>
+            <li>Adquirido: {{ $membership->created_at }}</li>
+        </ul>
         <br><br>
         <a href="{{ route('login') }}" class="btn">Ver más detalles</a>
         <br><br>

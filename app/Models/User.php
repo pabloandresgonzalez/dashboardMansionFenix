@@ -74,21 +74,25 @@ class User extends Authenticatable
         });
     }
 
+    // Relación uno a muchos: Este modelo tiene muchos registros asociados en UserMembership
     public function UserMembership() {
-        return $this->hasMany('App\UserMembership');
+        return $this->hasMany('App\UserMembership'); // Relación con el modelo UserMembership sin orden específico.
     }
 
+    // Relación uno a muchos: Este modelo tiene muchos registros asociados en UserMembership, ordenados por id descendente
     public function asUserMembership() {
-        return $this->hasMany(UserMembership::class, 'user')->orderBy('id', 'desc');
+        return $this->hasMany(UserMembership::class, 'user') // Usa 'user' como clave foránea
+                    ->orderBy('id', 'desc'); // Ordena los registros por id en orden descendente.
     }
 
-    //Relacion
-    public function membresias(){
-        return $this->belongsTo('App\Membresia', 'id');
+    // Relación uno a muchos inversa: Este modelo pertenece a una sola membresía (Membresia)
+    public function membresias() {
+        return $this->belongsTo('App\Membresia', 'id'); // Usa 'id' como clave foránea, que puede ser inusual y revisarse si corresponde.
     }
 
-    public function amembresia(){
-        return$this->belongsTo(Membresia::class);
+    // Relación uno a muchos inversa: Este modelo pertenece a una sola membresía (Membresia)
+    public function amembresia() {
+        return $this->belongsTo(Membresia::class); // Usa la clave foránea predeterminada 'membresia_id' para la relación.
     }
     
 }

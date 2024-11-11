@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('user'); 
             $table->string('user_name')->nullable();           
             $table->string('hashUSDT')->unique();
-            $table->string('hashBTC')->unique()->nullable();         
+            $table->string('hashPSIV')->unique()->nullable();         
             $table->string('detail');
             $table->string('status');
             $table->string('image')->nullable();

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 
 class InfoUserController extends Controller
 {
+    //$this->middleware('auth');
 
     public function create(Request $request)
     {

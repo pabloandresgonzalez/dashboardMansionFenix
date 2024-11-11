@@ -34,4 +34,9 @@ class UserMembership extends Model
    public function amembresia(){
       return$this->belongsTo(Membresia::class);
    }
+
+   public function parentMembership()
+   {
+       return $this->belongsTo(UserMembership::class, 'membresiaPadre'); // Relación de membresía padre
+   }
 }

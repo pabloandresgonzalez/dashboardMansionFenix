@@ -14,13 +14,14 @@ use App\Models\UserMembership;
 
 
 
-
 class MembresiaController extends Controller
 {
     // Inyectar el servicio a través del constructor
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
+
+        $this->middleware('auth');
     }
 
     /**

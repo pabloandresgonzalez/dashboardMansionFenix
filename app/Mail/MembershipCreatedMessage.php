@@ -32,7 +32,7 @@ class MembershipCreatedMessage extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nueva Membresía: ' . $this->membership->title,
+            subject: 'Nueva Fondo: ' . $this->membership->title,
         );
     }
 

@@ -43,8 +43,8 @@
             <div class="numbers">
               <p class="text-sm mb-0 text-capitalize font-weight-bold">Mis asociados </p>
               <h5 class="font-weight-bolder mb-0">
-                
-                <span class="text-success text-sm font-weight-bolder">3% x referido </span>
+                {{ $total }}
+                <span class="text-success text-sm font-weight-bolder">10% x referido</span>
               </h5>
             </div>
           </div>

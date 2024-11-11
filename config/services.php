@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'user_balance' => [
+        'token' => env('USER_BALANCE_TOKEN'),
+        'url' => env('USER_BALANCE_URL'),
+    ],
+
 ];

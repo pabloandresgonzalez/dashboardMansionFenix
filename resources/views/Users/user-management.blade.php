@@ -12,7 +12,6 @@
   </div>
 @endif
 
-
 <div> 
     <div class="row">
         <div class="col-12">
@@ -155,7 +154,6 @@
 </div>
 
 @foreach($users as $user)
-
 <!-- Modal crear usuario -->
 <div class="row">
     <div class="col-md-4">      
@@ -593,7 +591,9 @@
       </div>
     </div>
 </div>
+@endforeach
 
+@foreach($users as $user)
 <!-- Modal editar usuario -->
 <div class="row">
     <div class="col-md-4">      
