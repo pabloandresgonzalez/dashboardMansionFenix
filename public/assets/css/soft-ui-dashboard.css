@@ -24710,7 +24710,7 @@ screen and (-ms-high-contrast:active) {
 /* Estilos adicionales para la tarjeta */
 .carddata {
     transition: transform 0.3s ease-in-out;  /* Animación suave al hacer hover */
-    border-radius: 10px;  /* Esquinas más redondeadas */
+    border-radius: 1px;  /* Esquinas más redondeadas */
     /*max-width: 250px;  /* Limita el tamaño máximo de la tarjeta */
     margin: 0 auto;  /* Centra la tarjeta en la pantalla */
 }
@@ -24727,7 +24727,7 @@ screen and (-ms-high-contrast:active) {
     width: 45px;  /* Icono más pequeño */
     height: 45px; /* Icono más pequeño */
     font-size: 20px; /* Tamaño más pequeño del icono */
-    border-radius: 50%; /* Icono redondo */
+    border-radius: 8px; /* Icono redondo */
     color: white;
     background: linear-gradient(135deg, #00c6ff, #0072ff); /* Fondo de gradiente */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
@@ -24741,7 +24741,7 @@ screen and (-ms-high-contrast:active) {
     width: 45px;  /* Icono más pequeño */
     height: 45px; /* Icono más pequeño */
     font-size: 20px; /* Tamaño más pequeño del icono */
-    border-radius: 50%; /* Icono redondo */
+    border-radius: 8px; /* Icono redondo */
     color: white;
     background-image: linear-gradient(135deg, #f9d423, #ff4e50);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */

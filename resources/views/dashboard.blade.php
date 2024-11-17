@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="col-4 text-end">
-            <div class="icondata bg-gradient-primary p-3 text-white rounded-circle shadow"> 
+            <div class="icondata bg-gradient-primary p-3 text-white shadow border-radius-md"> 
               <i class="fa-brands fa-btc text-lg opacity-10" aria-hidden="true"></i>
             </div>
           </div>
@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="col-4 text-end">
-            <div class="icondatadorado bg-gradient-primary p-3 text-white rounded-circle shadow"> 
+            <div class="icondatadorado bg-gradient-primary p-3 text-white shadow border-radius-md"> 
               <i class="fa fa-user-group text-lg opacity-10" aria-hidden="true"></i>
             </div>
           </div>
