@@ -95,6 +95,21 @@ class UserMembershipController extends Controller
             return redirect()->route('mismemberships.index')->with('alert', '¡' . $name . ' ' .'¡Ya cuentas con un fondo de este valor pendiente o activo!');      
         }
 
+        // Llamar al servicio externo para obtener el balance del usuario autenticado
+        $balanceString = $this->userBalanceService->getBalanceByUser($id);
+        $totalUSDT = $balanceString['USDT']['total'] ?? 0;
+        $totalPSIV = $balanceString['PSIV']['total'] ?? 0;
+        $total = $totalUSDT + $totalPSIV;
+
+        $membresia = Membresia::find($request->input('id_membresia'));
+        $valormembresia =$membresia->valor;
+
+        if ($totalPSIV < $valormembresia ) {
+
+            return redirect()->route('mismemberships.index')->with('alert', ' ' . $name . ' ¡' .'Ups, El saldo es insuficiente para comprar el fondo¡');    
+        }
+
+
         $fecha_actual = date("Y-m-d H:i:s");
 
         $membership = new UserMembership();
@@ -358,5 +373,8 @@ class UserMembershipController extends Controller
             return redirect()->route('mismemberships.index')->with('alert', 'Error al renovar membresía: ' . $e->getMessage());
         }
     }
+
+    
+
 }
 

@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(UserService::class, function ($app) {
             return new UserService();
         });
+
+        $this->app->singleton(BlockchainService::class, function ($app) {
+            return new BlockchainService();
+        });
     }
 
     /**

@@ -21,7 +21,7 @@
                         <div>                      
                             <h5 class="mb-0">Gestión de Traslados</h5>                            
                         </div>
-                        <a href="#" class="btn bg-gradient-primary btn-sm mb-0" type="button" data-bs-toggle="modal" data-bs-target="#modal-form">+&nbsp; Nuevo traslado</a>
+                        <a href="{{ url('asigsaldo') }}" class="btn bg-gradient-primary btn-sm mb-0" type="button">+&nbsp; Nuevo traslado</a>
                     </div>
                     <p class="text-sm ">Administra y autoriza los traslados</p>
                 </div>

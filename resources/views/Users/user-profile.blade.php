@@ -67,8 +67,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-controls="teams" aria-selected="false">
-                                    <svg class="text-dark" width="16px" height="16px" viewBox="0 0 576 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <a class="nav-link mb-0 px-0 py-1" href="{{ url('/mismembership') }}" role="tab" aria-controls="teams" aria-selected="false">
+                                    <svg class="text-dark" width="16px" height="16px" viewBox="0 0 576 512" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                         <title>document</title>
                                         <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <g id="Rounded-Icons" transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -84,7 +84,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-controls="dashboard" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1 "  href="{{ url('miwallet') }}" role="tab" aria-controls="dashboard" aria-selected="false">
                                     <svg class="text-dark" width="16px" height="16px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>settings</title>
                                         <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

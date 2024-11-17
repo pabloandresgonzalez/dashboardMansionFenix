@@ -13,7 +13,6 @@ use App\Services\UserService;
 use App\Models\UserMembership;
 
 
-
 class MembresiaController extends Controller
 {
     // Inyectar el servicio a través del constructor
@@ -24,9 +23,6 @@ class MembresiaController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $membresias = Membresia::orderBy('updated_at', 'Desc')->paginate(8);
@@ -61,17 +57,6 @@ class MembresiaController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreMembresiaRequest $request)
     {
         // Crear el objeto News usando la validación previa del FormRequest
@@ -95,25 +80,7 @@ class MembresiaController extends Controller
 
         return redirect()->route('membresias.indexAdmin')->with('success', 'Membresía creada correctamente.');
     }
-    /**
-     * Display the specified resource.
-     */
-    public function show(membresia $membresia)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(membresia $membresia)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(StoreMembresiaRequest $request, $id)
     {
         // Actualizar los campos del objeto Mmembresia usando la validación previa del FormRequest
@@ -137,11 +104,4 @@ class MembresiaController extends Controller
         return redirect()->route('membresias.indexAdmin')->with('success', 'Membresía creada correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(membresia $membresia)
-    {
-        //
-    }
 }

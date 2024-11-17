@@ -26,10 +26,51 @@
   <link id="pagestyle" href="{{ asset('assets/css/soft-ui-dashboard.css?v=1.0.3') }}" rel="stylesheet" />
 
   <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script>
+    $(document).ready(function() {
+
+      // Eliminar cualquier evento anterior para prevenir duplicados en el contenedor de renovaciones
+      $('#renovaciones-container .pagination a').off('click').on('click', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href'); // Obtener la URL del enlace de paginación
+        
+        $.ajax({
+          url: url, // Realizar la solicitud AJAX con la URL
+          type: 'GET', // Método de solicitud (GET)
+          success: function(response) {
+            // Al recibir la respuesta, actualizar el contenido del contenedor de renovaciones
+            $('#renovaciones-container').html($(response).find('#renovaciones-container').html());
+          },
+          error: function() {
+            alert('Error al cargar los datos de renovaciones.');
+          }
+        });
+      });
+
+      // Eliminar cualquier evento anterior para prevenir duplicados en el contenedor de billetera
+      $('#wallets-container .pagination a').off('click').on('click', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href'); // Obtener la URL del enlace de paginación
+        
+        $.ajax({
+          url: url, // Realizar la solicitud AJAX con la URL
+          type: 'GET', // Método de solicitud (GET)
+          success: function(response) {
+            // Al recibir la respuesta, actualizar el contenido del contenedor de billetera
+            $('#wallets-container').html($(response).find('#wallets-container').html());
+          },
+          error: function() {
+            alert('Error al cargar los datos de billetera.');
+          }
+        });
+      });
+
+    });
+  </script>
   <script type="text/javascript">
     $(document).ready(function() {
         setTimeout(function() {
-            $("#message_id").fadeOut(10000);
+            $("#message_id").fadeOut(20000);
         });
     });
   </script>
@@ -44,10 +85,20 @@
             element.style.display='none';
         }
     }
-  </script>  
+  </script> 
+  <?php 
+
+    $url = ("https://blockchain.info/ticker");
+        $data = json_decode(file_get_contents($url), true);
+
+        $data ['USD']['last'];
+        
+
+  ?>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100 {{ (\Request::is('rtl') ? 'rtl' : (Request::is('virtual-reality') ? 'virtual-reality' : '')) }} ">
+  
   @auth
     @yield('auth')
   @endauth
@@ -56,7 +107,7 @@
   @endguest
 
 
-    <!--   Core JS Files   -->
+    <!--   Core JS Files   -->  
   <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
   <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
   <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>

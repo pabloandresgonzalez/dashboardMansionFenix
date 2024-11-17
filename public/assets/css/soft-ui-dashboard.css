@@ -24706,3 +24706,72 @@ screen and (-ms-high-contrast:active) {
 .dynamic-progress-bar[style*="width: 100%"] {
     background-image: linear-gradient(310deg, #2dce89, #4fd69c);
 }
+
+/* Estilos adicionales para la tarjeta */
+.carddata {
+    transition: transform 0.3s ease-in-out;  /* Animación suave al hacer hover */
+    border-radius: 10px;  /* Esquinas más redondeadas */
+    /*max-width: 250px;  /* Limita el tamaño máximo de la tarjeta */
+    margin: 0 auto;  /* Centra la tarjeta en la pantalla */
+}
+
+.carddata:hover {
+    transform: translateY(-5px);  /* Menos elevación al pasar el mouse */
+}
+
+/* Estilo para el contenedor de iconos */
+.icondata {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;  /* Icono más pequeño */
+    height: 45px; /* Icono más pequeño */
+    font-size: 20px; /* Tamaño más pequeño del icono */
+    border-radius: 50%; /* Icono redondo */
+    color: white;
+    background: linear-gradient(135deg, #00c6ff, #0072ff); /* Fondo de gradiente */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Estilo para el contenedor de iconos dorado*/
+.icondatadorado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;  /* Icono más pequeño */
+    height: 45px; /* Icono más pequeño */
+    font-size: 20px; /* Tamaño más pequeño del icono */
+    border-radius: 50%; /* Icono redondo */
+    color: white;
+    background-image: linear-gradient(135deg, #f9d423, #ff4e50);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Tipografía de los valores numéricos */
+.numbersdata h5 {
+    font-size: 1.25rem;  /* Fuente más pequeña */
+    color: #333;
+}
+
+.numbersdata span {
+    font-size: 0.75rem;  /* Tamaño más pequeño para el texto de la moneda */
+}
+
+.numbersdata .text-success {
+    font-size: 0.875rem; /* Tamaño pequeño para el porcentaje */
+    font-weight: bold;
+}
+
+/* Estilo de fondo para la tarjeta */
+.carddata-body {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0.75rem;  /* Reduce el padding para que la tarjeta sea más compacta */
+}
+
+/* Estilo para el texto "Today's Money" */
+.numbersdata p {
+    font-size: 0.75rem;  /* Texto más pequeño */
+    color: #6c757d; /* Gris más claro */
+    font-weight: 500;
+}

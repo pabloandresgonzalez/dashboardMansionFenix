@@ -30,37 +30,14 @@ use App\Http\Controllers\WalletTransactionsController;
 
 Route::group(['middleware' => 'auth'], function () {
 
+	Route::get('/', [HomeController::class, 'dashboard']); // Redirige a dashboard directamente
+	Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/', [HomeController::class, 'home']);
-	Route::get('dashboard', function () {
-		return view('dashboard');
-	})->name('dashboard');
 
-	
-	Route::get('billing', function () {
-		return view('billing');
-	})->name('billing');
 
-	Route::get('profile', function () {
-		return view('profile');
-	})->name('profile');
-
-	Route::get('rtl', function () {
-		return view('rtl');
-	})->name('rtl');
-
-	/*Route::get('user-management', function () {
+	Route::get('user-management', function () {
 		return view('laravel-examples/user-management');
 	})->name('user-management');
-	*/
-	Route::get('tables', function () {
-		return view('tables');
-	})->name('tables');
-
-    Route::get('virtual-reality', function () {
-		return view('virtual-reality');
-	})->name('virtual-reality');
-	
 
     Route::get('static-sign-in', function () {
 		return view('static-sign-in');
@@ -105,12 +82,12 @@ Route::group(['middleware' => 'auth'], function () {
   	Route::get('/mismembership', [UserMembershipController::class, 'misMemberships'])->name('mismemberships.index');
   	Route::post('/mismembership/{id}', [UserMembershipController::class, 'renovar'])->name('mismembership.renovar');
 
-
   	//NetworkTransaction
   	Route::get('/networktransaction', [NetworkTransactionController::class, 'index'])->name('networktransaction');
   	Route::get('/networktransactionactivacion', [NetworkTransactionController::class, 'indexactivacion'])->name('networktransactionactivacion');	
 
 	//Wallets
+	Route::get('/wallet', [WalletTransactionsController::class, 'index'])->name('wallet.index'); 
     Route::get('/walletadmin', [WalletTransactionsController::class, 'indexAdmin'])->name('walletadmin');     
     Route::get('/wallet/{wallet}/edit', [WalletTransactionsController::class, 'edit']);
     Route::put('/wallet/{wallet}', [WalletTransactionsController::class, 'update'])->name('wallet.update');
@@ -121,13 +98,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/asigsaldo', [WalletTransactionsController::class, 'asigSaldo'])->name('asigsaldo');
     Route::post('wallet/asigsaldo', [WalletTransactionsController::class, 'storeAdmin']);
 	Route::post('/wallet/storeuser', [WalletTransactionsController::class, 'storeUser']);
-
-
-
 	
 	
 });
-
 
 
 Route::group(['middleware' => 'guest'], function () {

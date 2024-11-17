@@ -39,4 +39,9 @@ class UserMembership extends Model
    {
        return $this->belongsTo(UserMembership::class, 'membresiaPadre'); // Relación de membresía padre
    }
+
+   public function networkTransactions()
+   {
+       return $this->hasMany(NetworkTransaction::class, 'userMembership', 'id');
+   }
 }

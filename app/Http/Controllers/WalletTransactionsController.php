@@ -8,8 +8,10 @@ use App\Services\UserBalanceService;
 use App\Models\wallet_transactions;
 use App\Models\User;
 use App\Models\UserMembership;
+use App\Models\NetworkTransaction;
 use DB;
 use Carbon\Carbon;
+use DateTime;
 
 
 class WalletTransactionsController extends Controller
@@ -51,256 +53,55 @@ class WalletTransactionsController extends Controller
       // Total comission del usuario mes en curso
       $totalCommission = $this->totalCommission();
 
+      
       // Renderizar la vista 'Wallet.indexAdmin' y pasar los datos obtenidos: transacciones y balance
       return view('Wallet.indexAdmin', [
           'Wallets' => $Wallets,
           'balanceString' => $balanceString,
-          'totalCommission' => $totalCommission 
+          'totalCommission' => $totalCommission
       ]);
     }
 
     public function index(Request $request)
     {
+        // Obtener el usuario actualmente autenticado y su ID
+        $user = \Auth::user();
+        $id = $user->id;
 
-      //Conseguir usuario identificado
-      $user = \Auth::user();
+        // Obtener el valor del parámetro 'buscarpor' del request, que se utilizará para filtrar resultados
+        $nombre = $request->get('buscarpor');
 
-      $id = $user->id;
+        // Consultar las transacciones de la billetera que pertenecen al usuario autenticado
+        // y que coinciden con el valor de búsqueda en varios campos
+        $Wallets = wallet_transactions::where('user', $id)  // Aseguramos que solo sean del usuario autenticado
+            ->where(function ($query) use ($nombre) {
+                $query->where('user', 'LIKE', "%$nombre%")
+                      ->orWhere('id', 'LIKE', "%$nombre%")
+                      ->orWhere('currency', 'LIKE', "%$nombre%")
+                      ->orWhere('type', 'LIKE', "%$nombre%")
+                      ->orWhere('status', 'LIKE', "%$nombre%")
+                      ->orWhere('created_at', 'LIKE', "%$nombre%");
+            })
+            ->orderBy('created_at', 'desc')  // Ordenar las transacciones por fecha de creación en orden descendente
+            ->paginate(20);  // Paginar los resultados, mostrando 20 por página
 
-
-      $data = [
-      'userId' => $id,
-      'token' => 'AcjAa76AHxGRdyTemDb2jcCzRmqpWN'
-      ];
-
-      $curl = curl_init();
-
-      curl_setopt_array($curl, array(
-          CURLOPT_URL => "https://sd0fxgedtd.execute-api.us-east-2.amazonaws.com/Prod_getBalanceByUser",
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => "",
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 30000,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => "POST",
-          CURLOPT_POSTFIELDS => json_encode($data),        
-          CURLOPT_HTTPHEADER => array(
-            // Set here requred headers
-              "accept: */*",
-              "accept-language: en-US,en;q=0.8",
-              "content-type: application/json",
-          ),
-      ));
-
-      $result = curl_exec($curl);
-      $err = curl_error($curl);
-
-      curl_close($curl);
-
-      //decodificar JSON porque esa es la respuesta
-      $respuestaDecodificada = json_decode($result); 
-      //dd($respuestaDecodificada); 
-
-      $Wallets = wallet_transactions::where('user', $user->id)->orderBy('id', 'desc')
-        ->paginate(50);
-
-        
-        return view('wallets.index', [
-          'user' => $user,
-          'Wallets' => $Wallets,
-          'result' => $result,
-          'totalusers' => $totalusers,
-          'totalCommission' => $totalCommission,
-          'totalProduction' => $totalProduction,
-          'totalProductionMes' => $totalProductionMes
-        ]); 
-    }
-
-    public function store(Request $request)
-    {
-      //Conseguir usuario identificado
-      $user = \Auth::user();
-      $id = $user->id;
-      $name = $user->name;
-      $email = $user->email;
-
-      $id = $user->id;
-
-
-      $data = [
-      'userId' => $id,
-      'token' => 'AcjAa76AHxGRdyTemDb2jcCzRmqpWN'
-      ];
-
-      $curl = curl_init();
-
-      curl_setopt_array($curl, array(
-          CURLOPT_URL => "https://sd0fxgedtd.execute-api.us-east-2.amazonaws.com/Prod_getBalanceByUser",
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => "",
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 30000,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => "POST",
-          CURLOPT_POSTFIELDS => json_encode($data),        
-          CURLOPT_HTTPHEADER => array(
-            // Set here requred headers
-              "accept: */*",
-              "accept-language: en-US,en;q=0.8",
-              "content-type: application/json",
-          ),
-      ));
-
-      $result = curl_exec($curl);
-      $err = curl_error($curl);
-
-      curl_close($curl);
-
-      //decodificar JSON porque esa es la respuesta
-      $respuestaDecodificada = json_decode($result); 
-      
-      $url = ($result);
-      $data = json_decode($url, true);
-      $totalPSIV = $data['PSIV']['total'];
-      $totalUSDT = $data['USDT']['total'];
-                
-      $rules = ([
-          
-          'value' => 'required|string|max:255',
-          'detail' => 'required|string', 
-          'currency' => 'required|string', 
-          'wallet' => 'required|string',         
-          
-      ]);
-
-       $this->validate($request, $rules);
-
-       // $idmovimiento = $request->input('idmovimiento');
-       
-       $idmovimiento = User::where('id', $id)->first();
-       $userid = $idmovimiento->id;
-       $useremail = $idmovimiento->email;
-
-
-       $memberships = UserMembership::where('user', $userid)
-        ->where('status', 'Activo')->get();
-
-        $cantmemberships = $memberships->count();
-
-        // Si tiene almenos una membresia activa
-        if ($cantmemberships > 0) {
-
-        $Wallet = new wallet_transactions();
-        $Wallet->user = $id;
-        $Wallet->email = $email;
-
-
-        $dia1 = date('Y-m-01');
-        $fecha_actual = date("Y-m-d");
-
-        //$dias_habiles = bussiness_days($dia1, $fecha_actual);
-
-        //dd($dias_habiles);
-
-
-        $fecha1= new DateTime($dia1);
-        $fecha2= new DateTime($fecha_actual);
-        $diff = $fecha1->diff($fecha2);
-       
-
-        //$percentageda = 12;
-        $percentagedp = 8;   
-        $currencyretiro = $request->input('currency');     
-        $valretiro = $request->input('value');
-        //$valretiroUSDT = $request->input('value');
-        //$valretiroUSDT = $request->input('value');
-
-        if ($currencyretiro == 'PSIV') {
-          $valretiroPSIV = $request->input('value');
-          $valretiroUSDT = $totalUSDT;
-        } elseif ($currencyretiro == 'USDT') {
-          $valretiroUSDT = $request->input('value');
-          $valretiroPSIV = $totalPSIV;
-        } {
-          
-        }
-
-        if ($valretiroPSIV > $totalPSIV || $valretiroUSDT > $totalUSDT) {
-
-          return redirect()->route('home')->with([
-                    'message' => '¡' . $name . ' ' . '¡El valor del traslado no puede ser mayor al saldo disponible!'
-                    //'totalusers' => $totalusers
-          ]); 
-
-        } else {
-
-          //$toPorretiroda = ($percentageda * $valretiro) / 100;
-          $toPorretirodp = ($percentagedp * $valretiro) / 100;
-
-        /*
-        if ($diff->days < 15) {
-          $Wallet->fee = $toPorretiroda;
-          $Wallet->value = $valretiro - $toPorretiroda;
-        } else {
-          $Wallet->fee = $toPorretirodp;
-          $Wallet->value = $valretiro - $toPorretiroda;
-        }
-        */
-
-        $Wallet->fee = $toPorretirodp;
-        $Wallet->value = $valretiro - $toPorretirodp;
-        $Wallet->type = "Traslado";
-        $Wallet->hash = '';
-        $Wallet->currency = $request->input('currency');
-        $Wallet->approvedBy = '';
-        $Wallet->wallet = $request->input('wallet');
-        $Wallet->inOut = 0;
-        $Wallet->status = 'exhange';     
-        $Wallet->detail = $request->input('detail');
-
-
-        $Wallet->save();// INSERT BD
-
-
-        //enviar email
-        $user_email = User::where('role', 'admin')->first();
-        $user_email_admin = $user_email->email;
-        $user_email_admin2 = 'soportefuturslatinoamerica@gmail.com';
-
-        Mail::to($email)->send(new TransactionSentMessage($Wallet));
-
-        Mail::to($user_email_admin)->send(new TransactionMessageCreated($Wallet));
-        Mail::to($user_email_admin2)->send(new TransactionMessageCreated($Wallet));
+        // Llamar al servicio para obtener el balance del usuario autenticado usando su ID
+        $balanceString = $this->userBalanceService->getBalanceByUser($id);
 
         // Total comission del usuario mes en curso
         $totalCommission = $this->totalCommission();
 
-        // Hitorial de produccion 
-        $totalProduction = $this->totalProduction();
-
-        // Total produccion del usuario mes en curso
-        $totalProductionMes = $this->totalProductionMes();
-
-        // Total usuarios
-        $totalusers = $totalusers = $this->countUsers();
-
-        return redirect()->route('home')->with([
-                    'message' => '¡' . $name .' ' . '¡solicitud de traslado enviada correctamente!',
-                    'totalusers' => $totalusers,
-                    'totalCommission' => $totalCommission,
-                    'totalProduction' => $totalProduction,
-                    'totalProductionMes' => $totalProductionMes
+        // Renderizar la vista 'Wallet.indexAdmin' y pasar los datos obtenidos: transacciones y balance
+        return view('Wallet.index', [
+            'Wallets' => $Wallets,
+            'balanceString' => $balanceString,
+            'totalCommission' => $totalCommission
         ]);
+    }
 
-        }
-                  
-      }
-
-        return redirect()->route('home')->with([
-                    'message' => '¡' . $name . ' ' . '¡es necesario tener mínimo una membresía activa para poder hacer traslados!'
-                    //'totalusers' => $totalusers
-        ]);   
-
+    public function store(Request $request)
+    {
+      //
     }
 
     public function update(Request $request, $id)
@@ -390,7 +191,7 @@ class WalletTransactionsController extends Controller
       $totalCommission = $this->totalCommission();
 
       $myWallets = wallet_transactions::where('user', $id)->orderBy('created_at', 'desc')
-        ->paginate(15);
+        ->paginate(4);
       
       $diaActual = Carbon::now()->locale('es')->translatedFormat('l d \d\e F \d\e\l Y');
 
@@ -403,12 +204,38 @@ class WalletTransactionsController extends Controller
 
       $rangoDias = $startOfMonth . ' - ' . $endOfMonth . ' ' . $monthAndYear;
 
+      /*$memberships = UserMembership::where('user', $user->id)
+        ->orderBy('created_at', 'desc')
+        ->paginate(6);*/
+        
+      // Membresias de los ultimos 6 meses
+      $memberships = UserMembership::where('user', $user->id)
+        ->where('created_at', '>=', Carbon::now()->subMonths(6)) // Filtrar por los últimos 6 meses
+        ->orderBy('created_at', 'desc')
+        ->paginate(6);
+
+      // Hacer una consulta de transacciones por cada ID de membresía.
+      $networktransactions = $memberships->load(['networkTransactions' => function ($query) {
+          $query->where('type', 'Daily')->orderBy('id', 'desc')->get();
+      }]);
+
+
+      // Agregar el total de transacciones 'Daily' para cada membresía
+      foreach ($memberships as $membership) {
+          $membership->total_value = NetworkTransaction::where('userMembership', $membership->id)
+              ->where('type', 'Daily')
+              ->sum('value');
+      }
+
       return view('Wallet.miWallet', [
         'balanceString' => $balanceString,
         'totalCommission' => $totalCommission,
         'myWallets' => $myWallets,
         'diaActual' => $diaActual,
-        'rangoDias' => $rangoDias
+        'rangoDias' => $rangoDias,
+        'memberships' => $memberships,
+        'networktransactions' => $networktransactions,
+
 
       ]);
 
@@ -498,131 +325,108 @@ class WalletTransactionsController extends Controller
 
     public function storeUser(Request $request)
     {
-      //Conseguir usuario identificado
-      $user = \Auth::user();
-      $id = $user->id;
-      $name = $user->name;
-      $email = $user->email;
+        // Obtener usuario autenticado
+        $user = \Auth::user();
+        $id = $user->id;
+        $name = $user->name;
+        $email = $user->email;
 
-      
-      $rules = ([
-          
-          'value' => 'required|string|max:255',
-          'detail' => 'required|string', 
-          'currency' => 'required|string', 
-          'wallet' => 'required|string',         
-          
-      ]);
+        // Definir las reglas de validación
+        $rules = [
+            'value' => 'required|string|max:255', 
+            'detail' => 'required|string', 
+            'currency' => 'required|string', 
+            'wallet' => 'required|string',         
+        ];
 
-       $this->validate($request, $rules);
+        // Aplica la validación en el request con las reglas establecidas
+        $this->validate($request, $rules);
 
-        // Busca el usuario con el ID especificado
-        $iduser = User::where('id', $id)->first();
-        $userid = $iduser->id;      // ID del usuario encontrado
-        $useremail = $iduser->email; // Email del usuario encontrado
-
-
-       $memberships = UserMembership::where('user', $userid)
-        ->where('status', 'Activo')->get();
-
-        $cantmemberships = $memberships->count();
-
-        // Si tiene almenos una membresia activa
-        if ($cantmemberships > 0) {
-
-        $Wallet = new wallet_transactions();
-        $Wallet->user = $id;
-        $Wallet->email = $email;
-
-
-        $dia1 = date('Y-m-01');
-        $fecha_actual = date("Y-m-d");
-
-        $fecha1= new DateTime($dia1);
-        $fecha2= new DateTime($fecha_actual);
-        $diff = $fecha1->diff($fecha2);       
-
-        //$percentageda = 12;
-        $percentagedp = 8;   
-        $currencyretiro = $request->input('currency');     
-        $valretiro = $request->input('value');
-        //$valretiroUSDT = $request->input('value');
-        //$valretiroUSDT = $request->input('value');
-
-        if ($currencyretiro == 'PSIV') {
-          $valretiroPSIV = $request->input('value');
-          $valretiroUSDT = $totalUSDT;
-        } elseif ($currencyretiro == 'USDT') {
-          $valretiroUSDT = $request->input('value');
-          $valretiroPSIV = $totalPSIV;
-        } {
-          
-        }
-
-        if ($valretiroPSIV > $totalPSIV || $valretiroUSDT > $totalUSDT) {
-
-          return redirect()->route('miwallet')->with([
-                    'message' => '¡' . $name . ' ' . '¡El valor del traslado no puede ser mayor al saldo disponible!'
-                    //'totalusers' => $totalusers
-          ]); 
-
-        } else {
-
-          //$toPorretiroda = ($percentageda * $valretiro) / 100;
-          $toPorretirodp = ($percentagedp * $valretiro) / 100;
-
-        /*
-        if ($diff->days < 15) {
-          $Wallet->fee = $toPorretiroda;
-          $Wallet->value = $valretiro - $toPorretiroda;
-        } else {
-          $Wallet->fee = $toPorretirodp;
-          $Wallet->value = $valretiro - $toPorretiroda;
-        }
-        */
-
-        $Wallet->fee = $toPorretirodp;
-        $Wallet->value = $valretiro - $toPorretirodp;
-        $Wallet->type = "Traslado";
-        $Wallet->hash = '';
-        $Wallet->currency = $request->input('currency');
-        $Wallet->approvedBy = '';
-        $Wallet->wallet = $request->input('wallet');
-        $Wallet->inOut = 0;
-        $Wallet->status = 'exhange';     
-        $Wallet->detail = $request->input('detail');
-
-
-        $Wallet->save();// INSERT BD
-
-        /*
-        //enviar email
-        $user_email = User::where('role', 'admin')->first();
-        $user_email_admin = $user_email->email;
-        $user_email_admin2 = 'soportefuturslatinoamerica@gmail.com';
-
-        Mail::to($email)->send(new TransactionSentMessage($Wallet));
-
-        Mail::to($user_email_admin)->send(new TransactionMessageCreated($Wallet));
-        Mail::to($user_email_admin2)->send(new TransactionMessageCreated($Wallet));
-        */
-
+        // Verificar si el usuario tiene alguna membresía activa
+        $hasActiveMembership = UserMembership::where('user', $id)
+            ->where('status', 'Activo')
+            ->exists();
+            //->count();            
         
+        // Si el usuario tiene al menos una membresía activa
+        if ($hasActiveMembership) {
+            // Inicializar la transacción de wallet
+            $Wallet = new wallet_transactions();
+            $Wallet->user = $id;
+            $Wallet->email = $email;
 
-        return redirect()->route('miwallet')->with([
-                    'message' => '¡' . $name .' ' . '¡solicitud de traslado enviada correctamente!',
-                    
-        ]);
+            // Obtener la fecha actual y calcular diferencia de días
+            $dia1 = date('Y-m-01');
+            $fecha_actual = date("Y-m-d");
 
+            $fecha1 = new DateTime($dia1);
+            $fecha2 = new DateTime($fecha_actual);
+            $diff = $fecha1->diff($fecha2);
+
+            // Porcentaje de descuento, se puede calcular según otros parámetros
+            $percentagedp = 8; // 8% de comisión por defecto
+            
+            $currencyretiro = $request->input('currency');     
+            $valretiro = $request->input('value'); 
+
+            // Llamar al servicio externo para obtener el balance del usuario autenticado
+            $balanceString = $this->userBalanceService->getBalanceByUser($id);
+            $totalUSDT = $balanceString['USDT']['total'] ?? 0;
+            $totalPSIV = $balanceString['PSIV']['total'] ?? 0;
+            $total = $totalUSDT + $totalPSIV;
+            
+            // Inicialización de valores dependiendo de la moneda
+            $valretiroPSIV = 0;
+            $valretiroUSDT = 0;
+
+
+            if ($currencyretiro == 'PSIV') {
+                $valretiroPSIV = $valretiro;
+                $valretiroUSDT = $totalUSDT; // Asegúrate de tener esta variable correctamente inicializada
+            } elseif ($currencyretiro == 'USDT') {
+                $valretiroUSDT = $valretiro;
+                $valretiroPSIV = $totalPSIV; // Asegúrate de tener esta variable correctamente inicializada
+            }
+            
+
+              // Comprobamos si el valor de retiro es mayor al saldo disponible
+              if ($valretiroPSIV > $totalPSIV || $valretiroUSDT > $totalUSDT) {
+                  return redirect()->route('miwallet')->with('alert', '¡El valor del traslado no puede ser mayor al saldo disponible!');
+
+              }
+
+            // Calcular las tarifas de retiro
+            $toPorretirodp = ($percentagedp * $valretiro) / 100;
+
+            // Asignar valores al objeto Wallet
+            $Wallet->fee = $toPorretirodp;
+            $Wallet->value = $valretiro - $toPorretirodp;
+            $Wallet->type = "Traslado";
+            $Wallet->hash = ''; // Aquí puedes generar un hash si es necesario
+            $Wallet->currency = $currencyretiro;
+            $Wallet->approvedBy = ''; // Si se requiere una aprobación
+            $Wallet->wallet = $request->input('wallet');
+            $Wallet->inOut = 0; // Ajustar según la lógica de tu aplicación
+            $Wallet->status = 'exchange'; // Estado de la transacción
+            $Wallet->detail = $request->input('detail'); // Detalle del retiro
+
+            try {
+                // Guardar la transacción en la base de datos
+                $Wallet->save();
+
+                // Aquí podrías enviar el correo si fuera necesario
+                // Mail::to($user->email)->send(new TransactionSentMessage($Wallet));
+
+                return redirect()->route('miwallet')->with('success', '¡Solicitud de traslado enviada correctamente!');
+            } catch (\Exception $e) {
+                // En caso de error al guardar, loguear el error y notificar al usuario
+                \Log::error("Error al guardar la transacción: " . $e->getMessage());
+                return redirect()->route('miwallet')->with('error', 'Hubo un problema al procesar la solicitud.');
+            }
         }
-                  
-      }
 
-        return redirect()->route('miwallet')->with([
-                    'message' => '¡' . $name . ' ' . '¡es necesario tener mínimo una membresía activa para poder hacer traslados!'
-                    //'totalusers' => $totalusers
-        ]);      
-
+        // Si no tiene membresías activas, redirigir con un mensaje
+        return redirect()->route('miwallet')->with('error', 'No tienes membresías activas.');
     }
 
     private function totalCommission()

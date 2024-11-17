@@ -277,12 +277,12 @@
           </table>          
         </div>
         <div class="d-flex justify-content-center">
-              <div class="pagination-container justify-content-center">
-                  <div class="pagination pagination-warning">
-                      {{ $memberships->appends(request()->input())->links() }}
-                  </div>        
-              </div>
-          </div>
+            <div class="pagination-container justify-content-center">
+                <div class="pagination pagination-warning">
+                    {{ $memberships->appends(request()->input())->links() }}
+                </div>        
+            </div>
+        </div>
       </div>
     </div>
   </div>
