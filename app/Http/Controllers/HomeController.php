@@ -6,15 +6,28 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Services\UserService;
 use App\Services\BlockchainService;
+use App\Services\CommissionService;
+use App\Services\ProductionService;
+
 
 class HomeController extends Controller
 {
     // Inyectar el servicio a través del constructor
-    public function __construct(UserService $userService, BlockchainService $blockchainService)
+    public function __construct(
+        UserService $userService,
+        BlockchainService $blockchainService,
+        CommissionService $commissionService,
+        ProductionService $productionService
+    )
+
     {
         $this->userService = $userService;
 
         $this->blockchainService = $blockchainService;
+
+        $this->commissionService = $commissionService;
+
+        $this->productionService = $productionService;
 
         $this->middleware('auth');
     }
@@ -28,7 +41,11 @@ class HomeController extends Controller
         // Obtenemos el precio de la criptomoneda en la moneda solicitada
         $price = $this->blockchainService->getCryptoPrice($currency);
 
+        $totalCommission = $this->commissionService->getTotalCommission();
+
+        $totalProduction = $this->productionService->getMonthlyUtility();
+
         // Mostrar la vista con las variables $total y $price
-        return view('dashboard', compact('total', 'price', 'currency'));
+        return view('dashboard', compact('total', 'price', 'currency', 'totalCommission', 'totalProduction'));
     }
 }

@@ -24712,7 +24712,7 @@ screen and (-ms-high-contrast:active) {
     transition: transform 0.3s ease-in-out;  /* Animación suave al hacer hover */
     border-radius: 1px;  /* Esquinas más redondeadas */
     /*max-width: 250px;  /* Limita el tamaño máximo de la tarjeta */
-    margin: 0 auto;  /* Centra la tarjeta en la pantalla */
+    margin: 0 auto;  /* Centra la tarjeta en la pantalla */      
 }
 
 .carddata:hover {
@@ -24743,14 +24743,16 @@ screen and (-ms-high-contrast:active) {
     font-size: 20px; /* Tamaño más pequeño del icono */
     border-radius: 8px; /* Icono redondo */
     color: white;
-    background-image: linear-gradient(135deg, #f9d423, #ff4e50);
+    /*background-image: linear-gradient(135deg, #f9d423, #ff4e50);*/
+    background-image: linear-gradient(310deg, #996e02, #fbcf33);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
 
 /* Tipografía de los valores numéricos */
 .numbersdata h5 {
     font-size: 1.25rem;  /* Fuente más pequeña */
-    color: #333;
+    font-weight: 700 !important
+    /*color: #333;*/
 }
 
 .numbersdata span {
