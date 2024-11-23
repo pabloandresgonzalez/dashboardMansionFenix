@@ -9,51 +9,90 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\StoreMembresiaRequest;
-use App\Services\UserService;
 use App\Models\UserMembership;
+use App\Services\UserService;
+use App\Services\BlockchainService;
+use App\Services\CommissionService;
+use App\Services\ProductionService;
 
 
 class MembresiaController extends Controller
 {
     // Inyectar el servicio a través del constructor
-    public function __construct(UserService $userService)
+    public function __construct(
+        UserService $userService,
+        BlockchainService $blockchainService,
+        CommissionService $commissionService,
+        ProductionService $productionService
+    )
+
     {
         $this->userService = $userService;
+
+        $this->blockchainService = $blockchainService;
+
+        $this->commissionService = $commissionService;
+
+        $this->productionService = $productionService;
 
         $this->middleware('auth');
     }
 
     public function index()
     {
+        $currency = 'USD';
+
         $membresias = Membresia::orderBy('updated_at', 'Desc')->paginate(8);
         $data = ['membresias' => $membresias];
 
         // Obtener el total de usuarios y la lista
-        $data1 = $this->userService->getAllEnrolledUsers();
-        //$users = $data['users'];
-        $total = $data1['total'];
+        $data = $this->userService->getAllEnrolledUsers();
+        $total = $data['total'];
+
+        // Obtenemos el precio de la criptomoneda en la moneda solicitada
+        $price = $this->blockchainService->getCryptoPrice($currency);
+
+        $totalCommission = $this->commissionService->getTotalCommission();
+
+        $totalProduction = $this->productionService->getMonthlyUtility();
 
         // Retornar la vista con un array asociativo
         return view('Membresias.index', [
             'membresias' => $membresias,
-            'total' => $total
+            'total' => $total,
+            'price' => $price,
+            'currency' => $currency,
+            'totalCommission' => $totalCommission,
+            'totalProduction' => $totalProduction
         ]);
     }
 
     public function indexAdmin()
     {
+        $currency = 'USD';
+        
         $membresias = Membresia::orderBy('updated_at', 'Desc')->paginate(8);
         $data = ['membresias' => $membresias];
 
         // Obtener el total de usuarios y la lista
-        $data1 = $this->userService->getAllEnrolledUsers();
-        //$users = $data['users'];
-        $total = $data1['total'];
+        $data = $this->userService->getAllEnrolledUsers();
+        $total = $data['total'];
+
+        // Obtenemos el precio de la criptomoneda en la moneda solicitada
+        $price = $this->blockchainService->getCryptoPrice($currency);
+
+        $totalCommission = $this->commissionService->getTotalCommission();
+
+        $totalProduction = $this->productionService->getMonthlyUtility();
 
         // Retornar la vista con un array asociativo
         return view('Membresias.indexAdmin', [
             'membresias' => $membresias,
-            'total' => $total
+            'total' => $total,
+            'price' => $price,
+            'currency' => $currency,
+            'totalCommission' => $totalCommission,
+            'totalProduction' => $totalProduction
         ]);
     }
 

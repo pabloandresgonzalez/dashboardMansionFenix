@@ -2,16 +2,6 @@
 
 @section('content')
 
-@if(session('success'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert" id="message_id">
-      <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-      <span class="alert-text"><strong>¡Éxito!</strong> {{ session('success') }}</span>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
-@endif
-
 <div class="row">
   <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
     <div class="carddata shadow-lg border-0 rounded-3">
@@ -100,60 +90,99 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 mt-4">
-    <div class="card mb-4">
-      <div class="card-header pb-0 p-4">
-        <h6 class="mb-1">Actualidad y Noticias</h6>
-        <p class="text-sm">Noticias destacadas para mantenerte al día.</p>
-      </div>
-      <div class="card-body p-3">
-        @foreach($news as $new)
-        <div class="row">
-          <div class="card card-blog card-plain mt-1">
-            <div class="position-relative">
-              <a class="d-block blur-shadow-image">
-                @if (!empty(in_array(strtolower(pathinfo($new->image, PATHINFO_EXTENSION)), ["png", "jpg", "gif", "avg"])))
-                    <a class="d-block blur-shadow-image float-start">
-                        <img src="{{ asset('storage/' . $new->image) }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
-                    </a>
-                @else 
-                    <div class="d-flex justify-content-start">
-                        <div class="video-container position-relative"> 
-                            <iframe class="video-frame position-relative shadow border-radius-xl" src="{{ $new->url_video }}" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                @endif
-              </a>
-            </div>
-            <div class="card-body px-0 pt-2">
-              <p class="text-gradient-gold font-weight-bold text-sm text-uppercase">{{ $new->created_at->locale('es')->isoFormat('D MMMM YYYY') }}</p>
-              <a href="javascript:;">
-                <h4>
-                  {{ $new->title }}
-                </h4>
-              </a>
-              <p>
-                {{ $new->detail }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="divider my-4">
-            <hr class="custom-divider">
-        </div>
-        @endforeach
-        <div class="d-flex justify-content-center mt-2">
-          <div class="pagination-container justify-content-center">
-              <div class="pagination pagination-warning pagination-sm text-xs">
-                  {{ $news->appends(request()->input())->links() }}
-              </div>
-          </div>
-        </div>
-      </div>
+<div class="container mx-auto mt-4">
+    <h5 class="text-2xl font-bold mb-2">Mis Referidos</h5>
+    <!-- Modificar altura del contenedor -->
+    <div id="network" class="relative w-full" style="height: 400px;"> <!-- Aumenta la altura aquí -->
     </div>
-  </div>
 </div>
 
-  
+<script>
+(() => {
+    const referidos = @json($referidos);
+
+    // Obtener los datos del usuario logueado desde Laravel
+    const miNodo = {
+        id: 0,
+        name: "{{ $user->name }}", // Nombre del usuario logueado
+        lastname: "{{ $user->lastname }}", // Apellido del usuario logueado
+        email: "{{ $user->email }}", // Email del usuario logueado
+        isActive: "{{ $user->isActive }}", // Estado del usuario
+        membership_id: "{{ $user->membership_id }}", // ID de la membresía si aplica
+    };
+
+    referidos.unshift(miNodo); // Agrega a tu nodo al principio de la lista de referidos
+
+    const container = document.getElementById('network');
+    const nodes = [];
+    const edges = [];
+
+    const avatarUrl = "https://i.postimg.cc/hvHVchNw/bruce-mars1.png"; // URL de la imagen
+
+    const baseSize = 50;
+
+    const positions = [
+        { x: 0, y: 0 },  // Nodo principal (Tu Nombre)
+        { x: 150, y: 100 },
+        { x: 200, y: -100 },
+        { x: 400, y: 0 },
+    ];
+
+    referidos.forEach((referido, index) => {
+        nodes.push({
+            id: index + 1,
+            label: `${referido.name} ${referido.lastname}`,
+            image: avatarUrl,
+            shape: "image",
+            size: index === 0 ? baseSize : baseSize - 10,
+            // Mostrar más información en el tooltip
+            title: `
+                <b>${referido.name} ${referido.lastname}</b><br>
+                <strong>Email:</strong> ${referido.email}<br>
+                <strong>Estado:</strong> ${referido.isActive === "1" ? "Activo" : "Inactivo"}<br>
+                <strong>Fondo id:</strong> ${referido.membership_id || "No disponible"}
+            `,
+            x: positions[index].x,
+            y: positions[index].y,
+        });
+
+        if (index > 0) {
+            edges.push({ from: 1, to: index + 1 });
+        }
+    });
+
+    const data = {
+        nodes: new vis.DataSet(nodes),
+        edges: new vis.DataSet(edges),
+    };
+
+    const options = {
+        layout: {
+            hierarchical: { enabled: false },
+        },
+        nodes: {
+            borderWidth: 2,
+            font: { size: 14, color: "#000000" },
+        },
+        edges: {
+            width: 1,
+            selectionWidth: -1,
+            color: { color: "#848484" },
+            smooth: { type: "horizontal", roundness: 0.2 },
+        },
+        physics: { enabled: false },
+        interaction: { tooltipDelay: 200 },
+    };
+
+    const network = new vis.Network(container, data, options);
+})();
+
+</script>
+
+
+
+
+
 @endsection
+
+

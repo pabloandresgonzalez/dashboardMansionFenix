@@ -11,16 +11,32 @@ use Illuminate\Support\Facades\File;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use Illuminate\Support\Facades\Mail;
-use App\Services\UserService;
 use App\Mail\NewsCreatedMessage;
+use App\Services\UserService;
+use App\Services\BlockchainService;
+use App\Services\CommissionService;
+use App\Services\ProductionService;
+use Illuminate\Support\Facades\Log;
 
 
 class NewsController extends Controller
 {
     // Inyectar el servicio a través del constructor
-    public function __construct(UserService $userService)
+    public function __construct(
+        UserService $userService,
+        BlockchainService $blockchainService,
+        CommissionService $commissionService,
+        ProductionService $productionService
+    )
+
     {
         $this->userService = $userService;
+
+        $this->blockchainService = $blockchainService;
+
+        $this->commissionService = $commissionService;
+
+        $this->productionService = $productionService;
 
         $this->middleware('auth');
     }
@@ -30,37 +46,66 @@ class NewsController extends Controller
      */
     public function index()
     {
+        $currency = 'USD';
 
+        /*
         $news = News::orderBy('updated_at', 'Desc')->paginate(3);
+        $data = ['news' => $news];
+        */
+
+        $news = News::where('isActive', true) // Filtra solo las noticias activas
+            ->orderBy('updated_at', 'desc') // Ordena por fecha de actualización descendente
+            ->paginate(3); // Paginación de 3 elementos por página
+
         $data = ['news' => $news];
 
         // Obtener el total de usuarios y la lista
         $data = $this->userService->getAllEnrolledUsers();
-        //$users = $data['users'];
         $total = $data['total'];
+
+        // Obtenemos el precio de la criptomoneda en la moneda solicitada
+        $price = $this->blockchainService->getCryptoPrice($currency);
+
+        $totalCommission = $this->commissionService->getTotalCommission();
+
+        $totalProduction = $this->productionService->getMonthlyUtility();
 
         // Retornar la vista con un array asociativo
         return view('News.index', [
             'news' => $news,
-            'total' => $total
+            'total' => $total,
+            'price' => $price,
+            'currency' => $currency,
+            'totalCommission' => $totalCommission,
+            'totalProduction' => $totalProduction
         ]);
     }
 
     public function indexAdmin()
     {
-
+        $currency = 'USD';
         $news = News::orderBy('updated_at', 'Desc')->paginate(3);
         $data = ['news' => $news];
 
         // Obtener el total de usuarios y la lista
         $data = $this->userService->getAllEnrolledUsers();
-        //$users = $data['users'];
         $total = $data['total'];
+
+        // Obtenemos el precio de la criptomoneda en la moneda solicitada
+        $price = $this->blockchainService->getCryptoPrice($currency);
+
+        $totalCommission = $this->commissionService->getTotalCommission();
+
+        $totalProduction = $this->productionService->getMonthlyUtility();
 
         // Retornar la vista con un array asociativo
         return view('News.indexAdmin', [
             'news' => $news,
-            'total' => $total
+            'total' => $total,
+            'price' => $price,
+            'currency' => $currency,
+            'totalCommission' => $totalCommission,
+            'totalProduction' => $totalProduction
         ]);
     }
 
@@ -143,10 +188,19 @@ class NewsController extends Controller
         // Guardar los cambios en la base de datos
         $news->save();
 
-        //Enviar email
-        $users = DB::table('users')->pluck('email');
+        $isActive = $request->input('isActive');
 
-        Mail::to($users)->send(new NewsCreatedMessage($news));
+        // Verifica si isActive es verdadero
+        if ($isActive) {
+            // Obtener los correos electrónicos de los usuarios
+            $users = DB::table('users')->pluck('email');
+
+            // Enviar email solo si isActive es true
+            Mail::to($users)->send(new NewsCreatedMessage($news));
+        } else {
+            // No hacer nada si isActive es falso
+            Log::info('No se envió el correo porque isActive es falso.');
+        }
 
         return redirect()->route('index.news')->with('success', 'Noticia actualizada correctamente.');
     }
@@ -158,21 +212,4 @@ class NewsController extends Controller
     {
         //
     }
-
-    /*
-    private function countUsers()
-    {
-      // Conseguir usuario identificado
-      $user = \Auth::user();
-      $id = $user->id;
-
-      // Total usuarios
-      $totalusers = DB::table('users')
-            ->where('ownerId', $id)->count();
-
-      return $totalusers;
-    }*/
-
-
-
 }

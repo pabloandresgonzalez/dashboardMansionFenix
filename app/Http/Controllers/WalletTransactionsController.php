@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Services\UserBalanceService;
+use App\Services\BlockchainService;
+use App\Services\CommissionService;
+use App\Services\ProductionService;
 use App\Models\wallet_transactions;
 use App\Models\User;
 use App\Models\UserMembership;
@@ -19,13 +22,26 @@ class WalletTransactionsController extends Controller
   protected $userBalanceService;
 
     // Inyectar el servicio a través del constructor
-    public function __construct(UserService $userService, UserBalanceService $userBalanceService)
-    {
-        $this->userService = $userService;
+    public function __construct(
+      UserService $userService,
+      UserBalanceService $userBalanceService,
+      BlockchainService $blockchainService,
+        CommissionService $commissionService,
+        ProductionService $productionService
+    )
 
-        $this->middleware('auth');
+    {
+        $this->userService = $userService;        
 
         $this->userBalanceService = $userBalanceService;
+
+        $this->blockchainService = $blockchainService;
+
+        $this->commissionService = $commissionService;
+
+        $this->productionService = $productionService;
+
+        $this->middleware('auth');
     }
 
     public function indexAdmin(Request $request)
@@ -243,18 +259,38 @@ class WalletTransactionsController extends Controller
 
     public function asigSaldo(Request $request)
     {
+      $currency = 'USD';
+
       $users = User::where('isActive', 1)
                ->orderBy('name')
                ->get();
 
+      /*
       // Obtener el total de usuarios y la lista
-        $data = $this->userService->getAllEnrolledUsers();
-        //$users = $data['users'];
-        $totalUsers = $data['total'];
+      $data = $this->userService->getAllEnrolledUsers();
+      //$users = $data['users'];
+      $totalUsers = $data['total'];
+      */
+     
+     // Obtener el total de usuarios y la lista
+      $data = $this->userService->getAllEnrolledUsers();
+      $total = $data['total'];
+
+      // Obtenemos el precio de la criptomoneda en la moneda solicitada
+      $price = $this->blockchainService->getCryptoPrice($currency);
+
+      $totalCommission = $this->commissionService->getTotalCommission();
+
+      $totalProduction = $this->productionService->getMonthlyUtility();
+
 
       return view('Wallet.asigsaldo', [
         'users' => $users,
-        'totalUsers' => $totalUsers
+        'total' => $total,
+        'price' => $price,
+        'currency' => $currency,
+        'totalCommission' => $totalCommission,
+        'totalProduction' => $totalProduction,
         ]);
     }
 
@@ -342,6 +378,19 @@ class WalletTransactionsController extends Controller
         // Aplica la validación en el request con las reglas establecidas
         $this->validate($request, $rules);
 
+        // Llamar al servicio externo para obtener el balance del usuario autenticado
+        $balanceString = $this->userBalanceService->getBalanceByUser($id);
+        $totalUSDT = $balanceString['USDT']['total'] ?? 0;
+        $totalPSIV = $balanceString['PSIV']['total'] ?? 0;
+        $total = $totalUSDT + $totalPSIV;
+
+        $valorTraslado = $request->input('value'); 
+
+        if ($valorTraslado > $totalPSIV) {
+
+            return redirect()->route('miwallet')->with('alert', ' ' . $name . ' ¡' .'Ups, El saldo es insuficiente para solicitar el taslado¡');    
+        }
+
         // Verificar si el usuario tiene alguna membresía activa
         $hasActiveMembership = UserMembership::where('user', $id)
             ->where('status', 'Activo')
@@ -427,7 +476,7 @@ class WalletTransactionsController extends Controller
 
         // Si no tiene membresías activas, redirigir con un mensaje
         return redirect()->route('miwallet')->with('error', 'No tienes membresías activas.');
-    }
+        }
 
     private function totalCommission()
     {

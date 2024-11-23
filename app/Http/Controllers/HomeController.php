@@ -32,8 +32,10 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    public function dashboard($currency = 'USD')
+    public function dashboard()
     {
+        $currency = 'USD';
+
         // Obtener el total de usuarios y la lista
         $data = $this->userService->getAllEnrolledUsers();
         $total = $data['total'];

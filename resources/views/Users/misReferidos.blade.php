@@ -2,16 +2,6 @@
 
 @section('content')
 
-@if(session('success'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert" id="message_id">
-      <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-      <span class="alert-text"><strong>¡Éxito!</strong> {{ session('success') }}</span>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
-@endif
-
 <div class="row">
   <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
     <div class="carddata shadow-lg border-0 rounded-3">
@@ -100,60 +90,72 @@
     </div>
   </div>
 </div>
+
 <div class="row">
   <div class="col-12 mt-4">
     <div class="card mb-4">
       <div class="card-header pb-0 p-4">
-        <h6 class="mb-1">Actualidad y Noticias</h6>
+        <h6 class="mb-1">Mis Referidos</h6>
         <p class="text-sm">Noticias destacadas para mantenerte al día.</p>
       </div>
-      <div class="card-body p-3">
-        @foreach($news as $new)
-        <div class="row">
-          <div class="card card-blog card-plain mt-1">
-            <div class="position-relative">
-              <a class="d-block blur-shadow-image">
-                @if (!empty(in_array(strtolower(pathinfo($new->image, PATHINFO_EXTENSION)), ["png", "jpg", "gif", "avg"])))
-                    <a class="d-block blur-shadow-image float-start">
-                        <img src="{{ asset('storage/' . $new->image) }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
-                    </a>
-                @else 
-                    <div class="d-flex justify-content-start">
-                        <div class="video-container position-relative"> 
-                            <iframe class="video-frame position-relative shadow border-radius-xl" src="{{ $new->url_video }}" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                @endif
-              </a>
-            </div>
-            <div class="card-body px-0 pt-2">
-              <p class="text-gradient-gold font-weight-bold text-sm text-uppercase">{{ $new->created_at->locale('es')->isoFormat('D MMMM YYYY') }}</p>
-              <a href="javascript:;">
-                <h4>
-                  {{ $new->title }}
-                </h4>
-              </a>
-              <p>
-                {{ $new->detail }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="divider my-4">
-            <hr class="custom-divider">
-        </div>
-        @endforeach
-        <div class="d-flex justify-content-center mt-2">
-          <div class="pagination-container justify-content-center">
-              <div class="pagination pagination-warning pagination-sm text-xs">
-                  {{ $news->appends(request()->input())->links() }}
-              </div>
-          </div>
+      <div class="card-body px-0 pt-0 pb-2">                    
+        <div class="table-responsive p-0">
+          <table class="table align-items-center mb-0">
+            <thead>
+              <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  Nombre
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  Apellido
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  Email
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  Estado
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($referidos as $user)
+                <tr>
+                  <td class="text-center">
+                    <p class="text-xs font-weight-bold mb-0">{{ $user->name }}</p>
+                  </td>
+                  <td class="text-center">
+                    <p class="text-xs font-weight-bold mb-0">{{ $user->lastname }}</p>
+                  </td>
+                  <td class="text-center">
+                    <p class="text-xs font-weight-bold mb-0">{{ $user->email }}</p>
+                  </td>
+                  <td class="text-center">
+                    <p class="text-xs font-weight-bold mb-0">
+                      @if($user->isActive == 1)
+                        Activo
+                      @elseif($user->isActive == 0)
+                        Inactivo
+                      @endif
+                    </p>
+                  </td>
+                  <td class="text-center">
+                    <!-- Espacio para posibles botones o acciones adicionales -->
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-  
+
+
+
+
 @endsection
+
+

@@ -6,6 +6,9 @@ use App\Models\UserMembership;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Services\UserBalanceService;
+use App\Services\BlockchainService;
+use App\Services\CommissionService;
+use App\Services\ProductionService;
 use App\Models\membresia;
 use Illuminate\Support\Facades\File;
 use App\Mail\MembershipCreatedMessage;
@@ -17,18 +20,33 @@ use App\Models\wallet_transactions;
 
 class UserMembershipController extends Controller
 {
-    public function __construct(UserService $userService, UserBalanceService $userBalanceService)
-    {
+    public function __construct(
+        UserService $userService,
+        UserBalanceService $userBalanceService,
+        BlockchainService $blockchainService,
+        CommissionService $commissionService,
+        ProductionService $productionService
+    )
+
+    {       
+
         $this->userService = $userService;
 
-        $this->middleware('auth');
-
         $this->userBalanceService = $userBalanceService;
+
+        $this->blockchainService = $blockchainService;
+
+        $this->commissionService = $commissionService;
+
+        $this->productionService = $productionService;
+
+        $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
-        //dd($request);
+        $currency = 'USD';
+
         $nombre = $request->get('buscarpor'); 
 
         // Buscador
@@ -45,9 +63,15 @@ class UserMembershipController extends Controller
         //$data = ['memberships' => $memberships];
 
         // Obtener el total de usuarios y la lista
-        $data1 = $this->userService->getAllEnrolledUsers();
-        //$users = $data['users'];
-        $total = $data1['total'];
+        $data = $this->userService->getAllEnrolledUsers();
+        $total = $data['total'];
+
+        // Obtenemos el precio de la criptomoneda en la moneda solicitada
+        $price = $this->blockchainService->getCryptoPrice($currency);
+
+        $totalCommission = $this->commissionService->getTotalCommission();
+
+        $totalProduction = $this->productionService->getMonthlyUtility();
 
         $fecha_actual = date("Y-m-d H:i:s");
 
@@ -55,6 +79,10 @@ class UserMembershipController extends Controller
         return view('Memberships.index', [
             'memberships' => $memberships,
             'total' => $total,
+            'price' => $price,
+            'currency' => $currency,
+            'totalCommission' => $totalCommission,
+            'totalProduction' => $totalProduction,
             'inactivarInput' => true,
             'fecha_actual' => $fecha_actual
         ]);
@@ -62,7 +90,6 @@ class UserMembershipController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request);
         //Conseguir usuario identificado
         $user = \Auth::user();
         $id = $user->id;
@@ -104,7 +131,7 @@ class UserMembershipController extends Controller
         $membresia = Membresia::find($request->input('id_membresia'));
         $valormembresia =$membresia->valor;
 
-        if ($totalPSIV < $valormembresia ) {
+        if ($totalPSIV < $valormembresia) {
 
             return redirect()->route('mismemberships.index')->with('alert', ' ' . $name . ' ¡' .'Ups, El saldo es insuficiente para comprar el fondo¡');    
         }
@@ -169,9 +196,6 @@ class UserMembershipController extends Controller
             $fechaFormateada = Carbon::createFromFormat('Y-m-d\TH:i', $validatedData['activedAt'])
                 ->format('Y-m-d H:i:s');
 
-            // Verificar que la fecha se haya formateado correctamente
-            //dd($fechaFormateada);
-
             // Actualizar el modelo usando asignación masiva
             $userMembership->fill([
                 'activedAt' => $fechaFormateada,
@@ -179,9 +203,6 @@ class UserMembershipController extends Controller
                 'closedAt' => $this->calculateClosedAt(), // Método para calcular la fecha final
                 'detail' => $validatedData['status'],
             ]);
-
-            // Verificar los datos antes de guardar
-            //dd($userMembership->toArray());
 
             // Guardar el modelo
             $userMembership->save();
@@ -201,6 +222,8 @@ class UserMembershipController extends Controller
 
     public function misMemberships()
     {
+        $currency = 'USD';
+
         //Conseguir usuario identificado
         $user = \Auth::user();
         $username = $user->name;
@@ -209,10 +232,16 @@ class UserMembershipController extends Controller
         ->orderBy('created_at', 'desc')
         ->paginate(50);
 
-        // Obtener el total de usuarios y la lista
-        $data1 = $this->userService->getAllEnrolledUsers();
-        //$users = $data['users'];
-        $total = $data1['total'];
+        /// Obtener el total de usuarios y la lista
+        $data = $this->userService->getAllEnrolledUsers();
+        $total = $data['total'];
+
+        // Obtenemos el precio de la criptomoneda en la moneda solicitada
+        $price = $this->blockchainService->getCryptoPrice($currency);
+
+        $totalCommission = $this->commissionService->getTotalCommission();
+
+        $totalProduction = $this->productionService->getMonthlyUtility();
 
         $fecha_actual = date("Y-m-d H:i:s");
 
@@ -220,6 +249,10 @@ class UserMembershipController extends Controller
         return view('Memberships.mismemberships', [
             'memberships' => $memberships,
             'total' => $total,
+            'price' => $price,
+            'currency' => $currency,
+            'totalCommission' => $totalCommission,
+            'totalProduction' => $totalProduction,
             'inactivarInput' => true,
             'fecha_actual' => $fecha_actual
         ]);

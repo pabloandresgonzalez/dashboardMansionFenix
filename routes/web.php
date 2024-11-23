@@ -32,12 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/', [HomeController::class, 'dashboard']); // Redirige a dashboard directamente
 	Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-
-
-
-	Route::get('user-management', function () {
-		return view('laravel-examples/user-management');
-	})->name('user-management');
+	
 
     Route::get('static-sign-in', function () {
 		return view('static-sign-in');
@@ -55,30 +50,20 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('sign-up');
 
 	// Users
-	Route::get('/user-management', [UserController::class, 'index'])->name('users-management');
-	Route::post('/user-management', [UserController::class, 'store'])->name('users-store');
-	Route::put('/user-management/{user}/update', [UserController::class, 'update'])->name('users-update');
-	Route::put('/user-management/{user}/updateUser', [UserController::class, 'updateUser'])->name('users-updateUser');
 	Route::get('/user-management/avatar/{filename?}', [UserController::class, 'getImage'])->name('user.avatar');
 	Route::get('/user-management/{user}/detail', [UserController::class, 'detail']);
+	Route::get('/user-management/misReferidos', [UserController::class, 'misReferidos'])->name('misReferidos'); 
+	Route::get('/user-management/miRed', [UserController::class, 'miRed'])->name('miRed'); 
 
 	//News
 	Route::get('/news', [NewsController::class, 'index'])->name('index.news');
-	Route::get('/news/Admin', [NewsController::class, 'indexAdmin'])->name('indexAdmin.news');
-	Route::post('/news', [NewsController::class, 'store'])->name('news.store');
-	Route::put('/news/{news}/update', [NewsController::class, 'update'])->name('news.update');
-	Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
 
 	//Membresias
-	Route::get('/membresias', [MembresiaController::class, 'index'])->name('membresias.index');
-	Route::get('/membresias/Admin', [MembresiaController::class, 'indexAdmin'])->name('membresias.indexAdmin');
-	Route::post('/membresias', [MembresiaController::class, 'store'])->name('Membresias.store');
-	Route::put('/membresias/{membresias}/update', [MembresiaController::class, 'update'])->name('Membresias.update');
+	Route::get('/membresias', [MembresiaController::class, 'index'])->name('membresias.index');	
 
 	//Memberships
   	Route::get('/membership', [UserMembershipController::class, 'index'])->name('membership.index');
-  	Route::post('/membership/store', [UserMembershipController::class, 'store']);
-  	Route::put('/membership/{userMembership}/update', [UserMembershipController::class, 'update'])->name('membership.update'); 
+  	Route::post('/membership/store', [UserMembershipController::class, 'store']);  	 
   	Route::get('/mismembership', [UserMembershipController::class, 'misMemberships'])->name('mismemberships.index');
   	Route::post('/mismembership/{id}', [UserMembershipController::class, 'renovar'])->name('mismembership.renovar');
 
@@ -87,17 +72,14 @@ Route::group(['middleware' => 'auth'], function () {
   	Route::get('/networktransactionactivacion', [NetworkTransactionController::class, 'indexactivacion'])->name('networktransactionactivacion');	
 
 	//Wallets
-	Route::get('/wallet', [WalletTransactionsController::class, 'index'])->name('wallet.index'); 
-    Route::get('/walletadmin', [WalletTransactionsController::class, 'indexAdmin'])->name('walletadmin');     
-    Route::get('/wallet/{wallet}/edit', [WalletTransactionsController::class, 'edit']);
-    Route::put('/wallet/{wallet}', [WalletTransactionsController::class, 'update'])->name('wallet.update');
+	Route::get('/wallet', [WalletTransactionsController::class, 'index'])->name('wallet.index');     
     Route::get('/wallets/export-excel', [WalletTransactionsController::class, 'exportExcel']);
-    Route::get('/walletsaldos', [WalletTransactionsController::class, 'editsaldos'])->name('walletsaldos'); 
-    Route::put('/wallets/asaldo', [WalletTransactionsController::class, 'storeAdmin']);
-    Route::get('/miwallet', [WalletTransactionsController::class, 'miwallet'])->name('miwallet'); 
-    Route::get('/asigsaldo', [WalletTransactionsController::class, 'asigSaldo'])->name('asigsaldo');
-    Route::post('wallet/asigsaldo', [WalletTransactionsController::class, 'storeAdmin']);
+    Route::get('/walletsaldos', [WalletTransactionsController::class, 'editsaldos'])->name('walletsaldos');    
+    Route::get('/miwallet', [WalletTransactionsController::class, 'miwallet'])->name('miwallet');     
 	Route::post('/wallet/storeuser', [WalletTransactionsController::class, 'storeUser']);
+
+	
+
 	
 	
 });
@@ -112,6 +94,39 @@ Route::group(['middleware' => 'guest'], function () {
 	Route::post('/forgot-password', [ResetController::class, 'sendEmail']);
 	Route::get('/reset-password/{token}', [ResetController::class, 'resetPass'])->name('password.reset');
 	Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
+
+});
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
+	// Users
+    Route::get('/user-management', [UserController::class, 'index'])->name('users-management');
+    Route::post('/user-management', [UserController::class, 'store'])->name('users-store');
+	Route::put('/user-management/{user}/update', [UserController::class, 'update'])->name('users-update');
+	Route::put('/user-management/{user}/updateUser', [UserController::class, 'updateUser'])->name('users-updateUser');
+
+	//News
+	Route::get('/news/Admin', [NewsController::class, 'indexAdmin'])->name('indexAdmin.news');
+	Route::post('/news', [NewsController::class, 'store'])->name('news.store');
+	Route::put('/news/{news}/update', [NewsController::class, 'update'])->name('news.update');
+
+	//Membresias
+	Route::get('/membresias/Admin', [MembresiaController::class, 'indexAdmin'])->name('membresias.indexAdmin');
+	Route::post('/membresias', [MembresiaController::class, 'store'])->name('Membresias.store');
+	Route::put('/membresias/{membresias}/update', [MembresiaController::class, 'update'])->name('Membresias.update');
+
+	//Memberships	
+  	Route::put('/membership/{userMembership}/update', [UserMembershipController::class, 'update'])->name('membership.update');
+
+  	//Wallets
+  	Route::get('/walletadmin', [WalletTransactionsController::class, 'indexAdmin'])->name('walletadmin');     
+    Route::get('/wallet/{wallet}/edit', [WalletTransactionsController::class, 'edit']);
+    Route::put('/wallet/{wallet}', [WalletTransactionsController::class, 'update'])->name('wallet.update');
+    Route::put('/wallets/asaldo', [WalletTransactionsController::class, 'storeAdmin']);
+    Route::get('/asigsaldo', [WalletTransactionsController::class, 'asigSaldo'])->name('asigsaldo');
+    Route::post('wallet/asigsaldo', [WalletTransactionsController::class, 'storeAdmin']);
+
 
 });
 

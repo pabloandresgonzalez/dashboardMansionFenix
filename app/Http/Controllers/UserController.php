@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Services\UserService;
+use App\Services\BlockchainService;
+use App\Services\CommissionService;
+use App\Services\ProductionService;
+use DB;
 
 
 class UserController extends Controller
@@ -21,9 +25,21 @@ class UserController extends Controller
     protected $userService;
 
     // Inyectar el servicio a través del constructor
-    public function __construct(UserService $userService)
+    public function __construct(
+        UserService $userService,
+        BlockchainService $blockchainService,
+        CommissionService $commissionService,
+        ProductionService $productionService
+    )
+
     {
         $this->userService = $userService;
+
+        $this->blockchainService = $blockchainService;
+
+        $this->commissionService = $commissionService;
+
+        $this->productionService = $productionService;
 
         $this->middleware('auth');
     }
@@ -218,5 +234,123 @@ class UserController extends Controller
       return new Response($file, 200);
     }
 
-    
+    public function misReferidos()
+    {
+        $currency = 'USD';
+
+        // Conseguir usuario identificado
+        $user = \Auth::user();
+        $id = $user->id;
+
+        $misusers1 = DB::table('users')
+            ->where('ownerId', $id)         
+            ->join('user_memberships', 'user_memberships.user', '=', 'users.id') 
+            ->where('status', 'Activo')           
+            ->get();
+
+        $userId = Auth::id(); // Usuario autenticado
+
+        $referidos = DB::table('users')
+        ->leftJoin('user_memberships', 'user_memberships.user_email', '=', 'users.email')
+        ->where(function ($query) use ($userId) {
+            $query->where('user_memberships.membresiaPadre', $userId)
+                  ->orWhere('users.ownerId', $userId);
+        })
+        ->select('users.id', 'users.name', 'users.lastname', 'users.email', 'users.isActive', 'user_memberships.id as membership_id')
+        ->get();
+
+        $networktransactions = DB::select('SELECT u.*, nt.*   
+        FROM network_transactions as nt
+        INNER JOIN user_memberships as um ON nt.userMembership = um.id
+        INNER JOIN users as u ON um.user = u.id
+        WHERE nt.type="Activation" AND
+        nt.user = ?', [$id]);
+
+        // Obtener el total de usuarios y la lista
+        $data = $this->userService->getAllEnrolledUsers();
+        $total = $data['total'];
+
+        // Obtenemos el precio de la criptomoneda en la moneda solicitada
+        $price = $this->blockchainService->getCryptoPrice($currency);
+
+        $totalCommission = $this->commissionService->getTotalCommission();
+
+        $totalProduction = $this->productionService->getMonthlyUtility();
+
+
+        return view('Users.misReferidos', [
+          'user' => $user,
+          'misusers1' => $misusers1,
+          'networktransactions' => $networktransactions,
+          'referidos' => $referidos,
+          'total' => $total,
+          'price' => $price,
+          'currency' => $currency,
+          'totalCommission' => $totalCommission,
+          'totalProduction' => $totalProduction
+          
+        ]);
+
+    }
+
+    public function miRed()
+    {
+        $currency = 'USD';
+        
+        // Conseguir usuario identificado
+        $user = \Auth::user();
+        $id = $user->id;
+
+        $misusers1 = DB::table('users')
+            ->where('ownerId', $id)         
+            ->join('user_memberships', 'user_memberships.user', '=', 'users.id') 
+            ->where('status', 'Activo')           
+            ->get();
+
+        $userId = Auth::id(); // Usuario autenticado
+
+        $referidos = DB::table('users')
+        ->leftJoin('user_memberships', 'user_memberships.user_email', '=', 'users.email')
+        ->where(function ($query) use ($userId) {
+            $query->where('user_memberships.membresiaPadre', $userId)
+                  ->orWhere('users.ownerId', $userId);
+        })
+        ->select('users.id', 'users.name', 'users.lastname', 'users.email', 'users.isActive', 'user_memberships.id as membership_id')
+        ->get();
+
+        //dd($referidos);
+
+        $networktransactions = DB::select('SELECT u.*, nt.*   
+        FROM network_transactions as nt
+        INNER JOIN user_memberships as um ON nt.userMembership = um.id
+        INNER JOIN users as u ON um.user = u.id
+        WHERE nt.type="Activation" AND
+        nt.user = ?', [$id]);
+
+        // Obtener el total de usuarios y la lista
+        $data = $this->userService->getAllEnrolledUsers();
+        $total = $data['total'];
+
+        // Obtenemos el precio de la criptomoneda en la moneda solicitada
+        $price = $this->blockchainService->getCryptoPrice($currency);
+
+        $totalCommission = $this->commissionService->getTotalCommission();
+
+        $totalProduction = $this->productionService->getMonthlyUtility();
+
+
+        return view('Users.miRed', [
+          'user' => $user,
+          'misusers1' => $misusers1,
+          'networktransactions' => $networktransactions,
+          'referidos' => $referidos,
+          'total' => $total,
+          'price' => $price,
+          'currency' => $currency,
+          'totalCommission' => $totalCommission,
+          'totalProduction' => $totalProduction
+          
+        ]);
+
+    }
 }

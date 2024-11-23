@@ -19,7 +19,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-            return redirect('/');
-        //return $next($request);
+        return redirect('/dashboard');
     }
 }

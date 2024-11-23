@@ -26,7 +26,7 @@ class RegisterController extends Controller
     $role = 'user';
 
     // Verificar si ownerId viene en la solicitud, si no, asignar un valor por defecto
-    $ownerId = $request->input('ownerId') ?? 'd33b3162-2057-4079-8447-bcfd3e52960c';
+    $ownerId = $request->input('ownerId') ?? '77d4dcbd-04c3-4e01-8ee8-df8c0fb0a23a';
 
     // Validación de los atributos de entrada
     $attributes = $request->validate([
@@ -79,11 +79,12 @@ class RegisterController extends Controller
     // Guardar la transacción en la base de datos
     $walletTransaction->save();
 
+    //$iduser = $request->input('ownerId')
     // Busca el usuario con el ID especificado
     $iduser = User::where('id', $ownerId)->first();
     $userid = $iduser->id;      // ID del usuario encontrado
     $useremail = $iduser->email; // Email del usuario encontrado
-
+    
 
     // Crear la transacción de billetera del usuario que refirio por el %10 de la insrcipción en estado en canje
     $walletTransactionReferred = new wallet_transactions();
