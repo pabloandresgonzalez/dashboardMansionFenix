@@ -112,7 +112,7 @@
         <div class="card">
             <div class="card-header pb-0 px-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <h6 class="mb-0 text-center text-md-start">{{ __('Información de perfil') }}</h6>
-                <p class="mb-0 text-sm text-center text-md-end" style="font-size: 12px; margin-top: 4px;">Id {{ auth()->user()->id }}</p>
+                <p class="mb-0 text-sm text-center text-md-end" style="font-size: 12px; margin-top: 4px;">Id <strong>{{ auth()->user()->id }}</strong></p>
             </div>
             <div class="card-body pt-4 p-3">
                 <form action="/user-profile" enctype="multipart/form-data" method="POST" role="form text-left">

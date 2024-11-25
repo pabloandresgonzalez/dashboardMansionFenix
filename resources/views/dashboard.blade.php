@@ -107,21 +107,21 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="d-flex flex-column h-100">
-                <p class="mb-1 pt-2 text-bold">Built by developers</p>
-                <h5 class="font-weight-bolder">Soft UI Dashboard</h5>
-                <p class="mb-5">From colors, cards, typography to complex elements, you will find the full documentation.</p>
+                <p class="mb-1 pt-2 text-bold">Club Mansion Phoenix</p>
+                <h5 class="font-weight-bolder">Bienvenidos</h5>
+                <p class="mb-5">La fusión del lujo, comodidad y sostenibilidad ambiental están dando una nueva forma en la era del turismo moderno, donde proyectos como el Club Mansión Phoeni xofrecen una experiencia única e inolvidable.</p>
                 <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-                  Read More
+                  Leer más
                   <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
                 </a>
               </div>
             </div>
             <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
-              <div class="bg-gradient-primary border-radius-lg h-100">
-                <img src="../assets/img/shapes/waves-white.svg" class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
-                <div class="position-relative d-flex align-items-center justify-content-center h-100">
-                  <img class="w-100 position-relative z-index-2 pt-4" src="../assets/img/illustrations/rocket-white.png" alt="rocket">
-                </div>
+              <div class="bg-gradient-primary border-radius-lg h-100 position-relative overflow-hidden">
+                <img src="../assets/img/shapes/waves-white.svg" class="position-absolute top-0 start-0 w-100 h-100" 
+                  style="z-index: 1; object-fit: cover;" alt="waves">
+                <img src="../assets/img/illustrations/hotel.jpg" class="position-absolute top-0 start-0 w-100 h-100" 
+                  style="z-index: 2; object-fit: cover;" alt="hotel">
               </div>
             </div>
           </div>
@@ -133,10 +133,10 @@
         <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
           <span class="mask bg-gradient-dark"></span>
           <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-            <h5 class="text-white font-weight-bolder mb-4 pt-2">Work with the rockets</h5>
-            <p class="text-white">Wealth creation is an evolutionarily recent positive-sum game. It is all about who take the opportunity first.</p>
+            <h5 class="text-white font-weight-bolder mb-4 pt-2">Descripción</h5>
+            <p class="text-white">Un ecosistema de cabañas de lujo, que tendrán capacidad de alojamiento para asociados latinoamericanos y extranjeros. La exclusividad se encuentra con la ecología, ofreciendo actividades y experiencias que resaltan la riqueza y diversidad del entorno natural.</p>
             <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-              Read More
+              Leer más
               <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
             </a>
           </div>
@@ -153,8 +153,8 @@
               <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
             </div>
           </div>
-          <h6 class="ms-2 mt-4 mb-0"> Active Users </h6>
-          <p class="text-sm ms-2"> (<span class="font-weight-bolder">+23%</span>) than last week </p>
+          <h6 class="ms-2 mt-4 mb-0"> Usuarios Activos </h6>
+          <p class="text-sm ms-2"> (<span class="font-weight-bolder">+{{ $porcentajeActivos }}%</span>) de nuestra comunidad en movimiento 🚀</p>
           <div class="container border-radius-lg">
             <div class="row">
               <div class="col-3 py-3 ps-0">
@@ -176,7 +176,7 @@
                   </div>
                   <p class="text-xs mt-1 mb-0 font-weight-bold">Users</p>
                 </div>
-                <h4 class="font-weight-bolder">36K</h4>
+                <h4 class="font-weight-bolder">{{ $totalUsuarios }}</h4>
                 <div class="progress w-75">
                   <div class="progress-bar bg-dark w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
@@ -200,9 +200,9 @@
                       </g>
                     </svg>
                   </div>
-                  <p class="text-xs mt-1 mb-0 font-weight-bold">Clicks</p>
+                  <p class="text-xs mt-1 mb-0 font-weight-bold">Activos</p>
                 </div>
-                <h4 class="font-weight-bolder">2m</h4>
+                <h4 class="font-weight-bolder">{{ $usuariosActivos }}</h4>
                 <div class="progress w-75">
                   <div class="progress-bar bg-dark w-90" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
@@ -210,6 +210,31 @@
               <div class="col-3 py-3 ps-0">
                 <div class="d-flex mb-2">
                   <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-warning text-center me-2 d-flex align-items-center justify-content-center">
+                    <svg width="10px" height="10px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <title>settings</title>
+                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                          <g transform="translate(1716.000000, 291.000000)">
+                            <g transform="translate(304.000000, 151.000000)">
+                              <polygon class="color-background" opacity="0.596981957" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
+                              <path class="color-background" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z" opacity="0.596981957"></path>
+                              <path class="color-background" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>                    
+                  </div>
+                  <p class="text-xs mt-1 mb-0 font-weight-bold">Soportes</p>
+                </div>
+                <h5 class="font-weight-bolder">120</h5>
+                <div class="progress w-75">
+                  <div class="progress-bar bg-dark w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+              <div class="col-3 py-3 ps-0">
+                <div class="d-flex mb-2">
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-danger text-center me-2 d-flex align-items-center justify-content-center">
                     <svg width="10px" height="10px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                       <title>credit-card</title>
                       <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -224,34 +249,9 @@
                       </g>
                     </svg>
                   </div>
-                  <p class="text-xs mt-1 mb-0 font-weight-bold">Sales</p>
+                  <p class="text-xs mt-1 mb-0 font-weight-bold">Pagos</p>
                 </div>
-                <h4 class="font-weight-bolder">435$</h4>
-                <div class="progress w-75">
-                  <div class="progress-bar bg-dark w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-              <div class="col-3 py-3 ps-0">
-                <div class="d-flex mb-2">
-                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-danger text-center me-2 d-flex align-items-center justify-content-center">
-                    <svg width="10px" height="10px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                      <title>settings</title>
-                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                          <g transform="translate(1716.000000, 291.000000)">
-                            <g transform="translate(304.000000, 151.000000)">
-                              <polygon class="color-background" opacity="0.596981957" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
-                              <path class="color-background" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z" opacity="0.596981957"></path>
-                              <path class="color-background" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </svg>
-                  </div>
-                  <p class="text-xs mt-1 mb-0 font-weight-bold">Items</p>
-                </div>
-                <h4 class="font-weight-bolder">43</h4>
+                <h4 class="font-weight-bolder">{{ $totalPagosReducido }}</h4>
                 <div class="progress w-75">
                   <div class="progress-bar bg-dark w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
@@ -264,10 +264,10 @@
     <div class="col-lg-7">
       <div class="card z-index-2">
         <div class="card-header pb-0">
-          <h6>Sales overview</h6>
+          <h6>Transacciones</h6>
           <p class="text-sm">
             <i class="fa fa-arrow-up text-success"></i>
-            <span class="font-weight-bold">4% more</span> in 2021
+            <span class="font-weight-bold">Movimientos</span> anuales
           </p>
         </div>
         <div class="card-body p-3">
@@ -284,10 +284,10 @@
         <div class="card-header pb-0">
           <div class="row">
             <div class="col-lg-6 col-7">
-              <h6>Projects</h6>
+              <h6>Proyectos</h6>
               <p class="text-sm mb-0">
                 <i class="fa fa-check text-info" aria-hidden="true"></i>
-                <span class="font-weight-bold ms-1">30 done</span> this month
+                <span class="font-weight-bold ms-1"> hechos</span> este mes
               </p>
             </div>
             <div class="col-lg-6 col-5 my-auto text-end">
@@ -304,324 +304,58 @@
             </div>
           </div>
         </div>
-        <div class="card-body px-0 pb-2">
-          <div class="table-responsive">
-            <table class="table align-items-center mb-0">
-              <thead>
-                <tr>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Companies</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Members</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Budget</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Completion</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="d-flex px-2 py-1">
-                      <div>
-                        <img src="../assets/img/small-logos/logo-xd.svg" class="avatar avatar-sm me-3" alt="xd">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">Soft UI XD Version</h6>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="avatar-group mt-2">
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                        <img src="../assets/img/team-1.jpg" alt="team1">
-                      </a>
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                        <img src="../assets/img/team-2.jpg" alt="team2">
-                      </a>
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">
-                        <img src="../assets/img/team-3.jpg" alt="team3">
-                      </a>
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                        <img src="../assets/img/team-4.jpg" alt="team4">
-                      </a>
-                    </div>
-                  </td>
-                  <td class="align-middle text-center text-sm">
-                    <span class="text-xs font-weight-bold"> $14,000 </span>
-                  </td>
-                  <td class="align-middle">
-                    <div class="progress-wrapper w-75 mx-auto">
-                      <div class="progress-info">
-                        <div class="progress-percentage">
-                          <span class="text-xs font-weight-bold">60%</span>
-                        </div>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-info w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="d-flex px-2 py-1">
-                      <div>
-                        <img src="../assets/img/small-logos/logo-atlassian.svg" class="avatar avatar-sm me-3" alt="atlassian">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">Add Progress Track</h6>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="avatar-group mt-2">
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                        <img src="../assets/img/team-2.jpg" alt="team5">
-                      </a>
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                        <img src="../assets/img/team-4.jpg" alt="team6">
-                      </a>
-                    </div>
-                  </td>
-                  <td class="align-middle text-center text-sm">
-                    <span class="text-xs font-weight-bold"> $3,000 </span>
-                  </td>
-                  <td class="align-middle">
-                    <div class="progress-wrapper w-75 mx-auto">
-                      <div class="progress-info">
-                        <div class="progress-percentage">
-                          <span class="text-xs font-weight-bold">10%</span>
-                        </div>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-info w-10" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="d-flex px-2 py-1">
-                      <div>
-                        <img src="../assets/img/small-logos/logo-slack.svg" class="avatar avatar-sm me-3" alt="team7">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">Fix Platform Errors</h6>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="avatar-group mt-2">
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                        <img src="../assets/img/team-3.jpg" alt="team8">
-                      </a>
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                        <img src="../assets/img/team-1.jpg" alt="team9">
-                      </a>
-                    </div>
-                  </td>
-                  <td class="align-middle text-center text-sm">
-                    <span class="text-xs font-weight-bold"> Not set </span>
-                  </td>
-                  <td class="align-middle">
-                    <div class="progress-wrapper w-75 mx-auto">
-                      <div class="progress-info">
-                        <div class="progress-percentage">
-                          <span class="text-xs font-weight-bold">100%</span>
-                        </div>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="d-flex px-2 py-1">
-                      <div>
-                        <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm me-3" alt="spotify">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">Launch our Mobile App</h6>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="avatar-group mt-2">
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                        <img src="../assets/img/team-4.jpg" alt="user1">
-                      </a>
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                        <img src="../assets/img/team-3.jpg" alt="user2">
-                      </a>
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">
-                        <img src="../assets/img/team-4.jpg" alt="user3">
-                      </a>
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                        <img src="../assets/img/team-1.jpg" alt="user4">
-                      </a>
-                    </div>
-                  </td>
-                  <td class="align-middle text-center text-sm">
-                    <span class="text-xs font-weight-bold"> $20,500 </span>
-                  </td>
-                  <td class="align-middle">
-                    <div class="progress-wrapper w-75 mx-auto">
-                      <div class="progress-info">
-                        <div class="progress-percentage">
-                          <span class="text-xs font-weight-bold">100%</span>
-                        </div>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="d-flex px-2 py-1">
-                      <div>
-                        <img src="../assets/img/small-logos/logo-jira.svg" class="avatar avatar-sm me-3" alt="jira">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">Add the New Pricing Page</h6>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="avatar-group mt-2">
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                        <img src="../assets/img/team-4.jpg" alt="user5">
-                      </a>
-                    </div>
-                  </td>
-                  <td class="align-middle text-center text-sm">
-                    <span class="text-xs font-weight-bold"> $500 </span>
-                  </td>
-                  <td class="align-middle">
-                    <div class="progress-wrapper w-75 mx-auto">
-                      <div class="progress-info">
-                        <div class="progress-percentage">
-                          <span class="text-xs font-weight-bold">25%</span>
-                        </div>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-info w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="25"></div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="d-flex px-2 py-1">
-                      <div>
-                        <img src="../assets/img/small-logos/logo-invision.svg" class="avatar avatar-sm me-3" alt="invision">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">Redesign New Online Shop</h6>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="avatar-group mt-2">
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                        <img src="../assets/img/team-1.jpg" alt="user6">
-                      </a>
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                        <img src="../assets/img/team-4.jpg" alt="user7">
-                      </a>
-                    </div>
-                  </td>
-                  <td class="align-middle text-center text-sm">
-                    <span class="text-xs font-weight-bold"> $2,000 </span>
-                  </td>
-                  <td class="align-middle">
-                    <div class="progress-wrapper w-75 mx-auto">
-                      <div class="progress-info">
-                        <div class="progress-percentage">
-                          <span class="text-xs font-weight-bold">40%</span>
-                        </div>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-info w-40" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="40"></div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="card-body px-0 pb-2 mx-4">
+          <div class="alert  text-center">
+          <i class="fa fa-hourglass-half" aria-hidden="true"></i> 
+          ¡Casi listo! Esta sección está en construcción y estará disponible muy pronto. 
+          Estaremos agregando nuevas funcionalidades para que puedas disfrutar de una experiencia más completa.
+        </div>
+        <div class="text-center mt-4">
+          <a class="align-items-center d-flex m-0 navbar-brand text-wrap" href="{{ route('dashboard') }}"> 
+            <svg xmlns="http://www.w3.org/2000/svg" height="42" width="42" viewBox="0 0 512 512"><path fill="#FFD43B" d="M96 63.4C142.5 27.3 201.6 7.3 260.5 8.8c29.6-.4 59.1 5.4 86.9 15.3-24.1-4.6-49-6.3-73.4-2.5C231.2 27 191 48.8 162.2 80.9c5.7-1 10.8-3.7 16-5.9 18.1-7.9 37.5-13.3 57.2-14.8 19.7-2.1 39.6-.4 59.3 1.9-14.4 2.8-29.1 4.6-43 9.6-34.4 11.1-65.3 33.2-86.3 62.6-13.8 19.7-23.6 42.9-24.7 67.1-.4 16.5 5.2 34.8 19.8 44a53.3 53.3 0 0 0 37.5 6.7c15.5-2.5 30.1-8.6 43.6-16.3 11.5-6.8 22.7-14.6 32-24.3 3.8-3.2 2.5-8.5 2.6-12.8-2.1-.3-4.4-1.1-6.3 .3a203 203 0 0 1 -35.8 15.4c-20 6.2-42.2 8.5-62.1 .8 12.8 1.7 26.1 .3 37.7-5.4 20.2-9.7 36.8-25.2 54.4-38.8a526.6 526.6 0 0 1 88.9-55.3c25.7-12 52.9-22.8 81.6-24.1-15.6 13.7-32.2 26.5-46.8 41.4-14.5 14-27.5 29.5-40.1 45.2-3.5 4.6-9 6.9-13.6 10.2a150.7 150.7 0 0 0 -51.9 60.1c-9.3 19.7-14.5 41.9-11.8 63.7 1.9 13.7 8.7 27.6 20.9 34.9 12.9 8 29.1 8.1 43.5 5.1 32.8-7.5 61.4-28.9 81-55.8 20.4-27.5 30.5-62.2 29.2-96.4-.5-7.5-1.6-15-1.7-22.5 8 19.5 14.8 39.7 16.7 60.8 2 14.3 .8 28.8-1.6 42.9-1.9 11-5.7 21.5-7.8 32.4a165 165 0 0 0 39.3-81.1 183.6 183.6 0 0 0 -14.2-104.6c20.8 32 32.3 69.6 35.7 107.5 .5 12.7 .5 25.5 0 38.2A243.2 243.2 0 0 1 482 371.3c-26.1 47.3-68 85.6-117.2 108-78.3 36.2-174.7 31.3-248-14.7A248.3 248.3 0 0 1 25.4 366 238.3 238.3 0 0 1 0 273.1v-31.3C3.9 172 40.9 105.8 96 63.4m222 80.3a79.1 79.1 0 0 0 16-4.5c5-1.8 9.2-5.9 10.3-11.2-9 5-18 9.9-26.3 15.7z"/></svg>
+            <span class="ms-3 font-weight-bold">Club Mansion Phoenix</span>
+        </a>
+        </div>
         </div>
       </div>
     </div>
     <div class="col-lg-4 col-md-6">
-      <div class="card h-100">
-        <div class="card-header pb-0">
-          <h6>Orders overview</h6>
-          <p class="text-sm">
-            <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
-            <span class="font-weight-bold">24%</span> this month
-          </p>
+  <div class="card h-100">
+    <div class="card-header pb-0">
+      <h6>En construcción</h6>
+      <p class="text-sm">
+        <i class="fa fa-cogs text-warning" aria-hidden="true"></i>
+        <span class="font-weight-bold">Esta sección está en desarrollo</span>
+      </p>
+    </div>
+    <div class="card-body p-3 text-center">
+      <div class="alert " role="alert">
+        ¡Estamos trabajando en esta sección! Estará disponible muy pronto.
+      </div>
+      <div class="timeline timeline-one-side">
+        <div class="timeline-block mb-3">
+          <span class="timeline-step">
+            <i class="ni ni-briefcase-24 text-info text-gradient"></i>
+          </span>
+          <div class="timeline-content">
+            <h6 class="text-dark text-sm font-weight-bold mb-0">¡Casi listo! Estamos trabajando en nuevas características.</h6>
+            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Pronto disponible</p>
+          </div>
         </div>
-        <div class="card-body p-3">
-          <div class="timeline timeline-one-side">
-            <div class="timeline-block mb-3">
-              <span class="timeline-step">
-                <i class="ni ni-bell-55 text-success text-gradient"></i>
-              </span>
-              <div class="timeline-content">
-                <h6 class="text-dark text-sm font-weight-bold mb-0">$2400, Design changes</h6>
-                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 7:20 PM</p>
-              </div>
-            </div>
-            <div class="timeline-block mb-3">
-              <span class="timeline-step">
-                <i class="ni ni-html5 text-danger text-gradient"></i>
-              </span>
-              <div class="timeline-content">
-                <h6 class="text-dark text-sm font-weight-bold mb-0">New order #1832412</h6>
-                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 11 PM</p>
-              </div>
-            </div>
-            <div class="timeline-block mb-3">
-              <span class="timeline-step">
-                <i class="ni ni-cart text-info text-gradient"></i>
-              </span>
-              <div class="timeline-content">
-                <h6 class="text-dark text-sm font-weight-bold mb-0">Server payments for April</h6>
-                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 9:34 PM</p>
-              </div>
-            </div>
-            <div class="timeline-block mb-3">
-              <span class="timeline-step">
-                <i class="ni ni-credit-card text-warning text-gradient"></i>
-              </span>
-              <div class="timeline-content">
-                <h6 class="text-dark text-sm font-weight-bold mb-0">New card added for order #4395133</h6>
-                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">20 DEC 2:20 AM</p>
-              </div>
-            </div>
-            <div class="timeline-block mb-3">
-              <span class="timeline-step">
-                <i class="ni ni-key-25 text-primary text-gradient"></i>
-              </span>
-              <div class="timeline-content">
-                <h6 class="text-dark text-sm font-weight-bold mb-0">Unlock packages for development</h6>
-                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">18 DEC 4:54 AM</p>
-              </div>
-            </div>
-            <div class="timeline-block">
-              <span class="timeline-step">
-                <i class="ni ni-money-coins text-dark text-gradient"></i>
-              </span>
-              <div class="timeline-content">
-                <h6 class="text-dark text-sm font-weight-bold mb-0">New order #9583120</h6>
-                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">17 DEC</p>
-              </div>
-            </div>
+        <div class="timeline-block">
+          <span class="timeline-step">
+            <i class="ni ni-refresh-2 text-danger text-gradient"></i>
+          </span>
+          <div class="timeline-content">
+            <h6 class="text-dark text-sm font-weight-bold mb-0">Actualizaciones en curso</h6>
+            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Próximamente</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
   </div>
 
 @endsection
@@ -630,172 +364,172 @@
     window.onload = function() {
       var ctx = document.getElementById("chart-bars").getContext("2d");
 
+      // Datos simulados para ilustrar cómo llenar el gráfico
+      var activationsData = [10, 15, 20, 12, 18, 25, 30, 22, 28]; // Resultados de la consulta
+
       new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          datasets: [{
-            label: "Sales",
-            tension: 0.4,
-            borderWidth: 0,
-            borderRadius: 4,
-            borderSkipped: false,
-            backgroundColor: "#fff",
-            data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
-            maxBarThickness: 6
-          }, ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            }
+          type: "bar",
+          data: {
+              labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"], // Meses
+              datasets: [{
+                  label: "Fondos activados",
+                  tension: 0.4,
+                  borderWidth: 0,
+                  borderRadius: 4,
+                  borderSkipped: false,
+                  backgroundColor: "#4caf50", // Cambiar color según preferencia
+                  data: activationsData, // Datos obtenidos de la consulta
+                  maxBarThickness: 6
+              }],
           },
-          interaction: {
-            intersect: false,
-            mode: 'index',
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                  legend: {
+                      display: false,
+                  }
+              },
+              interaction: {
+                  intersect: false,
+                  mode: 'index',
+              },
+              scales: {
+                  y: {
+                      grid: {
+                          drawBorder: false,
+                          display: false,
+                          drawOnChartArea: false,
+                          drawTicks: false,
+                      },
+                      ticks: {
+                          suggestedMin: 0,
+                          suggestedMax: 50, // Cambia según la cantidad máxima de datos
+                          beginAtZero: true,
+                          padding: 15,
+                          font: {
+                              size: 14,
+                              family: "Open Sans",
+                              style: 'normal',
+                              lineHeight: 2
+                          },
+                          color: "#fff"
+                      },
+                  },
+                  x: {
+                      grid: {
+                          drawBorder: false,
+                          display: false,
+                          drawOnChartArea: false,
+                          drawTicks: false
+                      },
+                      ticks: {
+                          display: true // Habilitar para mostrar los meses
+                      },
+                  },
+              },
           },
-          scales: {
-            y: {
-              grid: {
-                drawBorder: false,
-                display: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-              },
-              ticks: {
-                suggestedMin: 0,
-                suggestedMax: 500,
-                beginAtZero: true,
-                padding: 15,
-                font: {
-                  size: 14,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
-                color: "#fff"
-              },
-            },
-            x: {
-              grid: {
-                drawBorder: false,
-                display: false,
-                drawOnChartArea: false,
-                drawTicks: false
-              },
-              ticks: {
-                display: false
-              },
-            },
-          },
-        },
       });
 
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
 
-      var ctx2 = document.getElementById("chart-line").getContext("2d");
+    var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
 
-      var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
 
-      gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
-      gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-      gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
+    var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
 
-      var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+      
 
-      gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
-      gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-      gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+    // Pasar los datos de la base de datos a JavaScript
+    var meses = @json($meses);  // Meses de las transacciones
+    var valores = @json($valores);  // Suma de valores por mes
+    // Crear un gradiente en el contexto
+    var gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, "rgba(169, 169, 169, 0.3)"); // Gris claro, con transparencia
+    gradient.addColorStop(1, "rgba(15, 15, 15, 0.3)"); // Gris mucho más oscuro, con transparencia
 
-      new Chart(ctx2, {
-        type: "line",
+
+    // Crear el gráfico
+    var ctx = document.getElementById("chart-line").getContext('2d');
+    var chartLine = new Chart(ctx2, {
+        type: 'line',
         data: {
-          labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          datasets: [{
-              label: "Mobile apps",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 0,
-              borderColor: "#cb0c9f",
-              borderWidth: 3,
-              backgroundColor: gradientStroke1,
-              fill: true,
-              data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-              maxBarThickness: 6
-
-            },
-            {
-              label: "Websites",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 0,
-              borderColor: "#3A416F",
-              borderWidth: 3,
-              backgroundColor: gradientStroke2,
-              fill: true,
-              data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-              maxBarThickness: 6
-            },
-          ],
+            labels: meses,  // Etiquetas de los meses
+            datasets: [{
+                label: "Transacciones",
+                tension: 0.4,
+                borderWidth: 0,
+                pointRadius: 0,
+                borderColor: "#dda90d",  // Color de la línea
+                borderWidth: 3,
+                backgroundColor: gradient,  // Color de fondo
+                fill: true,
+                data: valores,  // Datos de las transacciones
+                maxBarThickness: 6
+            }],
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            }
-          },
-          interaction: {
-            intersect: false,
-            mode: 'index',
-          },
-          scales: {
-            y: {
-              grid: {
-                drawBorder: false,
-                display: true,
-                drawOnChartArea: true,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                padding: 10,
-                color: '#b2b9bf',
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
-              }
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
             },
-            x: {
-              grid: {
-                drawBorder: false,
-                display: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                color: '#b2b9bf',
-                padding: 20,
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
-              }
+            interaction: {
+                intersect: false,
+                mode: 'index',
             },
-          },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        padding: 10,
+                        color: '#b2b9bf',
+                        font: {
+                            size: 11,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#b2b9bf',
+                        padding: 20,
+                        font: {
+                            size: 11,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
         },
-      });
+    });
     }
   </script>
 @endpush

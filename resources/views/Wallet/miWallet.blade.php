@@ -263,52 +263,56 @@
   </div>
   <div class="row">
     <div class="col-md-7 mt-4">
-      <div class="card">
-        <div class="card-header pb-0 px-3">
-          <h6 class="mb-0">Billing Information</h6>
-        </div>
-        <div class="card-body pt-4 p-3">
-          <ul class="list-group" id="renovaciones-list">
-            <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-              <div class="d-flex flex-column">
-                <h6 class="mb-3 text-sm">Oliver Liam</h6>
-                <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
-                <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-                <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-              </div>
-              <div class="ms-auto text-end">
-                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-              </div>
-            </li>
-            <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-              <div class="d-flex flex-column">
-                <h6 class="mb-3 text-sm">Lucas Harper</h6>
-                <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Stone Tech Zone</span></span>
-                <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">lucas@stone-tech.com</span></span>
-                <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-              </div>
-              <div class="ms-auto text-end">
-                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-              </div>
-            </li>
-            <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-              <div class="d-flex flex-column">
-                <h6 class="mb-3 text-sm">Ethan James</h6>
-                <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Fiber Notion</span></span>
-                <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">ethan@fiber.com</span></span>
-                <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-              </div>
-              <div class="ms-auto text-end">
-                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-header pb-0 px-3">
+      <h6 class="mb-0">Contabilidad</h6>
+      <div class="alert a text-center mb-1" role="alert">
+            <strong>En Construcción</strong> - Estamos trabajando para mejorar esta sección.
+          </div>
     </div>
+    <div class="card-body pt-1 p-2">
+      <ul class="list-group" id="renovaciones-list">
+        <li class="list-group-item border-0 d-flex p-4 mb-1 bg-gray-100 border-radius-lg">
+          <div class="d-flex flex-column">
+            <h6 class="mb-3 text-sm">Mes xxxxxx</h6>
+            <span class="mb-2 text-xs">Total de utilidad: <span class="text-dark font-weight-bold ms-sm-2">xxxxxx</span></span>
+            <span class="mb-2 text-xs">Total de traslados: <span class="text-dark ms-sm-2 font-weight-bold">xxxxxx@xxxx.com</span></span>
+            <span class="text-xs">Saldo: <span class="text-dark ms-sm-2 font-weight-bold">xxxxxx</span></span>
+          </div>
+          <div class="ms-auto text-end">
+            <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+          </div>
+        </li>
+        <li class="list-group-item border-0 d-flex p-4 mb-1 mt-2 bg-gray-100 border-radius-lg">
+          <div class="d-flex flex-column">
+            <h6 class="mb-3 text-sm">Mes xxxxxx</h6>
+            <span class="mb-2 text-xs">Total de utilidad: <span class="text-dark font-weight-bold ms-sm-2">xxxxxx</span></span>
+            <span class="mb-2 text-xs">Total de traslados: <span class="text-dark ms-sm-2 font-weight-bold">xxxxxx@xxxx.com</span></span>
+            <span class="text-xs">Saldo: <span class="text-dark ms-sm-2 font-weight-bold">xxxxxx</span></span>
+          </div>
+          <div class="ms-auto text-end">
+            <a class="btn btn-link text-danger text-gradient px-2 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+          </div>
+        </li>
+        <li class="list-group-item border-0 d-flex p-4 mb-1 mt-2 bg-gray-100 border-radius-lg">
+          <div class="d-flex flex-column">
+            <h6 class="mb-3 text-sm">Mes xxxxxx</h6>
+            <span class="mb-2 text-xs">Total de utilidad: <span class="text-dark font-weight-bold ms-sm-2">xxxxxx</span></span>
+            <span class="mb-2 text-xs">Total de traslados: <span class="text-dark ms-sm-2 font-weight-bold">xxxxxx@xxxx.com</span></span>
+            <span class="text-xs">Saldo: <span class="text-dark ms-sm-2 font-weight-bold">xxxxxx</span></span>
+          </div>
+          <div class="ms-auto text-end">
+            <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
     <div class="col-md-5 mt-4" >
     <!-- Contenedor de Traslados de billetera -->
     <div id="wallets-container">
