@@ -413,7 +413,8 @@ class WalletTransactionsController extends Controller
             $diff = $fecha1->diff($fecha2);
 
             // Porcentaje de descuento, se puede calcular según otros parámetros
-            $percentagedp = 8; // 8% de comisión por defecto
+            $percentagedp = 0;
+            $percentagedpUSDT = 5; // 5% de comisión por defecto
             
             $currencyretiro = $request->input('currency');     
             $valretiro = $request->input('value'); 
@@ -445,7 +446,12 @@ class WalletTransactionsController extends Controller
               }
 
             // Calcular las tarifas de retiro
-            $toPorretirodp = ($percentagedp * $valretiro) / 100;
+            if ($currencyretiro == 'PSIV') {
+                $toPorretirodp = 0;
+            } elseif ($currencyretiro == 'USDT') {
+                $toPorretirodp = ($percentagedpUSDT * $valretiro) / 100;
+            }            
+            
 
             // Asignar valores al objeto Wallet
             $Wallet->fee = $toPorretirodp;

@@ -226,54 +226,67 @@
             <div class="card-body pt-1">
 
               <form class="" method="POST" enctype="multipart/form-data" action="{{ url('/wallet/storeuser') }}">
-                  @csrf @method('POST')
+                @csrf @method('POST')
 
-                  <div class="form-group mb-1">
-                      <label for="value" class="form-control-label">Valor</label>
-                      <div class="input-group">
-                          <input type="number" id="value" name="value" value="" class="form-control" placeholder="Valor del traslado" aria-label="text">
-                      </div>
-                  </div>
+                <div class="form-group mb-1">
+                    <label for="value" class="form-control-label">Valor</label>
+                    <div class="input-group">
+                        <input type="number" id="value" name="value" value="" class="form-control" placeholder="Valor del traslado" aria-label="text">
+                    </div>
+                </div>
 
-                  <div class="form-group mb-1">
-                      <label for="detail" class="form-control-label">Detalle</label>
-                      <div class="input-group">
-                          <input type="text" id="detail" name="detail" value="" class="form-control" placeholder="Detalle del traslado" aria-label="text">
-                      </div>
-                  </div>
+                <div class="form-group mb-1">
+                    <label for="detail" class="form-control-label">Detalle</label>
+                    <div class="input-group">
+                        <input type="text" id="detail" name="detail" value="" class="form-control" placeholder="Detalle del traslado" aria-label="text">
+                    </div>
+                </div>
 
-                  <div class="form-group mb-1">
-                      <label for="currency" class="form-control-label">Tipo divisa</label>
-                      <select class="form-control" id="currency" name="currency">
-                          <option value="">Selecciona el tipo de divisa</option>
-                          <option value="PSIV">PSIV</option>
-                          <option value="USDT">USDT</option>
-                      </select>
-                  </div>
+                <div class="form-group mb-1">
+                    <label for="currency" class="form-control-label">Tipo divisa</label>
+                    <select class="form-control" id="currency" name="currency">
+                        <option value="">Selecciona el tipo de divisa</option>
+                        <option value="PSIV">PSIV</option>
+                        <option value="USDT">USDT</option>
+                    </select>
+                </div>
 
-                  <div class="form-group mb-1">
-                      <label for="wallet" class="form-control-label">Wallet</label>
-                      <div class="input-group">
-                          <input type="text" id="wallet" name="wallet" value="" class="form-control" placeholder="Detalle del traslado" aria-label="text">
-                      </div>
-                  </div>
+                <div class="form-group mb-1">
+                    <label for="wallet" class="form-control-label">Wallet</label>
+                    <div class="input-group">
+                        <input type="text" id="wallet" name="wallet" value="" class="form-control" placeholder="Detalle del traslado" aria-label="text">
+                    </div>
+                </div>
 
-                  <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-3 mb-0">Enviar Traslado</button>
-              </form>
+                <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-3 mb-0">Enviar Traslado</button>
 
-            </div>
-            <div class="card-footer text-center pt-0 px-lg-2 px-2">
-              <p class="mb-2 text-sm mx-auto">
-                + <strong>5%</strong> de administración 
-              </p>
-            </div>
-          </div>
-        </form>
+                <div class="card-footer text-center pt-0 px-lg-2 px-2">
+                    <p class="mb-2 text-sm mx-auto">
+                        Costo <strong for="fee" id="fee-label">5%</strong> de administración 
+                    </p>
+                </div>
+
+            </form>
 
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+    document.getElementById('currency').addEventListener('change', function () {
+        const currency = this.value;
+        const feeLabel = document.getElementById('fee-label');
+
+        if (currency === 'PSIV') {
+            feeLabel.textContent = ' 0%';
+        } else if (currency === 'USDT') {
+            feeLabel.textContent = ' 5% +';
+        } else {
+            feeLabel.textContent = '';
+        }
+    });
+</script>
 
 @endsection

@@ -313,7 +313,7 @@
   </div>
 </div>
 
-    <div class="col-md-5 mt-4" >
+  <div class="col-md-5 mt-4" >
     <!-- Contenedor de Traslados de billetera -->
     <div id="wallets-container">
       <div class="card h-100 mb-4">
@@ -355,17 +355,17 @@
               </ul>
           @endforeach
           </div>
-        <div id="wallets-container" class="d-flex justify-content-center">
-          <div class="pagination-container justify-content-center">
-            <div class="pagination pagination-warning pagination-sm"> 
-              {{ $myWallets->appends(request()->input())->links() }}
-            </div>        
+            <div id="wallets-container" class="card-footer pt-0 d-flex justify-content-center">
+                <div class="d-flex justify-content-center flex-wrap pagination-container" style="max-width: 100%; overflow-x: auto; white-space: nowrap; padding: 10px 20px;">
+                    <div class="pagination pagination-warning pagination-sm" style="margin: 0; display: inline-flex; font-size: 0.8rem; gap: 5px;">
+                        {{ $myWallets->appends(request()->input())->onEachSide(1)->links() }}
+                    </div>
+                </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
-  </div>
 </div>
 
 <!-- Modal crear Traslado -->
@@ -426,11 +426,11 @@
             </div>
             <div class="card-footer text-center pt-0 px-lg-2 px-2">
               <p class="mb-2 text-sm mx-auto">
-                + <strong>5%</strong> de administración 
+                Costo <strong for="fee" id="fee-label">5%</strong> de administración
               </p>
             </div>
           </div>
-        </form>
+        
 
         </div>
       </div>
@@ -525,6 +525,21 @@
   </div>
 </div>
 @endforeach
+
+<script>
+    document.getElementById('currency').addEventListener('change', function () {
+        const currency = this.value;
+        const feeLabel = document.getElementById('fee-label');
+
+        if (currency === 'PSIV') {
+            feeLabel.textContent = ' 0%';
+        } else if (currency === 'USDT') {
+            feeLabel.textContent = ' 5% +';
+        } else {
+            feeLabel.textContent = '';
+        }
+    });
+</script>
 
  
 @endsection

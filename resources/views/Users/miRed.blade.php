@@ -98,6 +98,7 @@
 </div>
 
 <script>
+
 (() => {
     const referidos = @json($referidos);
 
@@ -118,32 +119,30 @@
     const edges = [];
 
     const avatarUrl = "https://i.postimg.cc/hvHVchNw/bruce-mars1.png"; // URL de la imagen
-
     const baseSize = 50;
 
-    const positions = [
-        { x: 0, y: 0 },  // Nodo principal (Tu Nombre)
-        { x: 150, y: 100 },
-        { x: 200, y: -100 },
-        { x: 400, y: 0 },
-    ];
+    // Generar posiciones dinámicas para los nodos
+    referidos.forEach((_, index) => {
+        const angle = (index / referidos.length) * 2 * Math.PI; // Distribuir en un círculo
+        const radius = 200; // Radio del círculo
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
 
-    referidos.forEach((referido, index) => {
         nodes.push({
             id: index + 1,
-            label: `${referido.name} ${referido.lastname}`,
+            label: `${referidos[index].name} ${referidos[index].lastname}`,
             image: avatarUrl,
             shape: "image",
             size: index === 0 ? baseSize : baseSize - 10,
             // Mostrar más información en el tooltip
             title: `
-                <b>${referido.name} ${referido.lastname}</b><br>
-                <strong>Email:</strong> ${referido.email}<br>
-                <strong>Estado:</strong> ${referido.isActive === "1" ? "Activo" : "Inactivo"}<br>
-                <strong>Fondo id:</strong> ${referido.membership_id || "No disponible"}
+                <b>${referidos[index].name} ${referidos[index].lastname}</b><br>
+                <strong>Email:</strong> ${referidos[index].email}<br>
+                <strong>Estado:</strong> ${referidos[index].isActive === "1" ? "Activo" : "Inactivo"}<br>
+                <strong>Fondo id:</strong> ${referidos[index].membership_id || "No disponible"}
             `,
-            x: positions[index].x,
-            y: positions[index].y,
+            x: x, // Usar posición calculada dinámicamente
+            y: y, // Usar posición calculada dinámicamente
         });
 
         if (index > 0) {
@@ -176,6 +175,7 @@
 
     const network = new vis.Network(container, data, options);
 })();
+
 
 </script>
 
