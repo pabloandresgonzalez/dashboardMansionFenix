@@ -14,6 +14,7 @@ use App\Services\UserService;
 use App\Services\BlockchainService;
 use App\Services\CommissionService;
 use App\Services\ProductionService;
+use Illuminate\Support\Facades\Crypt;
 
 
 class MembresiaController extends Controller
@@ -43,6 +44,15 @@ class MembresiaController extends Controller
         $currency = 'USD';
 
         $membresias = Membresia::orderBy('updated_at', 'Desc')->paginate(8);
+
+        // Generar un token para cada membresía
+        foreach ($membresias as $membresia) {
+            $membresia->form_token = Crypt::encryptString(json_encode([
+                'id_membresia' => $membresia->id,
+                'name' => $membresia->name,
+            ]));
+        }
+
         $data = ['membresias' => $membresias];
 
         // Obtener el total de usuarios y la lista
@@ -84,6 +94,8 @@ class MembresiaController extends Controller
         $totalCommission = $this->commissionService->getTotalCommission();
 
         $totalProduction = $this->productionService->getMonthlyUtility();
+
+        
 
         // Retornar la vista con un array asociativo
         return view('Membresias.indexAdmin', [

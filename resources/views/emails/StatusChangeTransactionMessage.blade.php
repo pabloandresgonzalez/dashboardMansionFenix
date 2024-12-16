@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo Fondo</title>
+    <title>Notificación estado de solicitud de Traslado</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -82,23 +82,26 @@
 </head>
 <body>
     <header>
-        <h1>¡Fue adquirido el fondo {{ $membership->membership }}!</h1>
+        <h2>¡Cambio el estado del traslado de {{ $Wallet->currency }}!</h2>
     </header>
-    <div class="container">        
-        <h1>{{ $membership->name }}</h1>
-        <p>{{ $membership->name }}</p>
-        <ul style="list-style-type: none; text-align: left; padding-left: 0; font-size: 14px; line-height: 1.6;">
-            <li>Usuario: {{ $membership->user_email }}</li>
-            <li>Id de usuario: {{ $membership->user }}</li>
-            <li>Fondo: {{ $membership->membership }}</li>
-            <li>Estado: {{ $membership->status }}</li>
-            <li>Hash USDT: {{ $membership->hashUSDT }}</li>
-            <li>Hash PSIV: {{ $membership->hashPSIV }}</li>
-            <li>Adquirido: {{ $membership->created_at }}</li>
+    <div class="container">   
+        <p>Estimado(a) {{ $Wallet->email }},</p>
+        <p>Se realizo el cambio de estado de la solicitud de traslado de {{ $Wallet->currency }} con los siguientes detalles:</p>   
+        <ul style="list-style-type: none; text-align: left; padding-left: 0; font-size: 12px; line-height: 1.6; margin-left: 4px;">
+            <li>No Id: {{ $Wallet->id }}</li>
+            <li>Usuario: {{ $Wallet->email }}</li>
+            <li>Id de usuario: {{ $Wallet->user }}</li>
+            <li>Valor: {{ $Wallet->value }}</li>
+            <li>Tarifa: {{ $Wallet->fee }}</li>
+            <li>Moneda: {{ $Wallet->currency }}</li>
+            <li>Estado: {{ $Wallet->status }}</li>
+            <li>Detalle: {{ $Wallet->detail }}</li>
         </ul>
+        <p>Para más detalles, puedes revisar tu historial de traslados en el Portal.</p> 
+        <a href="{{ route('login') }}" class="btn">{{ config('app.name') }}</a>     
         <br><br>
-        <a href="{{ route('login') }}" class="btn">Ver más detalles</a>
-        <br><br>
+        <p>¡Gracias por usar nuestros servicios!</p>
+        <br>
         <p class="footer">
             <img src="cid:laravel-logo.png" class="logo" alt="Logo">
             <br><br>

@@ -3,13 +3,13 @@
 @section('content')
 
 @if(session('success'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert" id="message_id">
-      <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-      <span class="alert-text"><strong>¡Éxito!</strong> {{ session('success') }}</span>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
+<div class="alert alert-success alert-dismissible fade show" role="alert" id="message_id">
+  <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+  <span class="alert-text"><strong>¡Éxito!</strong> {{ session('success') }}</span>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 @endif
 
 <div class="row">
@@ -114,15 +114,15 @@
             <div class="position-relative">
               <a class="d-block blur-shadow-image">
                 @if (!empty(in_array(strtolower(pathinfo($new->image, PATHINFO_EXTENSION)), ["png", "jpg", "gif", "avg"])))
-                    <a class="d-block blur-shadow-image float-start">
-                        <img src="{{ asset('storage/' . $new->image) }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
-                    </a>
+                <a class="d-block blur-shadow-image float-start">
+                  <img src="{{ asset('storage/' . $new->image) }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                </a>
                 @else 
-                    <div class="d-flex justify-content-start">
-                        <div class="video-container position-relative"> 
-                            <iframe class="video-frame position-relative shadow border-radius-xl" src="{{ $new->url_video }}" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
+                <div class="d-flex justify-content-start">
+                  <div class="video-container position-relative"> 
+                    <iframe class="video-frame position-relative shadow border-radius-xl" src="{{ $new->url_video }}" frameborder="0" allowfullscreen></iframe>
+                  </div>
+                </div>
                 @endif
               </a>
             </div>
@@ -140,14 +140,14 @@
           </div>
         </div>
         <div class="divider my-4">
-            <hr class="custom-divider">
+          <hr class="custom-divider">
         </div>
         @endforeach
         <div class="d-flex justify-content-center mt-2">
           <div class="pagination-container justify-content-center">
-              <div class="pagination pagination-warning pagination-sm text-xs">
-                  {{ $news->appends(request()->input())->links() }}
-              </div>
+            <div class="pagination pagination-warning pagination-sm text-xs">
+              {{ $news->appends(request()->input())->links() }}
+            </div>
           </div>
         </div>
       </div>
@@ -155,5 +155,5 @@
   </div>
 </div>
 
-  
+
 @endsection

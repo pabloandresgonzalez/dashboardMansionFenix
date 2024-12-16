@@ -91,26 +91,26 @@
   </div>
 </div>
 <div class="container mx-auto mt-4">
-    <h5 class="text-2xl font-bold mb-2">Mis Referidos</h5>
-    <!-- Modificar altura del contenedor -->
-    <div id="network" class="relative w-full" style="height: 400px;"> <!-- Aumenta la altura aquí -->
-    </div>
+  <h5 class="text-2xl font-bold mb-2">Mis Referidos</h5>
+  <!-- Modificar altura del contenedor -->
+  <div id="network" class="relative w-full" style="height: 400px;"> <!-- Aumenta la altura aquí -->
+  </div>
 </div>
 
 <script>
 
-(() => {
+  (() => {
     const referidos = @json($referidos);
 
     // Obtener los datos del usuario logueado desde Laravel
     const miNodo = {
-        id: 0,
+      id: 0,
         name: "{{ $user->name }}", // Nombre del usuario logueado
         lastname: "{{ $user->lastname }}", // Apellido del usuario logueado
         email: "{{ $user->email }}", // Email del usuario logueado
         isActive: "{{ $user->isActive }}", // Estado del usuario
         membership_id: "{{ $user->membership_id }}", // ID de la membresía si aplica
-    };
+      };
 
     referidos.unshift(miNodo); // Agrega a tu nodo al principio de la lista de referidos
 
@@ -129,52 +129,52 @@
         const y = Math.sin(angle) * radius;
 
         nodes.push({
-            id: index + 1,
-            label: `${referidos[index].name} ${referidos[index].lastname}`,
-            image: avatarUrl,
-            shape: "image",
-            size: index === 0 ? baseSize : baseSize - 10,
+          id: index + 1,
+          label: `${referidos[index].name} ${referidos[index].lastname}`,
+          image: avatarUrl,
+          shape: "image",
+          size: index === 0 ? baseSize : baseSize - 10,
             // Mostrar más información en el tooltip
-            title: `
-                <b>${referidos[index].name} ${referidos[index].lastname}</b><br>
-                <strong>Email:</strong> ${referidos[index].email}<br>
-                <strong>Estado:</strong> ${referidos[index].isActive === "1" ? "Activo" : "Inactivo"}<br>
-                <strong>Fondo id:</strong> ${referidos[index].membership_id || "No disponible"}
-            `,
+          title: `
+          <b>${referidos[index].name} ${referidos[index].lastname}</b><br>
+          <strong>Email:</strong> ${referidos[index].email}<br>
+          <strong>Estado:</strong> ${referidos[index].isActive === "1" ? "Activo" : "Inactivo"}<br>
+          <strong>Fondo id:</strong> ${referidos[index].membership_id || "No disponible"}
+          `,
             x: x, // Usar posición calculada dinámicamente
             y: y, // Usar posición calculada dinámicamente
-        });
+          });
 
         if (index > 0) {
-            edges.push({ from: 1, to: index + 1 });
+          edges.push({ from: 1, to: index + 1 });
         }
-    });
+      });
 
     const data = {
-        nodes: new vis.DataSet(nodes),
-        edges: new vis.DataSet(edges),
+      nodes: new vis.DataSet(nodes),
+      edges: new vis.DataSet(edges),
     };
 
     const options = {
-        layout: {
-            hierarchical: { enabled: false },
-        },
-        nodes: {
-            borderWidth: 2,
-            font: { size: 14, color: "#000000" },
-        },
-        edges: {
-            width: 1,
-            selectionWidth: -1,
-            color: { color: "#848484" },
-            smooth: { type: "horizontal", roundness: 0.2 },
-        },
-        physics: { enabled: false },
-        interaction: { tooltipDelay: 200 },
+      layout: {
+        hierarchical: { enabled: false },
+      },
+      nodes: {
+        borderWidth: 2,
+        font: { size: 14, color: "#000000" },
+      },
+      edges: {
+        width: 1,
+        selectionWidth: -1,
+        color: { color: "#848484" },
+        smooth: { type: "horizontal", roundness: 0.2 },
+      },
+      physics: { enabled: false },
+      interaction: { tooltipDelay: 200 },
     };
 
     const network = new vis.Network(container, data, options);
-})();
+  })();
 
 
 </script>

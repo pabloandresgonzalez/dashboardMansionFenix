@@ -8,22 +8,22 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\UserMembership;
+use App\Models\wallet_transactions;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Mail\Mailables\Attachment;
 
-class MembershipCreatedMessage extends Mailable
+class TransactionMessageCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $membership;
+    public $Wallet;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(UserMembership $membership)
+    public function __construct(wallet_transactions $Wallet)
     {
-        $this->membership = $membership;
+        $this->Wallet = $Wallet;
     }
 
     /**
@@ -32,7 +32,7 @@ class MembershipCreatedMessage extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nuevo Fondo: ' . $this->membership->title,
+            subject: 'Nuevo traslado de ' . $this->Wallet->currency,
         );
     }
 
@@ -42,8 +42,8 @@ class MembershipCreatedMessage extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.createdMembership', // Vista de Blade para el cuerpo del correo
-            with: ['membership' => $this->membership],
+            view: 'emails.TransactionMessageCreated', // Vista de Blade para el cuerpo del correo
+            with: ['Wallet' => $this->Wallet],
         );
     }
 

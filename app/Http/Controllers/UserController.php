@@ -8,12 +8,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\View;
 use App\Models\User;
+use App\Models\UserMembership;
+use App\Models\wallet_transactions;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Services\UserService;
+use App\Services\UserBalanceService;
 use App\Services\BlockchainService;
 use App\Services\CommissionService;
 use App\Services\ProductionService;
@@ -29,7 +32,8 @@ class UserController extends Controller
         UserService $userService,
         BlockchainService $blockchainService,
         CommissionService $commissionService,
-        ProductionService $productionService
+        ProductionService $productionService,
+        UserBalanceService $userBalanceService,
     )
 
     {
@@ -40,6 +44,8 @@ class UserController extends Controller
         $this->commissionService = $commissionService;
 
         $this->productionService = $productionService;
+
+        $this->userBalanceService = $userBalanceService;
 
         $this->middleware('auth');
     }
@@ -200,9 +206,25 @@ class UserController extends Controller
         return to_route('users-management');
     }
 
-    public function detail($id)
+    public function detail(Request $request, $id)
     {
         $user = User::find($id); 
+        $userId = $user->id;
+
+        // Llamar al servicio para obtener el balance del usuario autenticado usando su ID
+        $balanceString = $this->userBalanceService->getBalanceByUser($userId);
+
+         // Total comisión del usuario en el mes actual
+        $totalCommission = $this->totalCommission($userId);
+
+        // Membresias de los ultimos 6 meses
+        $memberships = UserMembership::where('user', $userId)
+          ->where('created_at', '>=', Carbon::now()->subMonths(6)) // Filtrar por los últimos 6 meses
+          ->orderBy('created_at', 'desc')
+          ->paginate(6);
+
+        $myWallets = wallet_transactions::where('user', $userId)->orderBy('created_at', 'desc')
+            ->paginate(4);
 
         $diaActual = Carbon::now()->locale('es')->translatedFormat('l d \d\e F \d\e\l Y');
         //$diaActual = Carbon::now()->locale('es')->translatedFormat('j \d\e F Y');
@@ -217,7 +239,15 @@ class UserController extends Controller
         $rangoDias = $startOfMonth . ' - ' . $endOfMonth . ' ' . $monthAndYear;
         
 
-        return view('Users/user-managementdetail', compact('user', 'diaActual', 'rangoDias'));
+        return view('Users/user-managementdetail', compact(
+            'user',
+            'diaActual',
+            'rangoDias',
+            'balanceString',
+            'totalCommission',
+            'memberships',
+            'myWallets'
+        ));
     }
 
     public function getImage($filename)
@@ -352,5 +382,16 @@ class UserController extends Controller
           
         ]);
 
+    }
+
+    private function totalCommission($userId)
+    {
+        // Total de comisión por activación de membresías de usuarios referidos
+        $totalCommission = DB::table("network_transactions")
+            ->where('user', $userId)
+            ->where('type', 'Activation')
+            ->sum("value");
+
+        return $totalCommission;
     }
 }

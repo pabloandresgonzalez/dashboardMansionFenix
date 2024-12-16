@@ -12,18 +12,18 @@ use App\Models\UserMembership;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Mail\Mailables\Attachment;
 
-class MembershipCreatedMessage extends Mailable
+class StatusChangeMembershipseMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $membership;
+    public $userMembership;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(UserMembership $membership)
+    public function __construct(UserMembership $userMembership)
     {
-        $this->membership = $membership;
+        $this->userMembership = $userMembership;
     }
 
     /**
@@ -32,7 +32,7 @@ class MembershipCreatedMessage extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nuevo Fondo: ' . $this->membership->title,
+            subject: 'Cambio estado del Fondo ' . $this->userMembership->membership,
         );
     }
 
@@ -42,8 +42,8 @@ class MembershipCreatedMessage extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.createdMembership', // Vista de Blade para el cuerpo del correo
-            with: ['membership' => $this->membership],
+            view: 'emails.StatusChangeMembershipseMessage', // Vista de Blade para el cuerpo del correo
+            with: ['membership' => $this->userMembership],
         );
     }
 

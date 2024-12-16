@@ -3,23 +3,23 @@
 @section('content')
 
 @if(session('success'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert" id="message_id">
-      <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-      <span class="alert-text"><strong>¡Éxito!</strong> {{ session('success') }}</span>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
+<div class="alert alert-success alert-dismissible fade show" role="alert" id="message_id">
+  <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+  <span class="alert-text"><strong>¡Éxito!</strong> {{ session('success') }}</span>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 @endif
 
 @if(session('alert'))
-  <div class="alert alert-warning alert-dismissible fade show" role="alert" id="message_id">
-      <span class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
-      <span class="alert-text"><strong>Warning!</strong> {{ session('alert') }}</span>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
+<div class="alert alert-warning alert-dismissible fade show" role="alert" id="message_id">
+  <span class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+  <span class="alert-text"><strong>Warning!</strong> {{ session('alert') }}</span>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 @endif
 
 <div class="row">
@@ -165,94 +165,94 @@
                 <td>
                   <div class="avatar-group mt-2">
                     <span class="text-xs font-weight-bold">
-                    @php 
+                      @php 
                       $fecha = $membership->activedAt;
-                    @endphp
+                      @endphp
                       @if($fecha)
-                        {{ \Carbon\Carbon::parse($fecha)->locale('es')->format('d \d\e F \d\e Y') }}
+                      {{ \Carbon\Carbon::parse($fecha)->locale('es')->format('d \d\e F \d\e Y') }}
                       @else
-                        Sin fecha.
-                    @endif        
-                  </span>  
+                      Sin fecha.
+                      @endif        
+                    </span>  
                   </div>
                 </td>
                 <td class="align-middle text-center text-sm">
                   <span class="text-xs font-weight-bold">
                     @php 
-                      $fecha = $membership->closedAt;
+                    $fecha = $membership->closedAt;
                     @endphp
-                      @if($fecha)
-                        {{ \Carbon\Carbon::parse($fecha)->locale('es')->format('d \d\e F \d\e Y') }}
-                      @else
-                        Sin fecha.
+                    @if($fecha)
+                    {{ \Carbon\Carbon::parse($fecha)->locale('es')->format('d \d\e F \d\e Y') }}
+                    @else
+                    Sin fecha.
                     @endif        
                   </span>
                 </td>
                 <td class="align-middle">
-                <?php
+                  <?php
                     // Fecha actual
-                    $fecha_actual = date("Y-m-d");
+                  $fecha_actual = date("Y-m-d");
                     // Fecha final de la membresía
-                    $fecha_final = $membership->closedAt;
+                  $fecha_final = $membership->closedAt;
 
                     // Inicializamos el porcentaje por defecto como vacío
-                    $porcentajeProgreso = '';
+                  $porcentajeProgreso = '';
 
                     // Verificamos si la fecha final existe
-                    if ($fecha_final) {
+                  if ($fecha_final) {
                         // Convertimos las fechas a formato timestamp
-                        $fecha11 = strtotime($fecha_actual); 
-                        $fecha22 = strtotime($fecha_final);
+                    $fecha11 = strtotime($fecha_actual); 
+                    $fecha22 = strtotime($fecha_final);
 
                         // Inicializamos el array para almacenar los días hábiles
-                        $diasHabiles = [];
+                    $diasHabiles = [];
 
                         // Obtenemos los días faltantes sin contar sábados ni domingos
-                        for ($fecha11; $fecha11 <= $fecha22; $fecha11 = strtotime('+1 day', $fecha11)) {
-                            if (date('D', $fecha11) != 'Sun' && date('D', $fecha11) != 'Sat') {
+                    for ($fecha11; $fecha11 <= $fecha22; $fecha11 = strtotime('+1 day', $fecha11)) {
+                      if (date('D', $fecha11) != 'Sun' && date('D', $fecha11) != 'Sat') {
                                 // Agregamos los días hábiles al array
-                                $diasHabiles[] = date('Y-m-d', $fecha11);
-                            }
-                        }
+                        $diasHabiles[] = date('Y-m-d', $fecha11);
+                      }
+                    }
 
                         // Contamos el total de días hábiles
-                        $totalDiasHabiles = count($diasHabiles);
+                    $totalDiasHabiles = count($diasHabiles);
 
                         // Definimos un valor máximo de días para el cálculo del porcentaje
-                        $maxDias = 30;
+                    $maxDias = 30;
 
                         // Calculamos los días hábiles restantes hasta el máximo de 30 días
-                        $diasRestantes = min($totalDiasHabiles, $maxDias);
+                    $diasRestantes = min($totalDiasHabiles, $maxDias);
 
                         // Calculamos el porcentaje basado en los días faltantes
-                        $porcentajeProgreso = (($maxDias - $diasRestantes) / $maxDias) * 100;
+                    $porcentajeProgreso = (($maxDias - $diasRestantes) / $maxDias) * 100;
 
                         // Aseguramos que el porcentaje no exceda el 100%
-                        $porcentajeProgreso = min($porcentajeProgreso, 100);
-                    }
-                ?>
-                <div class="progress-wrapper w-75 mx-auto">
+                    $porcentajeProgreso = min($porcentajeProgreso, 100);
+                  }
+                  ?>
+                  <div class="progress-wrapper w-75 mx-auto">
                     <div class="progress-info d-flex justify-content-between">
-                        <div class="progress-status">
-                            <span class="text-xs font-weight-bold">&nbsp;{{ $membership->status }}</span>
-                        </div>
-                        <div class="progress-percentage">
-                            <?php if ($porcentajeProgreso !== ''): ?>
-                                <span class="text-xs font-weight-bold">{{ round($porcentajeProgreso) }}%&nbsp;</span>
-                            <?php endif; ?>
-                        </div>
+                      <div class="progress-status">
+                        <span class="text-xs font-weight-bold">&nbsp;{{ $membership->status }}</span>
+                      </div>
+                      <div class="progress-percentage">
+                        <?php if ($porcentajeProgreso !== ''): ?>
+                          <span class="text-xs font-weight-bold">{{ round($porcentajeProgreso) }}%&nbsp;</span>
+                        <?php endif; ?>
+                      </div>
                     </div>
                     
                     <div class="progress">
-                        <div class="progress-bar dynamic-progress-bar" 
-                             style="width: {{ $porcentajeProgreso !== '' ? $porcentajeProgreso . '%' : '0%' }};" 
-                             role="progressbar" 
-                             aria-valuenow="{{ $porcentajeProgreso !== '' ? round($porcentajeProgreso) : 0 }}" 
-                             aria-valuemin="0" 
-                             aria-valuemax="100"></div>
+                      <div class="progress-bar dynamic-progress-bar" 
+                      style="width: {{ $porcentajeProgreso !== '' ? $porcentajeProgreso . '%' : '0%' }};" 
+                      role="progressbar" 
+                      aria-valuenow="{{ $porcentajeProgreso !== '' ? round($porcentajeProgreso) : 0 }}" 
+                      aria-valuemin="0" 
+                      aria-valuemax="100"></div>
                     </div>
                     
-                </div>                  
+                  </div>                  
                 </td>
                 
                 <td class="align-middle text-center text-sm">
@@ -261,35 +261,35 @@
                 <td >
                   <div class="avatar-group d-flex align-items-center">
                     @if($membership->status == "Cerrado" )
-                      <a href="#modal-form2{{ $membership->id }}" class="d-flex flex-column align-items-center mx-2 renew-link" type="button" data-bs-toggle="modal" data-bs-target="#modal-form2{{ $membership->id }}">
-                        <i class="fa-solid fa-hand-holding-dollar fa-lg text-secondary mb-1 icon-renew"></i>
-                          <span class="text-xs font-weight-bold mt-1">Renovar</span>
-                      </a>
-                      <style>
-                        .renew-link:hover .icon-renew {
-                            color: #FFD700 !important;
-                        }
+                    <a href="#modal-form2{{ $membership->id }}" class="d-flex flex-column align-items-center mx-2 renew-link" type="button" data-bs-toggle="modal" data-bs-target="#modal-form2{{ $membership->id }}">
+                      <i class="fa-solid fa-hand-holding-dollar fa-lg text-secondary mb-1 icon-renew"></i>
+                      <span class="text-xs font-weight-bold mt-1">Renovar</span>
+                    </a>
+                    <style>
+                      .renew-link:hover .icon-renew {
+                        color: #FFD700 !important;
+                      }
 
-                        .renew-link:hover span {
-                            color: #FFD700; 
-                        }
-                      </style>                       
+                      .renew-link:hover span {
+                        color: #FFD700; 
+                      }
+                    </style>                       
                     @endif  
-      					    <span class="mx-2">
-      					       <a href="#modal-form3{{ $membership->id }}" class="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modal-form3{{ $membership->id }}">
-      					            <i class="fas fa-search fa-xl text-secondary"></i>
-      			        </a>
-        				    </span>
-        				</div>
-                </td>             
-              </tr>
-            </tbody>
-            @endforeach
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+                    <span class="mx-2">
+                      <a href="#modal-form3{{ $membership->id }}" class="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modal-form3{{ $membership->id }}">
+                       <i class="fas fa-search fa-xl text-secondary"></i>
+                     </a>
+                   </span>
+                 </div>
+               </td>             
+             </tr>
+           </tbody>
+           @endforeach
+         </table>
+       </div>
+     </div>
+   </div>
+ </div>
 </div>
 
 <!-- Modal editar UserMemberships -->
@@ -312,7 +312,7 @@
             </div>
             <div class="card-body pt-1">
               <form class="" method="POST" enctype="multipart/form-data" action="{{ route('membership.update', $membership->id ) }}">
-              @csrf @method('PUT')
+                @csrf @method('PUT')
 
                 <label for="id">ID de la Fondo</label>
                 <div class="input-group mb-1">
@@ -331,21 +331,21 @@
                   </select>
                 </div>
                 <div class="form-group">
-                    <label for="activedAt" class="form-control-label">Fecha</label>
-                    @php
-                        $fecha_actual = date("Y-m-d\TH:i");
-                    @endphp
-                    <input class="form-control" type="datetime-local" name="activedAt" value="{{ $fecha_actual }}" id="example-datetime-local-input">
+                  <label for="activedAt" class="form-control-label">Fecha</label>
+                  @php
+                  $fecha_actual = date("Y-m-d\TH:i");
+                  @endphp
+                  <input class="form-control" type="datetime-local" name="activedAt" value="{{ $fecha_actual }}" id="example-datetime-local-input">
                 </div>
                 <div class="text-center">
                   <?php
-                    if ($membership->status === 'Pendiente') {
-                      echo '
-                        <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-2 mb-0">Activar Fondo</button>
-                      ';
-                    } else {
-                      echo '<h5>&nbsp; El estado de la membresia es  <strong>'.$membership->status.'</strong>, ya no es &nbsp;posible hacer mas cambios.</h5>';
-                    }
+                  if ($membership->status === 'Pendiente') {
+                    echo '
+                    <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-2 mb-0">Activar Fondo</button>
+                    ';
+                  } else {
+                    echo '<h5>&nbsp; El estado de la membresia es  <strong>'.$membership->status.'</strong>, ya no es &nbsp;posible hacer mas cambios.</h5>';
+                  }
                   ?>                  
                 </div>
               </form>
@@ -358,10 +358,10 @@
           </div>
         </form>
 
-        </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 @endforeach
 
@@ -385,7 +385,7 @@
             </div>
             <div class="card-body pt-1">
               <form class="" method="POST" enctype="multipart/form-data" action="{{ url('/mismembership/'.$membership->id) }}">
-              @csrf @method('POST')
+                @csrf @method('POST')
 
                 <div class="form-group mb-1">
                   <label for="membership" class="form-control-label mb-1">Membresía</label>
@@ -393,7 +393,7 @@
                     <option value="{{ $membership->membership}}">{{ $membership->membership}}</option>                     
                   </select>
                 </div>
-              
+                
                 
                 <div class="text-center">                  
                   <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-3 mb-0">Renovar</button>
@@ -408,10 +408,10 @@
           </div>
         </form>
 
-        </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 @endforeach
 
@@ -436,48 +436,48 @@
             <div class="card-body pt-1">
               <div style="border: 1px solid #FFD43B; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(218, 165, 32, 0.1);">
                 <ul class="list-unstyled mx-2" style="font-family: 'Roboto', sans-serif; font-size: 0.9rem; line-height: 1.1; color: #3B3B3B;">
-                    <li class="mb-1">
-                        ID de la Fondo: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->id }}</b> 
-                        <hr class="horizontal dark my-1">
-                    </li>
-                    <li class="mb-1">
-                        Membresia Padre: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->membresiaPadre }}</b> 
-                        <hr class="horizontal dark my-1">
-                    </li>
-                    <li class="mb-1">
-                        Nombre Usuario: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->user_name }}</b> 
-                        <hr class="horizontal dark my-1">
-                    </li>
-                    <li class="mb-1">
-                        ID de usuario: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->user }}</b> 
-                        <hr class="horizontal dark my-1">
-                    </li>
-                    <li class="mb-1">
-                        Fondo: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->membership }}</b>  
-                        <hr class="horizontal dark my-1">
-                    </li>
-                    <li class="mb-1">
-                        Estado: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->status }}</b>  
-                        <hr class="horizontal dark my-1">
-                    </li>
-                    <li class="mb-1">
-                        Email: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->user_email  }}</b>  
-                        <hr class="horizontal dark my-1">
-                    </li>
-                    <li class="mb-1">
-                        Detalle: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->detail  }}</b>  
-                        <hr class="horizontal dark my-1">
-                    </li>
-                    <li class="mb-1">
-                        Fecha Activada: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->activedAt  }}</b>  
-                        <hr class="horizontal dark my-1">
-                    </li>
-                    <li class="mb-1">
-                        Fecha de cierre: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->closedAt  }}</b>  
-                        <hr class="horizontal dark my-1">
-                    </li>
+                  <li class="mb-1">
+                    ID de la Fondo: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->id }}</b> 
+                    <hr class="horizontal dark my-1">
+                  </li>
+                  <li class="mb-1">
+                    Membresia Padre: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->membresiaPadre }}</b> 
+                    <hr class="horizontal dark my-1">
+                  </li>
+                  <li class="mb-1">
+                    Nombre Usuario: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->user_name }}</b> 
+                    <hr class="horizontal dark my-1">
+                  </li>
+                  <li class="mb-1">
+                    ID de usuario: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->user }}</b> 
+                    <hr class="horizontal dark my-1">
+                  </li>
+                  <li class="mb-1">
+                    Fondo: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->membership }}</b>  
+                    <hr class="horizontal dark my-1">
+                  </li>
+                  <li class="mb-1">
+                    Estado: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->status }}</b>  
+                    <hr class="horizontal dark my-1">
+                  </li>
+                  <li class="mb-1">
+                    Email: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->user_email  }}</b>  
+                    <hr class="horizontal dark my-1">
+                  </li>
+                  <li class="mb-1">
+                    Detalle: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->detail  }}</b>  
+                    <hr class="horizontal dark my-1">
+                  </li>
+                  <li class="mb-1">
+                    Fecha Activada: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->activedAt  }}</b>  
+                    <hr class="horizontal dark my-1">
+                  </li>
+                  <li class="mb-1">
+                    Fecha de cierre: <b style="font-size: 0.75rem; color: #6B6B6B;">{{ $membership->closedAt  }}</b>  
+                    <hr class="horizontal dark my-1">
+                  </li>
                 </ul>
-            </div>
+              </div>
               
             </div>
             <div class="card-footer text-center pt-0 px-lg-2 px-1">
@@ -488,10 +488,10 @@
           </div>
         </form>
 
-        </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 @endforeach
 

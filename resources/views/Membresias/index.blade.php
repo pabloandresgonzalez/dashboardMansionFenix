@@ -3,23 +3,23 @@
 @section('content')
 
 @if(session('success'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert" id="message_id">
-      <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-      <span class="alert-text"><strong>¡Éxito!</strong> {{ session('success') }}</span>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
+<div class="alert alert-success alert-dismissible fade show" role="alert" id="message_id">
+  <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+  <span class="alert-text"><strong>¡Éxito!</strong> {{ session('success') }}</span>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 @endif
 
 @if(session('alert'))
-  <div class="alert alert-warning alert-dismissible fade show" role="alert" id="message_id">
-      <span class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
-      <span class="alert-text"><strong>Warning!</strong> {{ session('alert') }}</span>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
+<div class="alert alert-warning alert-dismissible fade show" role="alert" id="message_id">
+  <span class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+  <span class="alert-text"><strong>Warning!</strong> {{ session('alert') }}</span>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 @endif
 
 <div class="row">
@@ -120,52 +120,52 @@
       <div class="card-body p-1">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
-              @foreach($membresias as $index => $membresia)
-                  <div class="carousel-item @if($index == 0) active @endif">
-                      <div class="page-header min-vh-75 m-3 border-radius-xl" style="background-image: url('{{ asset('storage/' . $membresia->image) }}');">
-                          <span class="mask bg-gradient-dark"></span>                          
-                          <div class="container">                            
-                            <div class="description ps-6"> 
-                              <div class="row">
-                                  <div class="col-lg-6 my-auto">
-                                      <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $membresia->name }}</h4>
-                                      <h1 class="text-white fadeIn2 fadeInBottom">$ {{ $membresia->valor }}</h1>
-                                      <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">{{ $membresia->detail }}</p>
-                                      <h7 class="text-white opacity-7 fadeIn3 fadeInBottom">Valor membresía + administración $<?php echo $membresia->valor + $membresia->valor * 10 / 100; ?></h7>
-                                  </div>
-                              </div>     
-                                  <h3>
-                                      <a href="#modal-form1{{ $membresia->id }}" data-bs-toggle="modal" data-bs-target="#modal-form1{{ $membresia->id }}" class="text-white icon-move-right">
-                                           Comprar
-                                          <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
-                                      </a>
-                                  </h3>
-                                  <h7>ID de la Membresía: {{ $membresia->id }}</h7>
-                              </div>
-                          </div>
+            @foreach($membresias as $index => $membresia)
+            <div class="carousel-item @if($index == 0) active @endif">
+              <div class="page-header min-vh-75 m-3 border-radius-xl" style="background-image: url('{{ asset('storage/' . $membresia->image) }}');">
+                <span class="mask bg-gradient-dark"></span>                          
+                <div class="container">                            
+                  <div class="description ps-6"> 
+                    <div class="row">
+                      <div class="col-lg-6 my-auto">
+                        <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $membresia->name }}</h4>
+                        <h1 class="text-white fadeIn2 fadeInBottom">$ {{ $membresia->valor }}</h1>
+                        <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">{{ $membresia->detail }}</p>
+                        <h7 class="text-white opacity-7 fadeIn3 fadeInBottom">Valor membresía + administración $<?php echo $membresia->valor + $membresia->valor * 10 / 100; ?></h7>
                       </div>
-                  </div>
-              @endforeach
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Anterior</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Siguiente</span>
-          </button>
-        </div>  
-        <div class="d-flex justify-content-center mt-2">
-          <div class="pagination-container justify-content-center">
-              <div class="pagination pagination-warning pagination-sm text-xs">
-                  {{ $membresias->appends(request()->input())->links() }}
-              </div>
+                    </div>     
+                    <h3>
+                      <a href="#modal-form1{{ $membresia->id }}" data-bs-toggle="modal" data-bs-target="#modal-form1{{ $membresia->id }}" class="text-white icon-move-right">
+                       Comprar
+                       <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                     </a>
+                   </h3>
+                   <h7>ID de la Membresía: {{ $membresia->id }}</h7>
+                 </div>
+               </div>
+             </div>
+           </div>
+           @endforeach
+         </div>
+         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+      </div>  
+      <div class="d-flex justify-content-center mt-2">
+        <div class="pagination-container justify-content-center">
+          <div class="pagination pagination-warning pagination-sm text-xs">
+            {{ $membresias->appends(request()->input())->links() }}
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <!-- Modal crear UserMemberships -->
@@ -192,15 +192,17 @@
             </div>
             <div class="card-body pt-1">
               <form class="" method="POST" enctype="multipart/form-data" action="{{ url('/membership/store') }}">
-              @csrf @method('POST')
+                @csrf @method('POST')
+
+                <input type="hidden" name="form_token" value="{{ $membresia->form_token }}">
 
                 <label for="id_membresia">ID del fondo</label>
                 <div class="input-group mb-1">
-                  <input type="text" name="id_membresia" value="{{ $membresia->id }}" class="form-control" placeholder="Hash de pago" aria-label="text">
+                  <input type="text" name="id_membresia" value="{{ $membresia->id }}" class="form-control" placeholder="Hash de pago" aria-label="text" readonly>
                 </div>
                 <label for="name">Fondo</label>
                 <div class="input-group mb-1">
-                  <input type="text" name="name" value="{{ $membresia->name }}" class="form-control" placeholder="Hash de pago" aria-label="text">
+                  <input type="text" name="name" value="{{ $membresia->name }}" class="form-control" placeholder="Hash de pago" aria-label="text" readonly>
                 </div>
                 <label for="hashUSDT">Hash</label>
                 <div class="input-group mb-1">
@@ -217,16 +219,16 @@
             </div>
             <div class="card-footer text-center pt-0 px-lg-2 px-1">
               <p class="mb-2 text-sm mx-auto">
-                Valor fondo + administración <strong>$<?php echo $membresia->valor + $membresia->valor * 10 / 100; ?></strong>
+                Valor del fondo <strong>$ {{ $membresia->valor }}</strong>
               </p>
             </div>
           </div>
         </form>
 
-        </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 @endforeach
 

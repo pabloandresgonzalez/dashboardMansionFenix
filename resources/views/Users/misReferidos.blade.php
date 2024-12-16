@@ -120,29 +120,29 @@
             </thead>
             <tbody>
               @foreach($referidos as $user)
-                <tr>
-                  <td class="text-center">
-                    <p class="text-xs font-weight-bold mb-0">{{ $user->name }}</p>
-                  </td>
-                  <td class="text-center">
-                    <p class="text-xs font-weight-bold mb-0">{{ $user->lastname }}</p>
-                  </td>
-                  <td class="text-center">
-                    <p class="text-xs font-weight-bold mb-0">{{ $user->email }}</p>
-                  </td>
-                  <td class="text-center">
-                    <p class="text-xs font-weight-bold mb-0">
-                      @if($user->isActive == 1)
-                        Activo
-                      @elseif($user->isActive == 0)
-                        Inactivo
-                      @endif
-                    </p>
-                  </td>
-                  <td class="text-center">
-                    <!-- Espacio para posibles botones o acciones adicionales -->
-                  </td>
-                </tr>
+              <tr>
+                <td class="text-center">
+                  <p class="text-xs font-weight-bold mb-0">{{ $user->name }}</p>
+                </td>
+                <td class="text-center">
+                  <p class="text-xs font-weight-bold mb-0">{{ $user->lastname }}</p>
+                </td>
+                <td class="text-center">
+                  <p class="text-xs font-weight-bold mb-0">{{ $user->email }}</p>
+                </td>
+                <td class="text-center">
+                  <p class="text-xs font-weight-bold mb-0">
+                    @if($user->isActive == 1)
+                    Activo
+                    @elseif($user->isActive == 0)
+                    Inactivo
+                    @endif
+                  </p>
+                </td>
+                <td class="text-center">
+                  <!-- Espacio para posibles botones o acciones adicionales -->
+                </td>
+              </tr>
               @endforeach
             </tbody>
           </table>

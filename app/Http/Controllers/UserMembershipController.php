@@ -12,11 +12,14 @@ use App\Services\ProductionService;
 use App\Models\membresia;
 use Illuminate\Support\Facades\File;
 use App\Mail\MembershipCreatedMessage;
+use App\Mail\StatusChangeMembershipseMessage;
+use App\Mail\StatusChangeMembershipseMessageAdmin;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\wallet_transactions;
+use Illuminate\Support\Facades\Crypt;
 
 class UserMembershipController extends Controller
 {
@@ -129,11 +132,25 @@ class UserMembershipController extends Controller
         $total = $totalUSDT + $totalPSIV;
 
         $membresia = Membresia::find($request->input('id_membresia'));
-        $valormembresia =$membresia->valor;
+        $valormembresia = $membresia->valor;
 
         if ($totalPSIV < $valormembresia) {
 
             return redirect()->route('mismemberships.index')->with('alert', ' ' . $name . ' ¡' .'Ups, El saldo es insuficiente para comprar el fondo¡');    
+        }
+
+
+        if ($membresia->name !== $request->input('name')) {
+            return redirect()->route('mismemberships.index')->with('alert', 'ID del fondo o Fondo manipulados en el formulario.');
+        }
+
+        $tokenData = json_decode(Crypt::decryptString($request->input('form_token')), true);
+
+        // Validar los datos desencriptados
+        $membresia = Membresia::findOrFail($tokenData['id_membresia']);
+
+        if ($membresia->name !== $tokenData['name']) {
+            return redirect()->route('mismemberships.index')->with('alert', 'Datos manipulados en el formulario.');
         }
 
 
@@ -169,12 +186,10 @@ class UserMembershipController extends Controller
         $membership->save();// INSERT BD
 
         //Enviar email
-        $user_email = User::where('role', 'admin')->first();
-        $user_email_admin = $user_email->email;
-        $user_email_admin2 = 'pabloandres6@gmail.com';//'soportefuturslatinoamerica@gmail.com';
+        $user_email_admin = User::where('role', 'admin')->first();
         
+        Mail::to($email)->send(new MembershipCreatedMessage($membership));
         Mail::to($user_email_admin)->send(new MembershipCreatedMessage($membership));
-        Mail::to($user_email_admin2)->send(new MembershipCreatedMessage($membership));
 
         return redirect()->route('mismemberships.index')->with('success', 'Fondo comprado con éxito!');        
 
@@ -182,6 +197,13 @@ class UserMembershipController extends Controller
 
     public function update(Request $request, UserMembership $userMembership)
     {
+
+        //Conseguir usuario identificado
+        $user = \Auth::user();
+        $id = $user->id;
+        $name = $user->name;
+        $email = $user->email;
+
         // Validación del formulario
         $validatedData = $request->validate([
             'activedAt' => 'required|date_format:Y-m-d\TH:i',
@@ -207,8 +229,15 @@ class UserMembershipController extends Controller
             // Guardar el modelo
             $userMembership->save();
 
+
             // Confirmar la transacción
             DB::commit();
+
+            //Enviar email
+            $user_email_admin = User::where('role', 'admin')->first();
+            
+            Mail::to($email)->send(new StatusChangeMembershipseMessage($userMembership));
+            Mail::to($user_email_admin)->send(new StatusChangeMembershipseMessageAdmin($userMembership));
 
             // Redirigir con éxito
             return redirect()->route('membership.index')->with('success', 'Fondo actualizado con éxito!');
@@ -218,7 +247,7 @@ class UserMembershipController extends Controller
             DB::rollBack();
             return redirect()->route('membership.index')->withErrors('Hubo un problema al actualizar el fondo: ' . $e->getMessage());
         }
-    }
+    }    
 
     public function misMemberships()
     {
@@ -258,11 +287,6 @@ class UserMembershipController extends Controller
         ]);
     }
 
-    /**
-     * Calcula la fecha de cierre evitando fines de semana.
-     *
-     * @return string
-     */
     private function calculateClosedAt()
     {
         $date = Carbon::now();

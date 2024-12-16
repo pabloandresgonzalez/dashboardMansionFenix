@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo Fondo</title>
+    <title>Notificación cambio de estado del fondo</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -82,23 +82,25 @@
 </head>
 <body>
     <header>
-        <h1>¡Fue adquirido el fondo {{ $membership->membership }}!</h1>
+        <h2>¡Cambio el estado del fondo {{ $userMembership->name }}!</h2>
     </header>
-    <div class="container">        
-        <h1>{{ $membership->name }}</h1>
-        <p>{{ $membership->name }}</p>
-        <ul style="list-style-type: none; text-align: left; padding-left: 0; font-size: 14px; line-height: 1.6;">
-            <li>Usuario: {{ $membership->user_email }}</li>
-            <li>Id de usuario: {{ $membership->user }}</li>
-            <li>Fondo: {{ $membership->membership }}</li>
-            <li>Estado: {{ $membership->status }}</li>
-            <li>Hash USDT: {{ $membership->hashUSDT }}</li>
-            <li>Hash PSIV: {{ $membership->hashPSIV }}</li>
-            <li>Adquirido: {{ $membership->created_at }}</li>
+    <div class="container">   
+        <p>Estimado(a) {{ $userMembership->user_email }},</p>
+        <p>Se realizo el cambio de estado del fondo {{ $userMembership->name }} con los siguientes detalles:</p>   
+        <ul style="list-style-type: none; text-align: left; padding-left: 0; font-size: 12px; line-height: 1.6; margin-left: 4px;">
+            <li>Usuario: {{ $userMembership->user_email }}</li>
+            <li>Id de usuario: {{ $userMembership->user }}</li>
+            <li>Fondo: {{ $userMembership->membership }}</li>
+            <li>Estado: {{ $userMembership->status }}</li>
+            <li>Hash USDT: {{ $userMembership->hashUSDT }}</li>
+            <li>Hash PSIV: {{ $userMembership->hashPSIV }}</li>
+            <li>Adquirido: {{ $userMembership->created_at }}</li>
         </ul>
+        <p>Para más detalles, puedes revisar en la sección fondos en el Portal.</p> 
+        <a href="{{ route('login') }}" class="btn">{{ config('app.name') }}</a>     
         <br><br>
-        <a href="{{ route('login') }}" class="btn">Ver más detalles</a>
-        <br><br>
+        <p>¡Gracias por usar nuestros servicios!</p>
+        <br>
         <p class="footer">
             <img src="cid:laravel-logo.png" class="logo" alt="Logo">
             <br><br>
