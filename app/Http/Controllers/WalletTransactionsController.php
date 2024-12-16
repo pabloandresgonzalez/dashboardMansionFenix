@@ -16,6 +16,7 @@ use App\Models\NetworkTransaction;
 use App\Mail\TransactionSentMessage;
 use App\Mail\TransactionMessageCreated;
 use App\Mail\StatusChangeTransactionMessage;
+use App\Mail\StatusChangeTransactionMessageAdmin;
 use DB;
 use Carbon\Carbon;
 use DateTime;
@@ -163,7 +164,7 @@ class WalletTransactionsController extends Controller
       $Wallet->wallet = $Wallet->wallet;
       $Wallet->inOut = $Wallet->inOut;
       $Wallet->status = $request->input('status');
-      $Wallet->detail = $request->input('detail');
+      $Wallet->detail = $Wallet->detail;
 
       $Wallet->save();
 
