@@ -320,42 +320,41 @@
       </div>
     </div>
     <div class="col-lg-4 col-md-6">
-  <div class="card h-100">
-    <div class="card-header pb-0">
-      <h6>En construcción</h6>
-      <p class="text-sm">
-        <i class="fa fa-cogs text-warning" aria-hidden="true"></i>
-        <span class="font-weight-bold">Esta sección está en desarrollo</span>
-      </p>
-    </div>
-    <div class="card-body p-3 text-center">
-      <div class="alert " role="alert">
-        ¡Estamos trabajando en esta sección! Estará disponible muy pronto.
+    <div class="card h-100">
+      <div class="card-header pb-0">
+        <h6>En construcción</h6>
+        <p class="text-sm">
+          <i class="fa fa-cogs text-warning" aria-hidden="true"></i>
+          <span class="font-weight-bold">Esta sección está en desarrollo</span>
+        </p>
       </div>
-      <div class="timeline timeline-one-side">
-        <div class="timeline-block mb-3">
-          <span class="timeline-step">
-            <i class="ni ni-briefcase-24 text-info text-gradient"></i>
-          </span>
-          <div class="timeline-content">
-            <h6 class="text-dark text-sm font-weight-bold mb-0">¡Casi listo! Estamos trabajando en nuevas características.</h6>
-            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Pronto disponible</p>
+      <div class="card-body p-3 text-center">
+        <div class="alert " role="alert">
+          ¡Estamos trabajando en esta sección! Estará disponible muy pronto.
+        </div>
+        <div class="timeline timeline-one-side">
+          <div class="timeline-block mb-3">
+            <span class="timeline-step">
+              <i class="ni ni-briefcase-24 text-info text-gradient"></i>
+            </span>
+            <div class="timeline-content">
+              <h6 class="text-dark text-sm font-weight-bold mb-0">¡Casi listo! Estamos trabajando en nuevas características.</h6>
+              <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Pronto disponible</p>
+            </div>
+          </div>
+          <div class="timeline-block">
+            <span class="timeline-step">
+              <i class="ni ni-refresh-2 text-danger text-gradient"></i>
+            </span>
+            <div class="timeline-content">
+              <h6 class="text-dark text-sm font-weight-bold mb-0">Actualizaciones en curso</h6>
+              <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Próximamente</p>
+            </div>
           </div>
         </div>
-        <div class="timeline-block">
-          <span class="timeline-step">
-            <i class="ni ni-refresh-2 text-danger text-gradient"></i>
-          </span>
-          <div class="timeline-content">
-            <h6 class="text-dark text-sm font-weight-bold mb-0">Actualizaciones en curso</h6>
-            <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">Próximamente</p>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
-</div>
-
+    </div>
   </div>
 
 @endsection

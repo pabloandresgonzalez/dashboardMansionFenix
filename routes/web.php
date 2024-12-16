@@ -15,6 +15,7 @@ use App\Http\Controllers\MembresiaController;
 use App\Http\Controllers\UserMembershipController;
 use App\Http\Controllers\NetworkTransactionController;
 use App\Http\Controllers\WalletTransactionsController;
+use App\Http\Controllers\GuiaControllerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +78,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/walletsaldos', [WalletTransactionsController::class, 'editsaldos'])->name('walletsaldos');    
 	Route::get('/miwallet', [WalletTransactionsController::class, 'miwallet'])->name('miwallet');     
 	Route::post('/wallet/storeuser', [WalletTransactionsController::class, 'storeUser']);
+
+	//Guias
+	Route::get('/guias', [GuiaControllerController::class, 'index'])->name('guia.index');
 	
 	
 });
