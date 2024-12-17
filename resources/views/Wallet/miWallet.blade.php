@@ -428,6 +428,7 @@
               <p class="mb-2 text-sm mx-auto">
                 Costo <strong for="fee" id="fee-label">%</strong> de administración
               </p>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>
@@ -515,6 +516,7 @@
               <p class="mb-2 text-sm mx-auto">
                 Estado <strong>{{ $membership->status }}</strong>
               </p>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>

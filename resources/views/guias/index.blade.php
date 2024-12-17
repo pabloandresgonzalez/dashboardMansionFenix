@@ -343,7 +343,7 @@
           <h5>Realizar un traslado</h5>
           <div class="ratio ratio-16x9">
             <video controls>
-              <source src="{{ asset('img/traslado_final.mp4') }}" type="video/mp4">
+              <source src="{{ asset('img/Traslado_final.mp4') }}" type="video/mp4">
               Tu navegador no soporta la etiqueta de video.
             </video>
           </div>
@@ -356,9 +356,6 @@
     </div>
   </div>
 </div>
-
-
-
 
 <!-- Modal de Preguntas Frecuentes -->
 <div class="modal fade" id="faqsModal" tabindex="-1" aria-labelledby="faqsModalLabel" aria-hidden="true">
@@ -373,8 +370,8 @@
         <dl>
           <dt>¿Cómo puedo registrarme?</dt>
           <dd>Accede a la página de registro y completa el formulario.</dd>
-          <dt>¿Dónde puedo ver mi historial de transacciones?</dt>
-          <dd>Visita la sección de "Mi cuenta" en el menú principal.</dd>
+          <dt>¿Dónde puedo ver la utilidad de mis fondos?</dt>
+          <dd>Visita la sección de "Billetera" en el menú principal y accede a mi billetra y en renovaciones seleciona en PDF.</dd>
           <dt>¿Cómo contacto con soporte técnico?</dt>
           <dd>Puedes enviarnos un correo a soporte@ejemplo.com o usar el chat en línea.</dd>
         </dl>

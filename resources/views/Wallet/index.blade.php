@@ -195,6 +195,7 @@
       <p class="mb-2 text-sm mx-auto">
         Estado <strong>{{ $Wallet->status }}</strong>
     </p>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 </div>
 </div>
 </form>

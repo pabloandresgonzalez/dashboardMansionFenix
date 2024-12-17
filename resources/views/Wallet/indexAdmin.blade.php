@@ -218,7 +218,11 @@
             </div>
             ';                      
         }
-        ?>                
+        ?>
+        <br>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>                
         
     </form>
 </div>
@@ -296,7 +300,9 @@
     <div class="card-footer text-center pt-0 px-lg-2 px-1">
       <p class="mb-2 text-sm mx-auto">
         Estado <strong>{{ $Wallet->status }}</strong>
-    </p>
+      </p>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      
 </div>
 </div>
 </form>

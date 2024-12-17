@@ -348,6 +348,7 @@
               <p class="mb-2 text-sm mx-auto">
                 Valor del Fondo <strong>${{ $membership->membership }}</strong>
               </p>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </form>
@@ -428,6 +429,7 @@
               <p class="mb-2 text-sm mx-auto">
                 Estado <strong>{{ $membership->status }}</strong>
               </p>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </form>

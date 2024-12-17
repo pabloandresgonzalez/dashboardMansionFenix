@@ -402,8 +402,8 @@
             </div>
             <div class="card-footer text-center pt-0 px-lg-2 px-1">
               <p class="mb-2 text-sm mx-auto">
-                Valor fondo + administración <strong>$<?php echo $membership->valor + $membership->valor * 10 / 100; ?></strong>
-              </p>
+                Valor fondo  <strong>$ {{ $membership->membership}}</strong>
+              </p>              
             </div>
           </div>
         </form>
@@ -484,6 +484,7 @@
               <p class="mb-2 text-sm mx-auto">
                 Estado <strong>{{ $membership->status }}</strong>
               </p>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </form>
