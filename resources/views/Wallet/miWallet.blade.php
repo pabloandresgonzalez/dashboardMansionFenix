@@ -244,7 +244,9 @@
                 </div>
                 <div class="d-flex align-items-center text-sm">
                   No. {{ $membership->id }}
-                  <a href="#modal-form2{{ $membership->id }}" class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1" data-bs-toggle="modal" data-bs-target="#modal-form2{{ $membership->id }}"></i> PDF</a>
+                  <a href="#modal-form2{{ $membership->id }}" class="btn btn-link text-dark text-sm mb-0 px-0 ms-4" data-bs-toggle="modal" data-bs-target="#modal-form2{{ $membership->id }}">
+                    <i class="fas fa-file-pdf text-lg me-1"></i> PDF
+                  </a>
                 </div>
               </li>            
             </ul>

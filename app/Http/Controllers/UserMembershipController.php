@@ -60,7 +60,7 @@ class UserMembershipController extends Controller
         ->orwhere('status', 'LIKE', "%$nombre%")
         ->orwhere('detail', 'LIKE', "%$nombre%")
         ->orderBy('created_at', 'desc')
-        ->paginate(10);
+        ->paginate(50);
 
         //$memberships = UserMembership::orderBy('updated_at', 'Desc')->paginate(8);
         //$data = ['memberships' => $memberships];
