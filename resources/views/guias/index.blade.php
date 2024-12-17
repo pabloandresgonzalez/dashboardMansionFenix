@@ -326,15 +326,29 @@
       </div>
       <div class="modal-body">
         <p>Aquí tienes una colección de videos para guiarte:</p>
-        <div class="ratio ratio-16x9 mb-3">
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID1" title="Video Tutorial 1" allowfullscreen></iframe>
+        
+        <!-- Video 1: Comprar un fondo -->
+        <div class="mb-2">
+          <h5>Comprar un fondo</h5>
+          <div class="ratio ratio-16x9">
+            <video controls>
+              <source src="{{ asset('img/Fondo_final1.mp4') }}" type="video/mp4">
+              Tu navegador no soporta la etiqueta de video.
+            </video>
+          </div>
         </div>
-        <div class="ratio ratio-16x9 mb-3">
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID2" title="Video Tutorial 2" allowfullscreen></iframe>
+
+        <!-- Video 2: Realizar un traslado -->
+        <div class="mb-2">
+          <h5>Realizar un traslado</h5>
+          <div class="ratio ratio-16x9">
+            <video controls>
+              <source src="{{ asset('img/traslado_final.mp4') }}" type="video/mp4">
+              Tu navegador no soporta la etiqueta de video.
+            </video>
+          </div>
         </div>
-        <div class="ratio ratio-16x9 mb-3">
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID3" title="Video Tutorial 3" allowfullscreen></iframe>
-        </div>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -342,6 +356,9 @@
     </div>
   </div>
 </div>
+
+
+
 
 <!-- Modal de Preguntas Frecuentes -->
 <div class="modal fade" id="faqsModal" tabindex="-1" aria-labelledby="faqsModalLabel" aria-hidden="true">
