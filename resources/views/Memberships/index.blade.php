@@ -272,15 +272,16 @@
               </tr>
             </tbody>
             @endforeach
-          </table>          
-        </div>
-        <div class="d-flex justify-content-center">
-          <div class="pagination-container justify-content-center">
-            <div class="pagination pagination-warning">
-              {{ $memberships->appends(request()->input())->links() }}
-            </div>        
+          </table>
+          <!-- Contenedor del paginador -->
+          <div id="wallets-container" class="card-footer pt-0 d-flex justify-content-center">
+              <div class="d-flex justify-content-center flex-wrap pagination-container" style="max-width: 100%; overflow-x: auto; white-space: nowrap; padding: 10px 20px;">
+                <div class="pagination pagination-warning pagination-sm" style="margin: 0; display: inline-flex; font-size: 0.8rem; gap: 5px;">
+                  {{ $memberships->appends(request()->input())->onEachSide(1)->links() }}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
       </div>
     </div>
   </div>
