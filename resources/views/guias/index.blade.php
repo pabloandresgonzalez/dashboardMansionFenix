@@ -167,13 +167,13 @@
       </div>
       <div class="modal-body">
         <p>Aquí puedes encontrar todos los pasos disponibles para ayudarte a usar nuestro portal:</p>
-        <ul>
-          <li><a href="#stepByStepSection" class="">Aprende a registrarte en el portal</a></li>
-          <li><a href="#acquireFundSection" class="">Cómo adquirir un fondo</a></li>
-          <li><a href="#renewFundSection" class="">Cómo renovar un fondo</a></li>
-          <li><a href="#makeTransferSection" class="">Realizar un traslado</a></li>
-          <li><a href="#referralsNetworkSection" class="">Cómo ver mi red de referidos</a></li>
-          <li><a href="#contactSection" class="">Cómo me pongo en contacto</a></li>
+        <ul style="list-style-type: none; padding-left: 0;">
+          <li><a href="#stepByStepSection" class="tutorial-link"><i class="fas fa-arrow-right"></i> Aprende a registrarte en el portal</a></li>
+          <li><a href="#acquireFundSection" class="tutorial-link"><i class="fas fa-arrow-right"></i> Cómo adquirir un fondo</a></li>
+          <li><a href="#renewFundSection" class="tutorial-link"><i class="fas fa-arrow-right"></i> Cómo renovar un fondo</a></li>
+          <li><a href="#makeTransferSection" class="tutorial-link"><i class="fas fa-arrow-right"></i> Realizar un traslado</a></li>
+          <li><a href="#referralsNetworkSection" class="tutorial-link"><i class="fas fa-arrow-right"></i> Cómo ver mi red de referidos</a></li>
+          <li><a href="#contactSection" class="tutorial-link"><i class="fas fa-arrow-right"></i> Cómo me pongo en contacto</a></li>
         </ul>
 
         <!-- Sección Paso a Paso -->
@@ -297,8 +297,23 @@
   </div>
 </div>
 
+<!-- CSS -->
+<style>
+  .tutorial-link {
+    color: #000; /* Color negro por defecto */
+    text-decoration: none;
+    font-weight: normal;
+    transition: color 0.3s ease; /* Transición suave */
+  }
 
+  .tutorial-link i {
+    margin-right: 8px; /* Espacio entre icono y texto */
+  }
 
+  .tutorial-link:hover {
+    color: #FFD700; /* Color dorado metálico al pasar el mouse */
+  }
+</style>
 
 
 <!-- Modal de Videos -->
