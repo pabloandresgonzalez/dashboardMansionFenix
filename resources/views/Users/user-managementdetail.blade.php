@@ -189,7 +189,7 @@
                 <span class="text-xs">Últimos 6 meses</span>
               </div>
               <div class="col-6 text-end">
-                <a href="{{ url('/mismembership') }}" class="btn btn-outline-secubdary btn-sm mb-0">Ver todo</a>
+                <a href="#" class="btn btn-outline-secubdary btn-sm mb-0">Ver todo</a>
               </div>
             </div>
           </div>
@@ -306,7 +306,7 @@
           <div class="card-body pt-4 p-3">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-0">Movimientos</h6>
-              <a href="{{ url('/wallet') }}" class="btn btn-outline-secubdary btn-sm mb-0">Ver todos</a>          
+              <a href="#" class="btn btn-outline-secubdary btn-sm mb-0">Ver todos</a>          
             </div>
             @foreach($myWallets as $Wallet)
             <ul class="list-group" id="wallets-list">
@@ -317,7 +317,9 @@
                   </button>
                   <div class="d-flex flex-column">
                     <h6 class="mb-1 text-dark text-sm">No. {{ $Wallet->id }} - {{ $Wallet->status }}</h6>
-                    <span class="text-xs">{{ $Wallet->created_at->format('d M Y, h:i A') }}</span>
+                    <span class="text-xs">
+                        {{ optional($Wallet->created_at)->format('d M Y, h:i A') ?? 'Sin fecha' }}
+                    </span>
                     <span class="text-xs text-secondary">{{ $Wallet->detail }}</span>
                     <span class="text-xs text-secondary">{{ $Wallet->type }}</span>
                   </div>

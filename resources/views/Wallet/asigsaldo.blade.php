@@ -109,7 +109,7 @@
       </div>
       <div class="card-body p-3">
         
-        <form action="/wallet/asigsaldo" enctype="multipart/form-data" method="POST" role="form text-left">
+        <form action="{{ secure_url('/wallet/asigsaldo') }}" enctype="multipart/form-data" method="POST" role="form text-left">
           @csrf
 
           <div class="row">
@@ -176,5 +176,6 @@
       </div>
     </div>
   </div>
+</div>
   
   @endsection

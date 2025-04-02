@@ -8,10 +8,15 @@ class UserBalanceService
 {
     public function getBalanceByUser($userId)
     {
+        $adminToken = auth()->user()->token ?? config('services.user_balance.token'); 
+
         $data = [
-            'userId' => $userId,
-            'token' => config('services.user_balance.token'), // Asegúrate de tener el token en .env
+            'userId' => (string) $userId, // Pasar el ID correcto del usuario a consultar
+            'token' => $adminToken, 
+            'is_admin' => true, // Si la API lo soporta, indicar que es una consulta de admin
         ];
+
+        \Log::info('Consulta a getBalanceByUser', $data); // Log para depurar
 
         $response = Http::post(config('services.user_balance.url'), $data);
 
@@ -19,6 +24,8 @@ class UserBalanceService
             return $response->json();
         }
 
-        return null; // O maneja el error según sea necesario
+        \Log::error('Error en getBalanceByUser', ['response' => $response->body()]);
+        return null;
     }
+
 }

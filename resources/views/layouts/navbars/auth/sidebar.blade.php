@@ -1,8 +1,8 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 h-100" id="sidenav-main">
-  <div class="sidenav-header">
+<div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-    <a class="align-items-center d-flex m-0 navbar-brand text-wrap" href="{{ route('dashboard') }}"> 
-        <svg xmlns="http://www.w3.org/2000/svg" height="42" width="42" viewBox="0 0 512 512"><path fill="#FFD43B" d="M96 63.4C142.5 27.3 201.6 7.3 260.5 8.8c29.6-.4 59.1 5.4 86.9 15.3-24.1-4.6-49-6.3-73.4-2.5C231.2 27 191 48.8 162.2 80.9c5.7-1 10.8-3.7 16-5.9 18.1-7.9 37.5-13.3 57.2-14.8 19.7-2.1 39.6-.4 59.3 1.9-14.4 2.8-29.1 4.6-43 9.6-34.4 11.1-65.3 33.2-86.3 62.6-13.8 19.7-23.6 42.9-24.7 67.1-.4 16.5 5.2 34.8 19.8 44a53.3 53.3 0 0 0 37.5 6.7c15.5-2.5 30.1-8.6 43.6-16.3 11.5-6.8 22.7-14.6 32-24.3 3.8-3.2 2.5-8.5 2.6-12.8-2.1-.3-4.4-1.1-6.3 .3a203 203 0 0 1 -35.8 15.4c-20 6.2-42.2 8.5-62.1 .8 12.8 1.7 26.1 .3 37.7-5.4 20.2-9.7 36.8-25.2 54.4-38.8a526.6 526.6 0 0 1 88.9-55.3c25.7-12 52.9-22.8 81.6-24.1-15.6 13.7-32.2 26.5-46.8 41.4-14.5 14-27.5 29.5-40.1 45.2-3.5 4.6-9 6.9-13.6 10.2a150.7 150.7 0 0 0 -51.9 60.1c-9.3 19.7-14.5 41.9-11.8 63.7 1.9 13.7 8.7 27.6 20.9 34.9 12.9 8 29.1 8.1 43.5 5.1 32.8-7.5 61.4-28.9 81-55.8 20.4-27.5 30.5-62.2 29.2-96.4-.5-7.5-1.6-15-1.7-22.5 8 19.5 14.8 39.7 16.7 60.8 2 14.3 .8 28.8-1.6 42.9-1.9 11-5.7 21.5-7.8 32.4a165 165 0 0 0 39.3-81.1 183.6 183.6 0 0 0 -14.2-104.6c20.8 32 32.3 69.6 35.7 107.5 .5 12.7 .5 25.5 0 38.2A243.2 243.2 0 0 1 482 371.3c-26.1 47.3-68 85.6-117.2 108-78.3 36.2-174.7 31.3-248-14.7A248.3 248.3 0 0 1 25.4 366 238.3 238.3 0 0 1 0 273.1v-31.3C3.9 172 40.9 105.8 96 63.4m222 80.3a79.1 79.1 0 0 0 16-4.5c5-1.8 9.2-5.9 10.3-11.2-9 5-18 9.9-26.3 15.7z"/></svg>
+    <a class="align-items-center d-flex m-0 navbar-brand text-wrap" href="{{ route('dashboard') }}">
+    <img src="{{ secure_asset('../img/phoenix coin v29_1.png') }}" class="img-fluid shadow border-radius-xl w-26 h-30">
         <span class="ms-3 font-weight-bold">Club Mansion Phoenix</span>
     </a>
 </div>
@@ -14,7 +14,7 @@
         <li class="nav-item">
           <a class="nav-link {{ (Request::is('dashboard') ? 'active' : '') }}" href="{{ url('dashboard') }}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
                 <title>shop </title>
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -37,7 +37,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('user-profile') ? 'active' : '') }} " href="{{ url('user-profile') }}">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-          <svg width="12px" height="12px" viewBox="0 0 448 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <svg width="12px" height="12px" viewBox="0 0 448 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
               <title>customer-support</title>
               <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g id="Rounded-Icons" transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -57,7 +57,7 @@
 <li class="nav-item">
     <a class="nav-link {{ (Request::is('user-management') ? 'active' : '') }} " href="{{ url('user-management') }}">
         <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-            <svg width="12px" height="12px" viewBox="0 0 640 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg width="12px" height="12px" viewBox="0 0 640 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
                 <title>customer-support</title>
                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <g id="Rounded-Icons" transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -80,7 +80,7 @@
 <li class="nav-item">
     <a class="nav-link {{ (Request::is('news') ? 'active' : '') }}" href="{{ url('news') }}">
         <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
                 <title>office</title>
                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <g id="Rounded-Icons" transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -100,7 +100,7 @@
 <li class="nav-item">
     <a class="nav-link {{ (Request::is('news/Admin') ? 'active' : '') }}" href="{{ url('news/Admin') }}">
         <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
                 <title>new-icon</title>
                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <g id="Rounded-Icons" transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -123,7 +123,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('membresias') ? 'active' : '') }}" href="{{ url('membresias') }}">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-          <svg width="12px" height="12px" viewBox="0 0 576 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <svg width="12px" height="12px" viewBox="0 0 576 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
               <title>new-icon</title>
               <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g id="Rounded-Icons" transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -143,7 +143,7 @@
 <li class="nav-item">
     <a class="nav-link {{ (Request::is('membresias/Admin') ? 'active' : '') }}" href="{{ url('membresias/Admin') }}">
         <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-            <svg width="12px" height="12px" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg">
+            <svg width="12px" height="12px" viewBox="0 0 640 512" xmlns="https://www.w3.org/2000/svg">
                 <title>new-gestion-vitrina-icon</title>
                 <path class="color-background opacity-6" d="M32 0C14.3 0 0 14.3 0 32S14.3 64 32 64l16 0c8.8 0 16 7.2 16 16l0 288c0 44.2 35.8 80 80 80l18.7 0c-1.8 5-2.7 10.4-2.7 16c0 26.5 21.5 48 48 48s48-21.5 48-48c0-5.6-1-11-2.7-16l197.5 0c-1.8 5-2.7 10.4-2.7 16c0 26.5 21.5 48 48 48s48-21.5 48-48c0-5.6-1-11-2.7-16l66.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-464 0c-8.8 0-16-7.2-16-16l0-288C128 35.8 92.2 0 48 0L32 0zM192 80l0 192c0 26.5 21.5 48 48 48l320 0c26.5 0 48-21.5 48-48l0-192c0-26.5-21.5-48-48-48l-96 0 0 144c0 5.9-3.2 11.3-8.5 14.1s-11.5 2.5-16.4-.8L400 163.2l-39.1 26.1c-4.9 3.3-11.2 3.6-16.4 .8s-8.5-8.2-8.5-14.1l0-144-96 0c-26.5 0-48 21.5-48 48z"></path>
             </svg>
@@ -153,12 +153,12 @@
 </li>
 @endif
 <li class="nav-item mt-2">
-  <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Fondos</h6>
+  <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Bóveda de minería de fondos </h6>
 </li>
 <li class="nav-item">
     <a class="nav-link {{ (Request::is('mismembership') ? 'active' : '') }}" href="{{ url('mismembership') }}">
         <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-            <svg width="12px" height="12px" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg">
+            <svg width="12px" height="12px" viewBox="0 0 384 512" xmlns="https://www.w3.org/2000/svg">
                 <title>icono</title>
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -171,14 +171,14 @@
                 </g>
             </svg>
         </div>
-        <span class="nav-link-text ms-1">Mis Fondos</span>
+        <span class="nav-link-text ms-1">Mis Bóvedas</span>
     </a>
 </li>
 @if (auth()->check() && auth()->user()->role == 'admin')
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('membership') ? 'active' : '') }}" href="{{ url('membership') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>office</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -191,7 +191,7 @@
 </g>
 </svg>
 </div>
-<span class="nav-link-text ms-1">Gestión Fondos</span>
+<span class="nav-link-text ms-1">Gestión Bóvedas</span>
 </a>
 </li>
 @endif
@@ -201,7 +201,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('user-management/misReferidos') ? 'active' : '') }}" href="{{ url('user-management/misReferidos') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-gray text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 640 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 640 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>office</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -220,7 +220,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('user-management/miRed') ? 'active' : '') }}" href="{{ url('user-management/miRed') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 320 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 320 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>credit-card</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -242,7 +242,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('miwallet') ? 'active' : '') }}" href="{{ url('miwallet') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>box-3d-50</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -261,7 +261,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('wallet') ? 'active' : '') }}" href="{{ url('wallet') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="20px" height="20px" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="20px" height="20px" viewBox="0 0 640 512" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>box-3d-50</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero"> <!-- Cambié el color a #333333 -->
@@ -281,7 +281,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('walletadmin') ? 'active' : '') }}" href="{{ url('walletadmin') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 576 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 576 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>settings</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -300,33 +300,57 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('asigsaldo') ? 'active' : '') }}" href="{{ url('asigsaldo') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 640 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 640 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>settings</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
             <g transform="translate(1716.000000, 291.000000)">
               <g transform="translate(304.000000, 151.000000)">
                 <path class="color-background opacity-6" d="M522.1 62.4c16.8-5.6 25.8-23.7 20.2-40.5S518.6-3.9 501.9 1.6l-113 37.7C375 15.8 349.3 0 320 0c-44.2 0-80 35.8-80 80c0 3 .2 5.9 .5 8.8L117.9 129.6c-16.8 5.6-25.8 23.7-20.2 40.5s23.7 25.8 40.5 20.2l135.5-45.2c4.5 3.2 9.3 5.9 14.4 8.2L288 480c0 17.7 14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0 0-294.7c21-9.2 37.2-27 44.2-49l125.9-42zM439.6 288L512 163.8 584.4 288l-144.9 0zM512 384c62.9 0 115.2-34 126-78.9c2.6-11-1-22.3-6.7-32.1L536.1 109.8c-5-8.6-14.2-13.8-24.1-13.8s-19.1 5.3-24.1 13.8L392.7 273.1c-5.7 9.8-9.3 21.1-6.7 32.1C396.8 350 449.1 384 512 384zM129.2 291.8L201.6 416 56.7 416l72.4-124.2zM3.2 433.1C14 478 66.3 512 129.2 512s115.2-34 126-78.9c2.6-11-1-22.3-6.7-32.1L153.2 237.8c-5-8.6-14.2-13.8-24.1-13.8s-19.1 5.3-24.1 13.8L9.9 401.1c-5.7 9.8-9.3 21.1-6.7 32.1z"/>
+              </g>
+            </g>
+          </g>
+        </g>
+     </svg>
+  </div>
+<span class="nav-link-text ms-1">Asignar saldos</span>
+</a>
+</li>
+@endif
+<li class="nav-item mt-3">
+  <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Fundación</h6>
+</li>
+<li class="nav-item">
+  <a class="nav-link {{ (Request::is('fundacion') ? 'active' : '') }}" href="{{ url('fundacion') }}">
+    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+        
+      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+        <title>fundacion</title>
+        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g transform="translate(1716.000000, 291.000000)">
+              <g transform="translate(1.000000, 0.000000)">
+                <path class="color-background opacity-6" d="M80 176a112 112 0 1 1 224 0A112 112 0 1 1 80 176zM224 349.1c81.9-15 144-86.8 144-173.1C368 78.8 289.2 0 192 0S16 78.8 16 176c0 86.3 62.1 158.1 144 173.1l0 34.9-32 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l32 0 0 32c0 17.7 14.3 32 32 32s32-14.3 32-32l0-32 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0 0-34.9z"/>   
             </g>
         </g>
     </g>
 </g>
 </svg>
 </div>
-<span class="nav-link-text ms-1">Asignar saldos</span>
+<span class="nav-link-text ms-1">Fundación</span>
 </a>
 </li>
-@endif
+
 <li class="nav-item mt-3">
   <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Soporte</h6>
 </li>
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('profile') ? 'active' : '') }}" 
-  href="https://wa.me/573224485353?text=Hola%21%20Requiero%20de%20su%20ayuda%20para%20un%20soporte%20en%20Club%20Mansi%C3%B3n%20Phoenix%2C%20Gracias" 
+  href="https://wa.me/573229027774?text=Hola%21%20Requiero%20de%20su%20ayuda%20para%20un%20soporte%20en%20Club%20Mansi%C3%B3n%20Phoenix%2C%20Gracias" 
   target="_blank" 
   rel="noopener noreferrer">
   <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-    <svg width="12px" height="12px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <svg width="12px" height="12px" viewBox="0 0 512 512" xmlns="https://www.w3.org/2000/svg">
         <title>customer-support</title>
         <g fill="#FFFFFF">
             <path class="color-background opacity-6" d="M64 0C28.7 0 0 28.7 0 64L0 352c0 35.3 28.7 64 64 64l96 0 0 80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416 448 416c35.3 0 64-28.7 64-64l0-288c0-35.3-28.7-64-64-64L64 0z"/>
@@ -342,7 +366,7 @@
   target="_blank" 
   rel="noopener noreferrer">
   <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>customer-support</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -361,7 +385,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('/guias') ? 'active' : '') }}" href="{{ url('/guias') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 576 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 576 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>customer-support</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -384,7 +408,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('#') ? 'active' : '') }}" href="{{ url('#') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>customer-support</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -403,7 +427,7 @@
 <li class="nav-item">
   <a class="nav-link {{ (Request::is('#') ? 'active' : '') }}" href="{{ url('#') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="12px" viewBox="0 0 512 512" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>customer-support</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -426,7 +450,7 @@
 <li class="nav-item">
   <a class="nav-link  " href="{{ url('/logout') }}">
     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-      <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
         <title>spaceship</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF" fill-rule="nonzero">

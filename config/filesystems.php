@@ -44,21 +44,28 @@ return [
 
         'photousers' => [
             'driver' => 'local',
-            'root' => storage_path('app/photousers'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
+            'root' => storage_path('app/public/photousers'), 
+            'url' => env('APP_URL').'/storage/photousers',   
+            'visibility' => 'public',                        
         ],
 
         'photoDocusers' => [
             'driver' => 'local',
-            'root' => storage_path('app/photoDocusers'),
-            'url' => env('APP_URL').'/storage',
+            'root' => storage_path('app/public/photoDocusers'),
+            'url' => env('APP_URL').'/storage/photoDocusers',
             'visibility' => 'public',
         ],
 
         'imagehash' => [
             'driver' => 'local',
-            'root' => storage_path('app/imagehash'),
+            'root' => storage_path('app/public/imagehash'),
+            'url' => env('APP_URL').'/storage/imagehash',
+            'visibility' => 'public',
+        ],
+
+        'photoMembership' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/photoMembership'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],

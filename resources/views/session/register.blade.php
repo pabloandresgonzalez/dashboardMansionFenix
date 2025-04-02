@@ -332,17 +332,26 @@
                   <p class="text-danger text-xs mt-2">{{ $message }}</p>
                   @enderror
                 </div>
-                <div class="col-md-12 mb-3">
-                  <input type="password" class="form-control" placeholder="Password" name="password" id="password" aria-label="Password" aria-describedby="password-addon" required>
-                  @error('password')
-                  <p class="text-danger text-xs mt-2">{{ $message }}</p>
-                  @enderror
-                </div>
-                
+                <div class="col-md-12 mb-3"> 
+                    <input type="password" class="form-control" 
+                        placeholder="Password" 
+                        name="password" 
+                        id="password" 
+                        aria-label="Password" 
+                        aria-describedby="password-addon" 
+                        required 
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="right" 
+                        title="Debe incluir al menos una letra, un número y un carácter especial. Longitud: 8-20 caracteres.">
+                    @error('password')
+                        <p class="text-danger text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>               
                 <div class="form-check form-check-info text-left">
                   <input class="form-check-input" type="checkbox" name="agreement" id="flexCheckDefault" onchange="javascript:showContent()" >
                   <label class="form-check-label" for="flexCheckDefault">
-                    Estoy de acuerdo con el <a href="javascript:;" class="text-dark font-weight-bolder">Términos y condiciones</a>
+                    Estoy de acuerdo con el 
+                    <a href="javascript:;" class="text-dark font-weight-bolder" onclick="$('#termsModal').modal('show');">Términos y condiciones</a>
                   </label>
                   @error('agreement')
                   <p class="text-danger text-xs mt-2">Primero, acepte los Términos y Condiciones, luego intente registrarse nuevamente.</p>
@@ -360,6 +369,55 @@
     </div>
   </div>
 </section>
+
+<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true"> 
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="videoModalLabel">Bienvenido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="ratio ratio-16x9">
+          <!-- Iframe para el video de YouTube -->
+          <iframe 
+            src="https://www.youtube.com/embed/i9qDeEEMRqA"  
+            title="Video de bienvenida" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 800px;">
+    <div class="modal-content">      
+      <div class="modal-header">
+        <h5 class="modal-title" id="termsModalLabel">Términos y Condiciones</h5>        
+      </div>
+      <div class="modal-body">
+        <div class="row justify-content-center">    
+          <!-- Incrustar el PDF en el modal -->
+          <object data="https://drive.google.com/file/d/1jPX0C2YYu8t8VIzndxopCnKTGl6urmjT/preview" type="application/pdf" width="100%" height="500px">
+            <embed src="https://drive.google.com/file/d/1jPX0C2YYu8t8VIzndxopCnKTGl6urmjT/preview" width="100%" height="500px" />
+            <p>&nbsp;Este navegador no soporta archivos PDF. Descargue el PDF para verlo: 
+              <a href="" target="_blank">Descargar PDF</a>.</p>
+          </embed></object>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 @endsection
 

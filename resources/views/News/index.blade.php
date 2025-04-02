@@ -108,41 +108,36 @@
         <p class="text-sm">Noticias destacadas para mantenerte al día.</p>
       </div>
       <div class="card-body p-3">
-        @foreach($news as $new)
-        <div class="row">
-          <div class="card card-blog card-plain mt-1">
-            <div class="position-relative">
-              <a class="d-block blur-shadow-image">
-                @if (!empty(in_array(strtolower(pathinfo($new->image, PATHINFO_EXTENSION)), ["png", "jpg", "gif", "avg"])))
-                <a class="d-block blur-shadow-image float-start">
-                  <img src="{{ asset('storage/' . $new->image) }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
-                </a>
-                @else 
-                <div class="d-flex justify-content-start">
-                  <div class="video-container position-relative"> 
-                    <iframe class="video-frame position-relative shadow border-radius-xl" src="{{ $new->url_video }}" frameborder="0" allowfullscreen></iframe>
-                  </div>
-                </div>
-                @endif
-              </a>
-            </div>
-            <div class="card-body px-0 pt-2">
-              <p class="text-gradient-gold font-weight-bold text-sm text-uppercase">{{ $new->created_at->locale('es')->isoFormat('D MMMM YYYY') }}</p>
-              <a href="javascript:;">
-                <h4>
-                  {{ $new->title }}
-                </h4>
-              </a>
-              <p>
-                {{ $new->detail }}
-              </p>
-            </div>
+  @foreach($news as $new)
+  <div class="card card-blog card-plain mt-4">
+    <div class="position-relative">
+      <a class="d-block blur-shadow-image">
+        @if (!empty(in_array(strtolower(pathinfo($new->image, PATHINFO_EXTENSION)), ["png", "jpg", "gif", "avg"])))
+        <a class="d-block blur-shadow-image float-start">
+          <img src="{{ asset('storage/photousers/' . $new->image) }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+        </a>
+        @else 
+        <div class="d-flex justify-content-start">
+          <div class="video-container position-relative"> 
+            <iframe class="video-frame position-relative shadow border-radius-xl" src="{{ $new->url_video }}" frameborder="0" allowfullscreen></iframe>
           </div>
         </div>
-        <div class="divider my-4">
-          <hr class="custom-divider">
-        </div>
-        @endforeach
+        @endif
+      </a>
+    </div>
+    <div class="card-body px-0 pt-2">
+      <p class="text-gradient-gold font-weight-bold text-sm text-uppercase">{{ $new->created_at->locale('es')->isoFormat('D MMMM YYYY') }}</p>
+      <a href="javascript:;">
+        <h4>
+          {{ $new->title }}
+        </h4>
+      </a>
+      <p>
+        {{ $new->detail }}
+      </p>
+    </div>
+  </div>
+  @endforeach
         <div class="d-flex justify-content-center mt-2">
           <div class="pagination-container justify-content-center">
             <div class="pagination pagination-warning pagination-sm text-xs">
@@ -157,3 +152,5 @@
 
 
 @endsection
+
+

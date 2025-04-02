@@ -46,7 +46,7 @@
                     <div class="nav-wrapper position-relative end-0">
                         <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;"
+                                <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="{{ url('user-management/misReferidos') }}"
                                 role="tab" aria-controls="overview" aria-selected="true">
                                 <svg class="text-dark" width="16px" height="16px" viewBox="0 0 640 512" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

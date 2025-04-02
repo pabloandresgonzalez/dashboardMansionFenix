@@ -12,7 +12,8 @@ class TrustProxies extends Middleware
      *
      * @var array|string|null
      */
-    protected $proxies;
+    protected $proxies = '*'; // Permite todos los proxies
+    //protected $headers = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_AWS_ELB;
 
     /**
      * The headers that should be used to detect proxies.

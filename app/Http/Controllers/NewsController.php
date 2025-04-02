@@ -116,7 +116,6 @@ class NewsController extends Controller
     {
         //
     }
-
     public function store(StoreNewsRequest $request)
     {
         // Crear el objeto News usando la validación previa del FormRequest
@@ -124,23 +123,30 @@ class NewsController extends Controller
         $news->title = $request->input('title');
         $news->intro = $request->input('intro');
         $news->detail = $request->input('detail');
-        $news->image = $request->input('image');
         $news->isActive = $request->input('isActive');
-        $news->url_video = $request->input('url_video');
 
-        // Subir la imagen solo si está presente
-        if ($request->hasFile('image')) {
-            // Poner nombre único a la imagen y guardarla en la carpeta de 'news_images'
-            $imagePath = $request->file('image')->store('news_images', 'public');
-            // Guardar el nombre del archivo en el objeto News
-            $news->image = $imagePath;
+        // Verificar si viene el URL del video, si no, asignamos null
+        $news->url_video = $request->input('url_video', null);
+
+        //Subir la imagen photo
+        $image_photo = $request->file('image');
+        if ($image_photo) {
+
+          //Poner nombre unico
+          $image_photo_name = time() . $image_photo->getClientOriginalName();
+
+          //Guardarla en la carpeta storage (storage/app/photoNews)
+          Storage::disk('photousers')->put($image_photo_name, File::get($image_photo));
+
+          //Seteo el nombre de la imagen en el objeto
+          $news->image = $image_photo_name;
         }
 
         // Guardar la noticia en la base de datos
         $news->save();
 
-        //Enviar email
-        $users = DB::table('users')->pluck('email');
+        // Obtener los correos electrónicos de los usuarios activos
+        $users = DB::table('users')->where('isActive', true)->pluck('email');
 
         Mail::to($users)->send(new NewsCreatedMessage($news));
 
@@ -168,42 +174,53 @@ class NewsController extends Controller
      */
     public function update(UpdateNewsRequest $request, $id)
     {
-        // Actualizar los campos del objeto News usando la validación previa del FormRequest
+        // Obtener la noticia existente
         $news = News::findOrFail($id);
+
+        // Actualizar los campos de texto
         $news->title = $request->input('title');
         $news->intro = $request->input('intro');
         $news->detail = $request->input('detail');
         $news->isActive = $request->input('isActive');
-        $news->url_video = $request->input('url_video');
+        $news->url_video = $request->input('url_video', null);
 
-        // Subir la nueva imagen solo si está presente
-        if ($request->hasFile('image')) {
+        // Subir y guardar la imagen si está presente en la solicitud
+        $image_photo = $request->file('image');
+        if ($image_photo) {
+            // Generar un nombre único para la imagen
+            $image_photo_name = time() . '_' . $image_photo->getClientOriginalName();
 
-            // Poner nombre único a la nueva imagen y guardarla en la carpeta de 'news_images'
-            $imagePath = $request->file('image')->store('news_images', 'public');
-            // Guardar el nuevo nombre del archivo en el objeto News
-            $news->image = $imagePath;
+            // Guardar la imagen en la carpeta "public/photousers"
+            $image_photo->storeAs('public/photousers', $image_photo_name);
+
+            // Actualizar el campo `image` en la base de datos
+            $news->image = $image_photo_name;
+        } else {
+            // Si no se sube imagen, asignar null
+            $news->image = null;
         }
 
         // Guardar los cambios en la base de datos
         $news->save();
 
-        $isActive = $request->input('isActive');
-
         // Verifica si isActive es verdadero
+        $isActive = $request->input('isActive');
         if ($isActive) {
-            // Obtener los correos electrónicos de los usuarios
-            $users = DB::table('users')->pluck('email');
+            // Obtener los correos electrónicos de los usuarios activos
+            $users = DB::table('users')->where('isActive', true)->pluck('email');
 
             // Enviar email solo si isActive es true
             Mail::to($users)->send(new NewsCreatedMessage($news));
         } else {
-            // No hacer nada si isActive es falso
+            // Registrar un mensaje en el log si isActive es falso
             Log::info('No se envió el correo porque isActive es falso.');
         }
 
-        return redirect()->route('index.news')->with('success', 'Noticia actualizada correctamente.');
+        // Redirigir con el mensaje de éxito y la información sobre el contenido actualizado
+        return redirect()->route('index.news')
+            ->with('success', 'Noticia actualizada correctamente.');
     }
+
 
     /**
      * Remove the specified resource from storage.

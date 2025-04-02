@@ -116,14 +116,19 @@ class MembresiaController extends Controller
         $membresias->isActive = $request->input('isActive');
         $membresias->valor = $request->input('valor');
         $membresias->detail = $request->input('detail');
-        $membresias->image = $request->input('image');
 
-        // Subir la imagen solo si está presente
-        if ($request->hasFile('image')) {
-            // Poner nombre único a la imagen y guardarla en la carpeta de 'news_images'
-            $imagePath = $request->file('image')->store('news_images', 'public'); //>store('news_images', 'public');
-            // Guardar el nombre del archivo en el objeto News
-            $membresias->image = $imagePath;
+        //Subir la imagen photo
+        $image_photo = $request->file('image');
+        if ($image_photo) {
+
+        //Poner nombre unico
+        $image_photo_name = time() . $image_photo->getClientOriginalName();
+
+        //Guardarla en la carpeta storage (storage/app/photousers)
+        Storage::disk('photousers')->put($image_photo_name, File::get($image_photo));
+
+        //Seteo el nombre de la imagen en el objeto
+        $membresias->image = $image_photo_name;
         }
 
         // Guardar la noticia en la base de datos
@@ -134,25 +139,30 @@ class MembresiaController extends Controller
 
     public function update(StoreMembresiaRequest $request, $id)
     {
-        // Actualizar los campos del objeto Mmembresia usando la validación previa del FormRequest
+        // Actualizar los campos del objeto Membresia usando la validación previa del FormRequest
         $membresias = Membresia::findOrFail($id);
         $membresias->name = $request->input('name');
         $membresias->isActive = $request->input('isActive');
         $membresias->valor = $request->input('valor');
         $membresias->detail = $request->input('detail');
 
-        // Subir la imagen solo si está presente
-        if ($request->hasFile('image')) {
-            // Poner nombre único a la imagen y guardarla en la carpeta de 'news_images'
-            $imagePath = $request->file('image')->store('news_images', 'public'); //>store('news_images', 'public');
-            // Guardar el nombre del archivo en el objeto News
-            $membresias->image = $imagePath;
+        // Subir la imagen photo si se adjunta una nueva
+        $image_photo = $request->file('image');
+        if ($image_photo) {
+            // Poner nombre único
+            $image_photo_name = time() . '_' . $image_photo->getClientOriginalName();
+
+            // Guardarla en la carpeta storage (storage/app/users)
+            Storage::disk('photousers')->put($image_photo_name, File::get($image_photo));
+
+            // Actualizar el campo image del objeto Membresia
+            $membresias->image = $image_photo_name;
         }
 
-        // Guardar la noticia en la base de datos
+        // Guardar la membresía en la base de datos
         $membresias->save();
 
-        return redirect()->route('membresias.indexAdmin')->with('success', 'Membresía creada correctamente.');
+        return redirect()->route('membresias.indexAdmin')->with('success', 'Membresía actualizada correctamente.');
     }
 
 }

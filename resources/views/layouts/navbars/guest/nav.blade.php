@@ -40,12 +40,31 @@
           </a>
         </li>
       </ul>
-      <ul class="navbar-nav d-lg-block d-none">
+      <!-- Botón "Ver Proyecto" -->
+      <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="https://www.creative-tim.com/product/soft-ui-dashboard-laravel" target="_blank" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-{{ (Request::is('static-sign-up') ? 'light' : 'dark') }}">¿Cómo hacerse asociado?</a>
+          <a 
+            href="#" 
+            class="btn btn-sm btn-round mb-0 me-1 bg-gradient-{{ (Request::is('static-sign-up') ? 'light' : 'dark') }} d-lg-block d-none" 
+            data-bs-toggle="modal" 
+            data-bs-target="#videoModal"
+          >
+            Ver Proyecto
+          </a>
+          <a 
+            href="#" 
+            class="btn btn-sm btn-round mb-0 me-1 bg-gradient-{{ (Request::is('static-sign-up') ? 'light' : 'dark') }} d-lg-none" 
+            data-bs-toggle="modal" 
+            data-bs-target="#videoModal"
+          >
+            Ver Proyecto
+          </a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 <!-- End Navbar -->
+
+
+

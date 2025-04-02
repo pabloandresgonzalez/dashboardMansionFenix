@@ -122,7 +122,7 @@ class UserMembershipController extends Controller
 
         if ($membershipsuser) {
 
-            return redirect()->route('mismemberships.index')->with('alert', '¡' . $name . ' ' .'¡Ya cuentas con un fondo de este valor pendiente o activo!');      
+            return redirect()->route('mismemberships.index')->with('alert', '¡' . $name . ' ' .'¡Ya cuentas con un Bóveda de minería de fondos de este valor pendiente o activo!');      
         }
 
         // Llamar al servicio externo para obtener el balance del usuario autenticado
@@ -134,7 +134,7 @@ class UserMembershipController extends Controller
         $membresia = Membresia::find($request->input('id_membresia'));
         $valormembresia = $membresia->valor;
 
-        if ($totalPSIV < $valormembresia) {
+        if ($totalUSDT < $valormembresia) {
 
             return redirect()->route('mismemberships.index')->with('alert', ' ' . $name . ' ¡' .'Ups, El saldo es insuficiente para comprar el fondo¡');    
         }
@@ -152,7 +152,6 @@ class UserMembershipController extends Controller
         if ($membresia->name !== $tokenData['name']) {
             return redirect()->route('mismemberships.index')->with('alert', 'Datos manipulados en el formulario.');
         }
-
 
         $fecha_actual = date("Y-m-d H:i:s");
 
@@ -184,6 +183,7 @@ class UserMembershipController extends Controller
         }
 
         $membership->save();// INSERT BD
+        
 
         //Enviar email
         $user_email_admin = User::where('role', 'admin')->first();
@@ -191,7 +191,33 @@ class UserMembershipController extends Controller
         Mail::to($email)->send(new MembershipCreatedMessage($membership));
         Mail::to($user_email_admin)->send(new MembershipCreatedMessage($membership));
 
-        return redirect()->route('mismemberships.index')->with('success', 'Fondo comprado con éxito!');        
+        // Inicia la transacción
+        DB::beginTransaction();
+
+        // Formatear la fecha 'activedAt'
+        $fechaFormateada = Carbon::now()->format('Y-m-d H:i:s');
+
+        // Actualizar el modelo usando asignación masiva
+        $membership->fill([
+            'activedAt' => $fechaFormateada,
+            'status' => 'Activo',
+            'closedAt' => $this->calculateClosedAt(), // Método para calcular la fecha final
+            'detail' => $membership->id
+        ]);
+
+        // Guardar el modelo
+        $membership->save();
+
+        // Confirmar la transacción
+        DB::commit();        
+        
+        Mail::to($email)->send(new StatusChangeMembershipseMessage($membership));
+        Mail::to($user_email_admin)->send(new StatusChangeMembershipseMessageAdmin($membership));
+
+        //Enviar email
+        $user_email_admin = User::where('role', 'admin')->first();
+
+        return redirect()->route('mismemberships.index')->with('success', 'Bóveda de minería de fondos comprada con éxito!');        
 
     }
 
@@ -229,7 +255,6 @@ class UserMembershipController extends Controller
             // Guardar el modelo
             $userMembership->save();
 
-
             // Confirmar la transacción
             DB::commit();
 
@@ -240,12 +265,12 @@ class UserMembershipController extends Controller
             Mail::to($user_email_admin)->send(new StatusChangeMembershipseMessageAdmin($userMembership));
 
             // Redirigir con éxito
-            return redirect()->route('membership.index')->with('success', 'Fondo actualizado con éxito!');
+            return redirect()->route('membership.index')->with('success', 'Bóveda de minería de fondos actualizada con éxito!');
 
         } catch (\Exception $e) {
             // Revertir la transacción en caso de error
             DB::rollBack();
-            return redirect()->route('membership.index')->withErrors('Hubo un problema al actualizar el fondo: ' . $e->getMessage());
+            return redirect()->route('membership.index')->withErrors('Hubo un problema al actualizar el Bóveda de minería de fondos: ' . $e->getMessage());
         }
     }    
 
@@ -300,7 +325,6 @@ class UserMembershipController extends Controller
         }
 
         return $date->format('Y-m-d H:i:s');
-
     }
 
     private function totalCommission()
@@ -339,15 +363,21 @@ class UserMembershipController extends Controller
             // Obtener la membresía principal (padre) que se va a renovar
             $membershippadre = UserMembership::findOrFail($id);
             $id_membresia = $membershippadre->id_membresia;
+            $idMembershpInical = $membershippadre->detail;
 
             // Definir la variable $namemembresia, que es la que viene del formulario
             $namemembresia = $request->input('membership'); // Asumimos que 'membership' es el campo en el formulario
 
+            /*
             // Contar el número de renovaciones de esta membresía
             $renovacionesCount = UserMembership::where('user', $iduser)
                 ->where('membership', $namemembresia) // Ahora utilizamos la variable correctamente definida
                 ->where('activedAt', '>=', now()->subDays(30)) // Filtra por las últimas renovaciones
-                ->count();
+                ->count();*/
+
+            $renovacionesCount = UserMembership::where('user', $iduser)
+            ->where('detail', $idMembershpInical) // Filtra por el campo 'detail'
+            ->count();
 
             // Verificar si ya se alcanzaron las 20 renovaciones
             if ($renovacionesCount >= 20) {
@@ -383,7 +413,7 @@ class UserMembershipController extends Controller
             $membership->user = $iduser;
             $membership->user_name = $user->name;
             $membership->hashUSDT = 'Descuento de saldo ' . bin2hex(random_bytes(20));
-            $membership->detail = 'Activo';
+            $membership->detail = $idMembershpInical;//'Activo';
             $membership->status = 'Activo';
 
             $membership->closedAt = $this->calculateClosedAt(); // Método para calcular la fecha final
@@ -395,6 +425,155 @@ class UserMembershipController extends Controller
                 Storage::disk('imagehash')->put($image_photo_name, File::get($image_photo));
                 $membership->image = $image_photo_name; // Guardar nombre de la imagen en el objeto
             }
+
+            // Cambiar estado de la membresía inicial a 'Terminada'
+            $membershippadre->status = 'Terminada';
+            $membershippadre->detail = $idMembershpInical;
+
+            // Guardar los cambios en la nueva membresía y actualizar la membresía padre
+            $membership->save();
+            $membershippadre->save();
+
+            // Crear una transacción de descuento en la billetera del usuario
+            $percentage = 5; // Porcentaje de descuento
+            $Wallet = new wallet_transactions();
+            $Wallet->user = $iduser;
+            $Wallet->email = $email;
+            $Wallet->value = $valor_membresia;
+            $Wallet->fee = ($percentage / 100) * $valor_membresia; // Calcular el monto de descuento
+            $Wallet->type = "Renovar";
+            $Wallet->hash = 'Descuento para renovar ' . bin2hex(random_bytes(20));
+            $Wallet->currency = 'PSIV';
+            $Wallet->approvedBy = $email;
+            $Wallet->wallet = 'Descuento para renovar ' . bin2hex(random_bytes(20));
+            $Wallet->inOut = 0; // Salida de fondos (0 indica una salida de dinero)
+            $Wallet->status = 'Aprobada';
+            $Wallet->detail = 'Descuento para renovar membresía';
+
+            // Guardar la transacción en la base de datos
+            $Wallet->save();
+
+            // Redirigir al usuario con un mensaje de éxito
+            return redirect()->route('mismemberships.index')->with('success', 'Hash de renovación enviado correctamente!');
+        } catch (\Exception $e) {
+            // En caso de error, redirigir con un mensaje de alerta
+            return redirect()->route('mismemberships.index')->with('alert', 'Error al renovar Bóveda de minería de fondos: ' . $e->getMessage());
+        }
+    }
+
+    /*
+    public function renovar(Request $request, $id)
+    {
+        try {
+            
+            // Conseguir usuario autenticado y sus datos principales
+            $user = \Auth::user();
+            $iduser = $user->id;
+            $email = $user->email;
+            
+            // Obtener la membresía principal (padre) que se va a renovar
+            $membershippadre = UserMembership::findOrFail($id);
+            $id_membresia = $membershippadre->detail;
+
+            // Determinar el ID de la primera membresía en el ciclo de renovaciones
+            $id_membresia = $membershippadre->detail ?: $membershippadre->id;
+
+            // Definir la variable $namemembresia, que es la que viene del formulario
+            $namemembresia = $request->input('membership');          
+            
+            // Contar el número de renovaciones de esta membresía
+            $renovacionesCount = UserMembership::where('user', $iduser)
+                ->where('membership', $namemembresia) // Ahora utilizamos la variable correctamente definida
+                ->where('activedAt', '>=', now()->subDays(30)) // Filtra por las últimas renovaciones
+                ->count();
+
+                dd($renovacionesCount);
+                
+            // Conseguir usuario autenticado y sus datos principales
+            $user = \Auth::user();
+            $iduser = $user->id;
+            $email = $user->email;
+
+            // Obtener la membresía principal (padre) que se va a renovar
+            $membershippadre = UserMembership::findOrFail($id);
+            $id_membresiaInicial = $membershippadre->detail;
+
+            // Contar cuántas veces aparece este ID en el campo 'detail'
+            $renovacionesCount = UserMembership::where('detail', $id_membresiaInicial)->count();
+
+            //dd($renovacionesCount);
+
+
+
+            // Verificar si ya se alcanzaron las 20 renovaciones
+            if ($renovacionesCount >= 5) {
+                return redirect()->route('mismemberships.index')->with('alert', '¡Límite de renovaciones alcanzado! No es posible renovar más de 20 veces.');
+            }
+
+            // Definir la variable $namemembresia, que es la que viene del formulario
+            $namemembresia = $request->input('membership');
+
+
+            // Obtener detalles de la membresía (tipo y costo)
+            $membresia = Membresia::findOrFail($id_membresia);
+            $valor_membresia = $membresia->valor;
+
+            // Llamar al servicio externo para obtener el balance del usuario autenticado
+            $balanceString = $this->userBalanceService->getBalanceByUser($iduser);
+            $totalUSDT = $balanceString['USDT']['total'] ?? 0;
+            $totalPSIV = $balanceString['PSIV']['total'] ?? 0;
+            $total = $totalUSDT + $totalPSIV;
+
+            // Verificar que el usuario tenga saldo suficiente para la renovación
+            if ($valor_membresia > $total) {
+                return redirect()->route('mismemberships.index')->with('alert', '¡Ups! Saldo insuficiente para renovar!');
+            }
+
+            // Validación de entrada del formulario para el campo 'membership'
+            $request->validate([
+                'membership' => 'required|string|min:4',
+            ]);
+
+            // Crear nueva instancia de membresía renovada
+            $membership = new UserMembership();
+            $membership->id_membresia = $id_membresia;
+            $membership->membresiaPadre = $id; // Referencia a la membresía anterior
+            $membership->membership = $namemembresia; // Usamos la variable correcta
+            $membership->user_email = $email;
+            $membership->user = $iduser;
+            $membership->user_name = $user->name;
+            $membership->hashUSDT = 'Descuento de saldo ' . bin2hex(random_bytes(20));
+            $membership->detail = $id_membresiaInicial;
+            $membership->status = 'Activo';
+
+            $membership->closedAt = $this->calculateClosedAt();
+            $membership->activedAt = now();
+
+            
+            // Crear nueva instancia de membresía renovada
+            $membership = new UserMembership();
+            $membership->id_membresia = $id_membresia;
+            $membership->membresiaPadre = $id; // referencia a la membresía padre
+            $membership->membership = $namemembresia; // Usamos la variable correcta
+            $membership->user_email = $email;
+            $membership->user = $iduser;
+            $membership->user_name = $user->name;
+            $membership->hashUSDT = 'Descuento de saldo ' . bin2hex(random_bytes(20));
+            $membership->detail = $id;
+            $membership->status = 'Activo';
+
+            $membership->closedAt = $this->calculateClosedAt(); // Método para calcular la fecha final
+            $membership->activedAt = now(); // Fecha de activación actual
+            
+
+
+            // Procesar y almacenar la imagen proporcionada por el usuario (si existe)
+            if ($image_photo = $request->file('image')) {
+                $image_photo_name = time() . $image_photo->getClientOriginalName();
+                Storage::disk('imagehash')->put($image_photo_name, File::get($image_photo));
+                $membership->image = $image_photo_name; // Guardar nombre de la imagen en el objeto
+            }
+
 
             // Cambiar estado de la membresía inicial a 'Terminada'
             $membershippadre->status = 'Terminada';
@@ -427,11 +606,10 @@ class UserMembershipController extends Controller
             return redirect()->route('mismemberships.index')->with('success', 'Hash de renovación enviado correctamente!');
         } catch (\Exception $e) {
             // En caso de error, redirigir con un mensaje de alerta
-            return redirect()->route('mismemberships.index')->with('alert', 'Error al renovar membresía: ' . $e->getMessage());
+            return redirect()->route('mismemberships.index')->with('alert', 'Error al renovar Bóveda de minería de fondos: ' . $e->getMessage());
         }
     }
-
-    
+    */
 
 }
 

@@ -326,29 +326,84 @@
       </div>
       <div class="modal-body">
         <p>Aquí tienes una colección de videos para guiarte:</p>
+
+        <!-- Video 1: Registrarse -->
+        <div class="mx-4">
+          <h5>Registrarse en el portal </h5>
+          <div class="ratio ratio-16x9">
+            <video controls>
+              <source src="{{ secure_asset('img/Registrofull.mp4') }}" type="video/mp4">
+              Tu navegador no soporta la etiqueta de video.
+            </video>
+          </div>
+        </div><br>
         
-        <!-- Video 1: Comprar un fondo -->
-        <div class="mb-2">
+        <!-- Video 2: Comprar un fondo -->
+        <div class="mx-4">
           <h5>Comprar un fondo</h5>
           <div class="ratio ratio-16x9">
             <video controls>
-              <source src="{{ asset('img/Fondo_final1.mp4') }}" type="video/mp4">
+              <source src="{{ secure_asset('img/Fondo_final1.mp4') }}" type="video/mp4">
               Tu navegador no soporta la etiqueta de video.
             </video>
           </div>
-        </div>
+        </div><br>
 
-        <!-- Video 2: Realizar un traslado -->
-        <div class="mb-2">
+        <!-- Video 3: Renovar un fondo -->
+        <div class="mx-4">
+          <h5>Renovar un fondo </h5>
+          <div class="ratio ratio-16x9">
+            <video controls>
+              <source src="{{ secure_asset('img/Renovar1.mp4') }}" type="video/mp4">
+              Tu navegador no soporta la etiqueta de video.
+            </video>
+          </div>
+        </div><br>
+
+        <!-- Video 4: Donar -->
+        <div class="mx-4">
+          <h5>Como donar en la fundación </h5>
+          <div class="ratio ratio-16x9">
+            <video controls>
+              <source src="{{ secure_asset('img/Donar.mp4') }}" type="video/mp4">
+              Tu navegador no soporta la etiqueta de video.
+            </video>
+          </div>
+        </div><br>
+
+        <!-- Video 5: Realizar un traslado -->
+        <div class="mx-4">
           <h5>Realizar un traslado</h5>
           <div class="ratio ratio-16x9">
             <video controls>
-              <source src="{{ asset('img/Traslado_final.mp4') }}" type="video/mp4">
+              <source src="{{ secure_asset('img/Traslado_final.mp4') }}" type="video/mp4">
               Tu navegador no soporta la etiqueta de video.
             </video>
           </div>
-        </div>
-        
+        </div><br>     
+        @if (auth()->check() && auth()->user()->role == 'admin')
+        <!-- Video 6: Actualizar información de un usuario -->
+        <div class="mx-4">
+          <h5>Actualizar información de un usuario</h5>
+          <div class="ratio ratio-16x9">
+            <video controls>
+              <source src="{{ secure_asset('img/Actualizar Usuario.mp4') }}" type="video/mp4">
+              Tu navegador no soporta la etiqueta de video.
+            </video>
+          </div>
+        </div><br>
+
+        <!-- Video 7: Asignar saldo -->
+        <div class="mx-4">
+          <h5>Asignar saldo a un usuario</h5>
+          <div class="ratio ratio-16x9">
+            <video controls>
+              <source src="{{ secure_asset('img/Asignar saldo.mp4') }}" type="video/mp4">
+              Tu navegador no soporta la etiqueta de video.
+            </video>
+          </div>
+        </div><br>       
+        @endif
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -369,11 +424,13 @@
         <p>Respuestas a las preguntas más frecuentes:</p>
         <dl>
           <dt>¿Cómo puedo registrarme?</dt>
-          <dd>Accede a la página de registro y completa el formulario.</dd>
+          <dd>Por favor acceder https://www.clubmansionphoenix.com/register, diligenciar los datos del formulario, si eres referido por alguien poner el id de la persona que te refirió, aceptas los TyC y haces clic en inscribirme, después de que validen tu hash de pago es esperar a que activen tu cuenta.</dd>
           <dt>¿Dónde puedo ver la utilidad de mis fondos?</dt>
-          <dd>Visita la sección de "Billetera" en el menú principal y accede a mi billetra y en renovaciones seleciona en PDF.</dd>
+          <dd>Visita la sección de "Billetera" en el menú principal y accede a mi billetera y en renovaciones haces clic en el icono de PDF.</dd>
+          <dt>¿Dónde puedo ver los términos y condiciones?</dt>
+          <dd>Puedes verlos en la parte inferior de la página en el enlace que dice “Términos”.</dd>
           <dt>¿Cómo contacto con soporte técnico?</dt>
-          <dd>Puedes enviarnos un correo a soporte@ejemplo.com o usar el chat en línea.</dd>
+          <dd>Puedes enviarnos un correo a comunicaciones.phoenixsiv@gamil.com o usar el chat en línea en la sección de soporte al lado izquierdo.</dd>
         </dl>
       </div>
       <div class="modal-footer">
@@ -382,11 +439,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
 
 @endsection
 

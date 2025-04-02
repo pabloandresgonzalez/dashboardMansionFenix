@@ -28,6 +28,10 @@ use App\Http\Controllers\GuiaControllerController;
 |
 */
 
+Route::get('/health-check', function () {
+    return response()->json(['status' => 'healthy'], 200);
+});
+
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -52,7 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Users
 	Route::get('/user-management/avatar/{filename?}', [UserController::class, 'getImage'])->name('user.avatar');
-	Route::get('/user-management/{user}/detail', [UserController::class, 'detail']);
+	
 	Route::get('/user-management/misReferidos', [UserController::class, 'misReferidos'])->name('misReferidos'); 
 	Route::get('/user-management/miRed', [UserController::class, 'miRed'])->name('miRed'); 
 
@@ -81,6 +85,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 	//Guias
 	Route::get('/guias', [GuiaControllerController::class, 'index'])->name('guia.index');
+
+	//Fundacion
+	Route::get('fundacion', [UserController::class, 'indexfundacion'])->name('fundacion.index');
+	Route::post('/donacion', [UserController::class, 'storeadminfundacion'])->name('donacion.store');
 	
 	
 });
@@ -88,7 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'guest'], function () {
 	Route::get('/register', [RegisterController::class, 'create']);
-	Route::post('/register', [RegisterController::class, 'store']);
+	Route::post('/register', [RegisterController::class, 'store'])->middleware('throttle:5,1'); // Limita a 5 registros por minuto
 	Route::get('/login', [SessionsController::class, 'create']);
 	Route::post('/session', [SessionsController::class, 'store']);
 	Route::get('/login/forgot-password', [ResetController::class, 'create']);
@@ -103,9 +111,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 	// Users
 	Route::get('/user-management', [UserController::class, 'index'])->name('users-management');
-	Route::post('/user-management', [UserController::class, 'store'])->name('users-store');
+	Route::post('/user-management/store', [UserController::class, 'store'])->middleware('throttle:5,1'); // Limita a 5 registros por minuto	
 	Route::put('/user-management/{user}/update', [UserController::class, 'update'])->name('users-update');
 	Route::put('/user-management/{user}/updateUser', [UserController::class, 'updateUser'])->name('users-updateUser');
+	Route::get('/user-management/{user}/detail', [UserController::class, 'detail']);
 
 	//News
 	Route::get('/news/Admin', [NewsController::class, 'indexAdmin'])->name('indexAdmin.news');
@@ -127,7 +136,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 	Route::put('/wallets/asaldo', [WalletTransactionsController::class, 'storeAdmin']);
 	Route::get('/asigsaldo', [WalletTransactionsController::class, 'asigSaldo'])->name('asigsaldo');
 	Route::post('wallet/asigsaldo', [WalletTransactionsController::class, 'storeAdmin']);
-
 
 });
 

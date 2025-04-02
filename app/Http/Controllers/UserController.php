@@ -20,6 +20,9 @@ use App\Services\UserBalanceService;
 use App\Services\BlockchainService;
 use App\Services\CommissionService;
 use App\Services\ProductionService;
+use Illuminate\Support\Facades\Http;
+
+
 use DB;
 
 
@@ -61,7 +64,7 @@ class UserController extends Controller
         ->orwhere('role', 'LIKE', "%$nombre%")
         ->orwhere('email', 'LIKE', "%$nombre%")
         ->orderBy('created_at', 'desc')
-        ->paginate(5);
+        ->paginate(15);
 
         // Obtener el total de usuarios y la lista
         $data = $this->userService->getAllEnrolledUsers();
@@ -142,7 +145,7 @@ class UserController extends Controller
 
         // Redirigir al index de users con un mensaje de éxito
         session()->flash('success', 'La cuenta ha sido creada correctamente.');
-        return to_route('users-store');
+        return to_route('Users/user-management');
     }  
 
     public function update(Request $request, User $user)
@@ -208,13 +211,140 @@ class UserController extends Controller
 
     public function detail(Request $request, $id)
     {
+        $admin = auth()->user(); // Usuario autenticado (admin)
+        $adminToken = $admin->token ?? config('services.user_balance.token'); 
+
         $user = User::find($id); 
+        if (!$user) {
+            return redirect()->route('dashboard')->with('error', 'Usuario no encontrado');
+        }
+
         $userId = $user->id;
 
-        // Llamar al servicio para obtener el balance del usuario autenticado usando su ID
+        // Llamar al servicio con el token del admin
         $balanceString = $this->userBalanceService->getBalanceByUser($userId);
 
-         // Total comisión del usuario en el mes actual
+        if (empty($balanceString)) {
+            \Log::warning("Balance no disponible para el usuario {$userId}");
+            $balanceString = "No data disponible"; // Mensaje para la vista
+        }
+
+        // Total comisión del usuario en el mes actual
+        $totalCommission = $this->totalCommission($userId) ?? "No data";
+
+        if ($totalCommission === "No data") {
+            \Log::warning("Total de comisiones no disponible para el usuario {$userId}");
+        }
+
+        // Membresías de los últimos 6 meses
+        $memberships = UserMembership::where('user', $userId)
+          ->where('created_at', '>=', Carbon::now()->subMonths(6)) // Filtrar por los últimos 6 meses
+          ->orderBy('created_at', 'desc')
+          ->paginate(6);
+
+        $myWallets = wallet_transactions::where('user', $userId)->orderBy('created_at', 'desc')
+            ->paginate(4);
+
+        $diaActual = Carbon::now()->locale('es')->translatedFormat('l d \d\e F \d\e\l Y');
+        
+        $startOfMonth = Carbon::now()->startOfMonth()->format('d'); // Primer día del mes
+        $endOfMonth = Carbon::now()->endOfMonth()->format('d'); // Último día del mes
+
+        Carbon::setLocale('es');
+        $monthAndYear = Carbon::now()->locale('es')->translatedFormat('F Y');
+
+        $rangoDias = $startOfMonth . ' - ' . $endOfMonth . ' ' . $monthAndYear;
+
+        return view('Users/user-managementdetail', compact(
+            'user',
+            'diaActual',
+            'rangoDias',
+            'balanceString',
+            'totalCommission',
+            'memberships',
+            'myWallets'
+        ));
+    }
+
+
+    /*public function detail(Request $request, $id)
+    {
+        $admin = auth()->user(); // Usuario autenticado (admin)
+        $adminToken = $admin->token ?? config('services.user_balance.token'); 
+
+        $user = User::find($id); 
+        if (!$user) {
+            return redirect()->route('dashboard')->with('error', 'Usuario no encontrado');
+        }
+
+        $userId = $user->id;
+
+        // Llamar al servicio con el token del admin
+        $balanceString = $this->userBalanceService->getBalanceByUser($userId) ?? [];
+
+        if (empty($balanceString)) {
+            \Log::warning("Balance no disponible para el usuario {$userId}");
+        }
+
+        // Total comisión del usuario en el mes actual
+        $totalCommission = $this->totalCommission($userId) ?? "no data"; //0.00;
+
+        if ($totalCommission === 0.00) {
+            \Log::warning("Total de comisiones no disponible para el usuario {$userId}");
+        }
+
+        // Membresías de los últimos 6 meses
+        $memberships = UserMembership::where('user', $userId)
+          ->where('created_at', '>=', Carbon::now()->subMonths(6)) // Filtrar por los últimos 6 meses
+          ->orderBy('created_at', 'desc')
+          ->paginate(6);
+
+        $myWallets = wallet_transactions::where('user', $userId)->orderBy('created_at', 'desc')
+            ->paginate(4);
+
+        $diaActual = Carbon::now()->locale('es')->translatedFormat('l d \d\e F \d\e\l Y');
+        
+        $startOfMonth = Carbon::now()->startOfMonth()->format('d'); // Primer día del mes
+        $endOfMonth = Carbon::now()->endOfMonth()->format('d'); // Último día del mes
+
+        Carbon::setLocale('es');
+        $monthAndYear = Carbon::now()->locale('es')->translatedFormat('F Y');
+
+        $rangoDias = $startOfMonth . ' - ' . $endOfMonth . ' ' . $monthAndYear;
+
+        return view('Users/user-managementdetail', compact(
+            'user',
+            'diaActual',
+            'rangoDias',
+            'balanceString',
+            'totalCommission',
+            'memberships',
+            'myWallets'
+        ));
+    }*/
+
+
+    /*public function detail(Request $request, $id)
+    {
+        $admin = auth()->user(); // Usuario autenticado (admin)
+        $adminToken = $admin->token ?? config('services.user_balance.token'); 
+
+        
+        $user = User::find($id); 
+        if (!$user) {
+            return redirect()->route('dashboard')->with('error', 'Usuario no encontrado');
+        }
+
+        $userId = $user->id;
+
+        // Llamar al servicio con el token del admin
+        $balanceString = $this->userBalanceService->getBalanceByUser($userId);
+
+        \Log::info("Balance de usuario {$userId}", ['balance' => $balanceString]);
+
+        //dd($balanceString);
+
+        // Total comisión del usuario en el mes actual
         $totalCommission = $this->totalCommission($userId);
 
         // Membresias de los ultimos 6 meses
@@ -248,7 +378,7 @@ class UserController extends Controller
             'memberships',
             'myWallets'
         ));
-    }
+    }*/
 
     public function getImage($filename)
     {
@@ -394,4 +524,72 @@ class UserController extends Controller
 
         return $totalCommission;
     }
+
+    public function indexfundacion()
+    {
+        return view('Fundacion.index');
+    }
+
+    public function storeadminfundacion(Request $request)
+    {
+      // Obtiene el usuario actualmente autenticado
+      $user = \Auth::user();
+      $id = $user->id;           // ID del usuario
+      $name = $user->name;       // Nombre del usuario
+      $email = $user->email;     // Email del usuario
+
+      // Define las reglas de validación para los datos del formulario
+      $rules = [
+        //'iduser' => 'required|string|max:255',     // ID del usuario asignado (obligatorio)
+        'value' => 'required|string|max:255',        // Valor del traslado (obligatorio)
+        'currency' => 'required|string|max:255',       
+        //'detail' => 'required|string',             // Detalle del movimiento (obligatorio)
+      ];
+
+        // Aplica la validación en el request con las reglas establecidas
+        $this->validate($request, $rules);
+
+        // Obtiene el ID de usuario especificado en el formulario
+        //$iduser = $request->input('iduser');
+
+        // Llamar al servicio externo para obtener el balance del usuario autenticado
+        $balanceString = $this->userBalanceService->getBalanceByUser($id);
+        $totalUSDT = $balanceString['USDT']['total'] ?? 0;
+        $totalPSIV = $balanceString['PSIV']['total'] ?? 0;
+        $total = $totalUSDT + $totalPSIV;
+
+        
+        if ($totalPSIV < $request->input('value')) {
+
+            return redirect()->route('fundacion.index')->with('alert', ' ' . $name . ' ¡' .'Ups, El saldo es insuficiente para realizar una donación¡');    
+        }
+
+
+        // Crea una nueva instancia de la transacción de billetera
+        $Wallet = new wallet_transactions();
+        $Wallet->user = $id;                            // Asigna el ID del usuario
+        $Wallet->email = $email;                        // Asigna el email del usuario
+        $Wallet->value = $request->input('value');          // Asigna el valor del traslado
+        $Wallet->fee = 0;                                   // Asigna la tarifa (0 en este caso)
+        $Wallet->type = 'Donación a la fundación';          // Asigna el tipo de movimiento
+        $Wallet->hash = 'Autoriza ' . $name . "-" . $email; // Autoriza el movimiento con el nombre y email del autenticado
+        $Wallet->currency = $request->input('currency');    // Asigna la moneda
+        $Wallet->approvedBy = $id;                          // ID de quien aprueba el movimiento (usuario autenticado)
+        $Wallet->wallet = null;                             // Deja el campo `wallet` como null por defecto
+        // Determina el valor de `inOut` según el tipo de movimiento (0 para Traslado, 1 para Abono)
+        $Wallet->inOut = 0;
+        
+
+        // Define el estado de la transacción como 'Aprobada'
+        $Wallet->status = 'Aprobada';
+        $Wallet->detail = 'Donación a la fundación';        // Asigna el detalle del movimiento
+
+        // Guarda la transacción en la base de datos
+        $Wallet->save();
+        
+        // Redirige a la ruta 'walletadmin' con un mensaje de éxito
+        return redirect()->route('fundacion.index')->with('success', 'Donación enviada correctamente!, Gracias por tu ayuda');
+    }
+    
+    
 }

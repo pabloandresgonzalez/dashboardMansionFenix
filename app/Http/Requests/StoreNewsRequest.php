@@ -24,10 +24,12 @@ class StoreNewsRequest extends FormRequest
         return [
             'title' => 'required|string|min:4|max:150',
             'intro' => 'required|string|max:200',
-            'detail' => 'required|string|max:2000',            
+            'detail' => 'required|string|max:10000',            
             'isActive' => 'required|boolean',
-            'image' => 'nullable|image|max:2048', // Solo permitir imágenes
-            'url_video' => 'nullable|string|max:255'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            //'image' => 'nullable|image|max:2048', // Solo permitir imágenes
+            //'url_video' => 'nullable|url'
+            //'url_video' => 'nullable|string|max:255'
         ];
     }
 
